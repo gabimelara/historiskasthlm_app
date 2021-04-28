@@ -33,7 +33,7 @@ class StartScreen extends StatelessWidget {
                   onPressed: () => {runApp(MyRealApp())},
 
                   child: new Text('Öppna karta',
-                      style: TextStyle(color: Colors.white, fontSize: 18)),
+                      style: TextStyle(color: Colors.white, fontSize: 20)),
                   ),
             ),
           ]),
