@@ -1,24 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:historiskasthlm_app/FavoritesScreen.dart';
-import 'package:historiskasthlm_app/Mapscreen.dart';
-import 'package:historiskasthlm_app/NotificationScreen.dart';
-import 'package:historiskasthlm_app/SearchScreen.dart';
-import 'package:historiskasthlm_app/StartScreen.dart';
+import 'package:flutter/services.dart';
+import 'package:historiskasthlm_app/favoritesScreen.dart';
+import 'package:historiskasthlm_app/mapScreen.dart';
+import 'package:historiskasthlm_app/notificationScreen.dart';
+import 'package:historiskasthlm_app/searchScreen.dart';
 
-//Hello Laris!!
-
-void main() => runApp(MyApp());
+import 'overview.dart';
+//import 'package:flutter/services.dart';
+void main() {
+  runApp(MyApp());
+  // hide status bar
+  SystemChrome.setEnabledSystemUIOverlays([]);
+}
 
 class MyApp extends StatelessWidget {
-
+  //WIDGET ÄR APPENS ROT.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: StartScreen(),
-      // theme: ThemeData(
-    );
+  return MaterialApp(
+
+  theme: ThemeData(
+  // APPENS THEME
+
+  textTheme: TextTheme(
+  headline1: TextStyle(
+  fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.white), //RUBRIKEN
+  bodyText1: TextStyle(
+  fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold), // NÄSTA KNAPP
+  bodyText2: TextStyle(
+  fontSize: 20.0, height: 1.3, color: Colors.white, fontWeight: FontWeight.w200), //SKIPP KANPP
+  button: TextStyle(
+  fontSize: 20, color: Colors.pink, fontWeight: FontWeight.w700), //NU KÖR VI KNAPP
+  ),
+  // This makes the visual density adapt to the platform that you run
+  // the app on. For desktop platforms, the controls will be smaller and
+  // closer together (more dense) than on mobile platforms.
+  visualDensity: VisualDensity.adaptivePlatformDensity,
+  ),
+  home: Scaffold(body:HomePage()),
+  );
+
   }
-}
+
+  //@override
+  //Widget build(BuildContext context) {
+    //return MaterialApp(
+    //  home: StartScreen(),
+      // theme: ThemeData(
+    //);
+  }
+
 
 class MyNavigationBar extends StatefulWidget {
   @override
@@ -53,22 +84,22 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
         items: [
           new BottomNavigationBarItem(
             icon: Icon(Icons.map),
-            title: Text('Karta'),
+            label: ('Karta'),
             backgroundColor: Colors.orange[50],
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            title: Text('Sök'),
+            label:('Sök'),
             backgroundColor: Colors.orange[50],
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
-            title: Text('Favorit'),
+           label:('Favorit'),
             backgroundColor: Colors.orange[50],
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
-            title: Text('Notiser'),
+            label:('Notiser'),
             backgroundColor: Colors.orange[50],
           ),
         ],
