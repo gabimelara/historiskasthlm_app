@@ -10,19 +10,25 @@ class StartScreen extends StatelessWidget {
       backgroundColor: Color.fromRGBO(169, 186, 157, 1),
       body: Center(
         child: new Container(
-          height: 400.0,
+          height: 450.0,
           alignment: Alignment.topCenter,
           child: Column(children: [
             Container(
                 child: Text('Välkommen Stockholmare,\nbörja utforska!',
-                    style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold))),
+                    style: TextStyle(color: Colors.white,
+                        fontSize: 30,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.bold))),
             Container(
-              height: 300.0,
+              height: 350.0,
               alignment: Alignment.center,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       onPrimary: Colors.white,
                       primary: Color.fromRGBO(56, 56, 56, 0.8),
+                        padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(13))
                     ),
                   onPressed: () => {runApp(MyRealApp())},
 
