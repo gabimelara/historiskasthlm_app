@@ -7,20 +7,26 @@ class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(169, 186, 157, 1),
       body: Center(
         child: new Container(
-          color: Color(0xffffff),
-          height: 200.0,
+          height: 350.0,
           alignment: Alignment.center,
           child: Column(children: [
             Container(
-                child: Text('Welcome Stockholmer, let\'s explore',
-                    style: TextStyle(color: Colors.black, fontSize: 36))),
+                child: Text('Välkommen Stockholmare, börja utforska',
+                    style: TextStyle(color: Colors.white, fontSize: 36))),
             Container(
+              height: 200.0,
+              alignment: Alignment.center,
                 child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        onPrimary: Colors.white),
                   onPressed: () => {runApp(MyRealApp())},
+
                   child: new Text('Start'),
-            ))
+                  ),
+            ),
           ]),
         ),
       ),
