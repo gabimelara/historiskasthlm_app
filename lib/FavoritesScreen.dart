@@ -14,8 +14,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         title: Center(child:Text('Favoriter', style: TextStyle(color:Colors.grey[900]))),
         backgroundColor: Colors.orange[50],), // bakgrundsfärg på titel längst upp
       body: new Center(
-        child:new Text('This is Favorite  page'),
+        child:new Text('Favoriter'),
       ),
     );
   }
 }
+

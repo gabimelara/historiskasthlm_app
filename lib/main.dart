@@ -37,10 +37,6 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(
-        //title: Center(child:Text('Historiska Stockholm', style: TextStyle(color:Colors.grey[900]))),
-        //backgroundColor: Colors.orange[50], // bakgrundsfärg på titel längst upp
-
       body: _screens[_currentIndex], // new
       bottomNavigationBar: BottomNavigationBar(  //alla ikoner med färg och bakgrund
         selectedItemColor: Colors.deepOrange[900],
@@ -50,18 +46,18 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
         currentIndex: _currentIndex, // new
         items: [
           new BottomNavigationBarItem(
-            icon: Icon(Icons.map),
+            icon: Icon(Icons.pin_drop), //Icons.pin_drop eller Icons.map? Vilken är finast?
             title: Text('Karta'),
             backgroundColor: Colors.orange[50],
           ),
           new BottomNavigationBarItem(
-            icon: Icon(Icons.search),
+            icon: Icon(Icons.search),  //Icons.search eller Icons.image_search? vilken är bäst?
             title: Text('Sök'),
             backgroundColor: Colors.orange[50],
           ),
           new BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            title: Text('Favorit'),
+            icon: Icon(Icons.favorite_sharp),
+            title: Text('Favoriter'),
             backgroundColor: Colors.orange[50],
           ),
           new BottomNavigationBarItem(

@@ -49,8 +49,7 @@ class MyRealApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Historiska Stockholm',
-      home: MyNavigationBar(),
+      home: MyNavigationBar(),  //kopplas till navigationbar sida
       // theme: ThemeData(
     );
   }
