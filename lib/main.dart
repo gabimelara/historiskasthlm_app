@@ -3,20 +3,20 @@ import 'package:historiskasthlm_app/FavoritesScreen.dart';
 import 'package:historiskasthlm_app/Mapscreen.dart';
 import 'package:historiskasthlm_app/NotificationScreen.dart';
 import 'package:historiskasthlm_app/SearchScreen.dart';
+import 'package:historiskasthlm_app/StartScreen.dart';
 
 void main() => runApp(MyApp());
-//Laura är också här!!
+
 class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Historiska Stockholm',
-      home: MyNavigationBar(),
+      home: StartScreen(),
       // theme: ThemeData(
     );
   }
-  }
+}
 
 class MyNavigationBar extends StatefulWidget {
   @override
