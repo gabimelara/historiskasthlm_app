@@ -37,11 +37,9 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(child:Text('Historiska Stockholm', style: TextStyle(color:Colors.grey[900]))),
-        backgroundColor: Colors.orange[50], // bakgrundsfärg på titel längst upp
-
-      ),
+      //appBar: AppBar(
+        //title: Center(child:Text('Historiska Stockholm', style: TextStyle(color:Colors.grey[900]))),
+        //backgroundColor: Colors.orange[50], // bakgrundsfärg på titel längst upp
 
       body: _screens[_currentIndex], // new
       bottomNavigationBar: BottomNavigationBar(  //alla ikoner med färg och bakgrund
