@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/main.dart';
 
+//Öppnas från main /Laura
 class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class StartScreen extends StatelessWidget {
   }
 }
 
+//Öppnar MyApp i main /Laura
 class MyRealApp extends StatelessWidget {
 
   @override
