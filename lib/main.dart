@@ -5,7 +5,7 @@ import 'package:historiskasthlm_app/NotificationScreen.dart';
 import 'package:historiskasthlm_app/SearchScreen.dart';
 
 void main() => runApp(MyApp());
-
+//Laura är också här!!
 class MyApp extends StatelessWidget {
 
   @override
