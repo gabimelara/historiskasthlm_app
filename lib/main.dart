@@ -5,6 +5,8 @@ import 'package:historiskasthlm_app/NotificationScreen.dart';
 import 'package:historiskasthlm_app/SearchScreen.dart';
 import 'package:historiskasthlm_app/StartScreen.dart';
 
+//Hello Laris!!
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
