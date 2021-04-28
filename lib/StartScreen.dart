@@ -14,19 +14,20 @@ class StartScreen extends StatelessWidget {
           alignment: Alignment.topCenter,
           child: Column(children: [
             Container(
-                child: Text('Välkommen Stockholmare, börja utforska',
-                    style: TextStyle(color: Colors.white, fontSize: 45))),
+                child: Text('Välkommen Stockholmare,\nbörja utforska!',
+                    style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold))),
             Container(
-              height: 200.0,
+              height: 300.0,
               alignment: Alignment.center,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       onPrimary: Colors.white,
-                      primary: Color.fromRGBO(56, 56, 56, 1)
+                      primary: Color.fromRGBO(56, 56, 56, 0.8),
                     ),
                   onPressed: () => {runApp(MyRealApp())},
 
-                  child: new Text('Start'),
+                  child: new Text('Öppna karta',
+                      style: TextStyle(color: Colors.white, fontSize: 18)),
                   ),
             ),
           ]),
