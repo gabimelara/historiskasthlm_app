@@ -3,7 +3,10 @@
    <application
         android:label="historiskasthlm_app"
         android:icon="@mipmap/ic_launcher">
-        <activity
+        <meta-data android:name="com.google.android.geo.API_KEY"
+                  android:value="AIzaSyCgp3abC2j7C5SaW65u3jLMxUE4BjisXDo"/>
+
+       <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
