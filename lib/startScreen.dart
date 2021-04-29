@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/main.dart';
 
@@ -22,19 +21,19 @@ class StartScreen extends StatelessWidget {
             Container(
               height: 350.0,
               alignment: Alignment.center,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      onPrimary: Colors.white,
-                      primary: Color.fromRGBO(56, 56, 56, 0.8),
-                        padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(13))
-                    ),
-                  onPressed: () => {runApp(MyRealApp())},
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    onPrimary: Colors.white,
+                    primary: Color.fromRGBO(56, 56, 56, 0.8),
+                    padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(13))
+                ),
+                onPressed: () => {runApp(MyRealApp())},
 
-                  child: new Text('Öppna karta',
-                      style: TextStyle(color: Colors.white, fontSize: 20)),
-                  ),
+                child: new Text('Öppna karta',
+                    style: TextStyle(color: Colors.white, fontSize: 20)),
+              ),
             ),
           ]),
         ),

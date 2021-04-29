@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/main.dart';
-import 'package:historiskasthlm_app/mapScreen.dart';
-import 'package:historiskasthlm_app/mapScreen.dart';
-import 'package:historiskasthlm_app/overview.dart';
-import 'mapScreen.dart';
 
 class BottomButtons extends StatelessWidget {
   final int currentIndex;

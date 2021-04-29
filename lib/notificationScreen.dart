@@ -21,9 +21,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
         children: [
           SwitchListTile(
             title: const Text('Rekommenderade platser'),
-       //     secondary: const FlutterLogo(),
+            //     secondary: const FlutterLogo(),
             activeColor:_toggled1
-            ? Colors.deepOrange[900]: Theme.of(context).accentColor,
+                ? Colors.deepOrange[900]: Theme.of(context).accentColor,
             value: _toggled1,
             onChanged: (value) {
               setState(() => _toggled1 = value);
@@ -31,7 +31,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
           SwitchListTile(
             title: const Text('Platser i närheten'),
-           // secondary: const Icon(Icons.settings), // Point to Check
+            // secondary: const Icon(Icons.settings), // Point to Check
             activeColor:_toggled2
                 ? Colors.deepOrange[900]: Theme.of(context).accentColor,
             value: _toggled2,

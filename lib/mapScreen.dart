@@ -13,9 +13,9 @@ class _MapScreenState extends State<MapScreen> {
       appBar: AppBar(
         title: Center(child:Text('Historiska Stockholm', style: TextStyle(color:Colors.grey[900]))),
         backgroundColor: Colors.orange[50],),
-    body: new Center(
-    child:new Text('Karta'),
-    ),
+      body: new Center(
+        child:new Text('Karta'),
+      ),
     );
   }
 }
