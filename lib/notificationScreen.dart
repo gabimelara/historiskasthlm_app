@@ -14,8 +14,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child:Text('Notifikationer', style: TextStyle(color:Colors.grey[900]))),
-        backgroundColor: Colors.orange[50],),
+          centerTitle: true,
+          title: Text('Notifikationer', style: new TextStyle(color:Colors.grey[900],)),
+          backgroundColor: Colors.orange[50]
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

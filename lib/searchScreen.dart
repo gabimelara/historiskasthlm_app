@@ -29,9 +29,9 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-            child: Text('Sök', style: TextStyle(color: Colors.grey[900]))),
-        backgroundColor: Colors.orange[50],
+          centerTitle: true,
+          title: Text('Sök', style: new TextStyle(color:Colors.grey[900],)),
+          backgroundColor: Colors.orange[50]
       ),
       body: SafeArea(
         child: Padding(

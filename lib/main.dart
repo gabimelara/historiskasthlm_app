@@ -5,7 +5,7 @@ import 'package:historiskasthlm_app/favoritesScreen.dart';
 import 'package:historiskasthlm_app/notificationScreen.dart';
 import 'package:historiskasthlm_app/searchScreen.dart';
 import 'overview.dart';
-import 'package:historiskasthlm_app/mapScreen.dart';
+//import 'package:historiskasthlm_app/mapScreen.dart';
 //import 'package:flutter/services.dart';
 void main() {
   runApp(MyApp());
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
 class GoogleScreen extends StatefulWidget {
   @override
   _GoogleScreenState createState() => _GoogleScreenState();
-
+//HEj  ..... .Gabriela
 }
 class _GoogleScreenState extends State<GoogleScreen> {
   GoogleMapController mapController;
@@ -60,13 +60,14 @@ class _GoogleScreenState extends State<GoogleScreen> {
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
-  @override
+ @override
   Widget build(BuildContext context){
     return new Scaffold(
       appBar: AppBar(
-        title: Center(child:Text('Historiska Stockholm', style: TextStyle(color:Colors.grey[900]))),
-        backgroundColor: Colors.orange[50],),
-
+        centerTitle: true,
+        title: Text('Historiska Stockholm', style: new TextStyle(color:Colors.grey[900],)),
+          backgroundColor: Colors.orange[50]
+      ),
       body: GoogleMap(
         onMapCreated: _onMapCreated,
         initialCameraPosition: CameraPosition(
@@ -135,5 +136,3 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
     });
   }
 }
-
-
