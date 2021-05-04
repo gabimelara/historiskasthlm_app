@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:historiskasthlm_app/main.dart';
+import 'package:historiskasthlm_app/guidedTour/guideLayout.dart';
 
-//Öppnas från main /Laura
+
+//Öppnas från GUIDELAYOUT/Laura
 class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -11,9 +12,11 @@ class StartScreen extends StatelessWidget {
         child: new Container(
           height: 450.0,
           alignment: Alignment.topCenter,
-          child: Column(children: [
-            Container(
-                child: Text('Välkommen Stockholmare,\nbörja utforska!',
+          child: Column(
+              children: [
+                Container(
+                    child: Text('Välkommen Stockholmare,\nbörja utforska!',
+                    textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white,
                         fontSize: 30,
                         fontFamily: 'Roboto',
@@ -29,7 +32,12 @@ class StartScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(13))
                 ),
-                onPressed: () => {runApp(MyRealApp())},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
+                  },
 
                 child: new Text('Öppna karta',
                     style: TextStyle(color: Colors.white, fontSize: 20)),
@@ -42,14 +50,4 @@ class StartScreen extends StatelessWidget {
   }
 }
 
-//Öppnar MyApp i main /Laura
-class MyRealApp extends StatelessWidget {
 
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      home: MyNavigationBar(),  //kopplas till navigationbar sida
-      // theme: ThemeData(
-    );
-  }
-}

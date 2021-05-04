@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:historiskasthlm_app/guidedTour/guideLayout.dart';
 
 import 'package:historiskasthlm_app/main.dart';
 
