@@ -7,7 +7,7 @@
         android:label="historiskasthlm_app"
         android:icon="@mipmap/ic_launcher">
        <meta-data android:name="com.google.android.geo.API_KEY"
-                  android:value="Lägg_API_nyckel_här"/>
+                  android:value="AIzaSyB5CATDvNh2pQVoAshkcfsj2DPRIxY9TAw"/>
 
        <activity
             android:name=".MainActivity"
