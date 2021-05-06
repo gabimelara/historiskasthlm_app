@@ -73,11 +73,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                       SizedBox(height:20),
-                Padding(
-                padding: const EdgeInsets.only(  //ny
-                left: 20, right: 20, bottom: 40, top: 0), //ny
-                child: Text(
-                        dataPage[i].description,
+                      Padding(
+                          padding: const EdgeInsets.only(  //ny
+                            left: 20, right: 20, bottom: 40, top: 0), //ny
+                            child: Text(
+                            dataPage[i].description,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 20,

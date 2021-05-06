@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:historiskasthlm_app/screen/favoritesScreen.dart';
-import 'package:historiskasthlm_app/screen/mapScreen.dart';
+import 'package:historiskasthlm_app/screen/map_screen.dart';
 import 'package:historiskasthlm_app/screen/notificationScreen.dart';
 import 'package:historiskasthlm_app/screen/searchScreen.dart';
 import 'package:historiskasthlm_app/screen/startScreen.dart';
+import 'package:provider/provider.dart';
 
-
+import 'maps/geolocator.dart';
 void main() {
   runApp(MyApp());
   // hide status bar
@@ -14,31 +15,34 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  final geoService = GeolocatorService();
   //WIDGET ÄR APPENS ROT.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-
-      theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        // APPENS THEME
-        accentColor: Colors.orange[50],
-        textTheme: TextTheme(
-          headline1: TextStyle(
-              fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.white), //RUBRIKEN
-          bodyText1: TextStyle(
-              fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
-          bodyText2: TextStyle(
-              fontSize: 20.0, height: 1.3, color: Colors.white, fontWeight: FontWeight.w200), //SKIPP KANPP
-          button: TextStyle(
-              fontSize: 20, color: Colors.pink, fontWeight: FontWeight.w700), //NU KÖR VI KNAPP
-        ),
+    return FutureProvider(
+        create: (context) => geoService.getInitialLocation(),
+        child:
+        MaterialApp(
+            theme: ThemeData(
+              primarySwatch: Colors.deepOrange,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              accentColor: Colors.orange[50],
+              textTheme: TextTheme(
+                headline1: TextStyle(
+                    fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.white), //RUBRIKEN
+                        bodyText1: TextStyle(
+                          fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+                bodyText2: TextStyle(
+                    fontSize: 20.0, height: 1.3, color: Colors.white, fontWeight: FontWeight.w200), //SKIPP KANPP
+                      button: TextStyle(
+                          fontSize: 20, color: Colors.pink, fontWeight: FontWeight.w700), //NU KÖR VI KNAPP
+     ),
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
       ),
-      home: Scaffold(body:StartScreen()),
+          home: Scaffold(body:StartScreen()),
+    )
     );
 
   }
@@ -60,7 +64,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
 
   int _currentIndex = 0; //// skrivs för att ikonen man klickar ska bli större
   final List<Widget> _screens=[
-    MapScreen(),
+    Map_screen(),
     SearchScreen(),
     FavoriteScreen(),
     NotificationScreen(),
