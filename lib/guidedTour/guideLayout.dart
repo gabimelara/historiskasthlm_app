@@ -128,36 +128,28 @@ class _HomePageState extends State<HomePage> {
                   curve: Curves.bounceIn,
                 );
               },
-           //   style: TextButton.styleFrom(
-            //    primary: Colors.white,
-             //  backgroundColor:Color.fromRGBO(104,112, 137, 1),
-               // textColor: Colors.white,
-             //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              //  shape: RoundedRectangleBorder(
-               //     borderRadius: BorderRadius.circular(20))
-             // ),
+
             ),
             ),
           Positioned(
             left: 195,
             bottom: 740,
-            child: ElevatedButton(
+            child: TextButton(
               style: ElevatedButton.styleFrom(
-                  onPrimary: Colors.white,
-                  primary: Color.fromRGBO(104,112, 137, 1),
+                  onPrimary: Color.fromRGBO(104,112, 137, 1),
+                  primary: Color.fromRGBO(230,236,255,1),
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(9))),
               child: new Text("Skippa rundtur"),
               onPressed: () {
-             //   if (currentIndex == dataPage.length - 1) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (_) => MyNavigationBar(),
                     ),
                   );
-               // }
+
                 _controller.nextPage(
                   duration: Duration(milliseconds: 100),
                   curve: Curves.bounceIn,
@@ -189,13 +181,3 @@ class _HomePageState extends State<HomePage> {
 
 
 
-
-//  style: TextButton.styleFrom(
-//            primary: Colors.white,
-//          backgroundColor:Color.fromRGBO(104,112, 137, 1),
-// textColor: Colors.white,
-//        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-//      shape: RoundedRectangleBorder(
-//        borderRadius: BorderRadius.circular(20))
-// ),
-//),
