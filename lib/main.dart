@@ -6,6 +6,7 @@ import 'package:historiskasthlm_app/screen/notificationScreen.dart';
 import 'package:historiskasthlm_app/screen/searchScreen.dart';
 import 'package:historiskasthlm_app/screen/startScreen.dart';
 
+
 void main() {
   runApp(MyApp());
   // hide status bar
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepOrange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         // APPENS THEME
-
+        accentColor: Colors.orange[50],
         textTheme: TextTheme(
           headline1: TextStyle(
               fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.white), //RUBRIKEN
@@ -50,12 +51,13 @@ class MyApp extends StatelessWidget {
 //);
 }
 
-class MyNavigationBar extends StatefulWidget {
+class MyNavigationBar extends StatefulWidget { //Bottombar class
   @override
   _MyNavigationBarState createState() => _MyNavigationBarState();
 }
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
+
   int _currentIndex = 0; //// skrivs för att ikonen man klickar ska bli större
   final List<Widget> _screens=[
     MapScreen(),
@@ -67,42 +69,43 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex], // new
-      bottomNavigationBar: BottomNavigationBar(  //alla ikoner med färg och bakgrund
-        selectedItemColor: Colors.deepOrange[900],
-        unselectedItemColor: Colors.black,
-        onTap: onTabTapped,
+      body: _screens[_currentIndex], // new (Body består av _Screens som har ett index)
+      bottomNavigationBar: BottomNavigationBar(  // Navbar med alla ikoner
+        selectedItemColor: Colors.deepOrange[900], //färgar ikonen man har klickat på vinröd
+        unselectedItemColor: Colors.black, // de övriga ikonerna som inte är selected är då svarta
+        onTap: onTabTapped, //Gör att ikoner är klickbara genom en void metod som finns längre ned i koden
         // new
-        currentIndex: _currentIndex, // new
-        items: [
+        currentIndex: _currentIndex, // Gör att ikonen färgas varje gång man trycker på den.
+                                    // Utan denna går det att trycka men färgen ändras inte
+        items: [ //items som Navigationbar kommer att ha både bakgrund och ikonen
           new BottomNavigationBarItem(
-            icon: Icon(Icons.pin_drop), //Icons.pin_drop eller Icons.map? Vilken är finast?
-            label:('Karta'),
-            backgroundColor: Colors.orange[50],
+            icon: Icon(Icons.pin_drop), //Karta ikon
+            label:('Karta'), //text under ikon
+            backgroundColor: Colors.orange[50], //Bakgrundsfärg
           ),
           new BottomNavigationBarItem(
-            icon: Icon(Icons.search),  //Icons.search eller Icons.image_search? vilken är bäst?
-            label: ('Sök'),
-            backgroundColor: Colors.orange[50],
+            icon: Icon(Icons.search), //Sök ikon
+            label: ('Sök'), //text under ikon
+            backgroundColor: Colors.orange[50], //Bakgrundsfärg
           ),
           new BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_sharp),
-            label: ('Favoriter'),
-            backgroundColor: Colors.orange[50],
+            icon: Icon(Icons.favorite_sharp), //Hjärta ikon
+            label: ('Favoriter'), //text under ikon
+            backgroundColor: Colors.orange[50], //Bakgrundsfärg
           ),
           new BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: ('Notiser'),
-            backgroundColor: Colors.orange[50],
+            icon: Icon(Icons.notifications),  //Notiser ikon
+            label: ('Notiser'), // text under ikon
+            backgroundColor: Colors.orange[50], //Bakgrundsfärg
           ),
         ],
       ),
     );
   }
 
-  void onTabTapped(int index) {  //void som gör att knaparna funkar när man klickar
+  void onTabTapped(int index) {  //void som gör att knaparna funkar när man klickar och byter till de olika sidorna som finns.
     setState(() {
-      _currentIndex = index;
+      _currentIndex = index; //kopplar det till currentIndex body som finns
     });
   }
 }
