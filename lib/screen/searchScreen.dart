@@ -41,11 +41,14 @@ class _SearchScreenState extends State<SearchScreen> {//LÄGG DE I EN STACK
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Center(
-              child:
-              Text('Historiska Stockholm',
-                  style: TextStyle(color:Colors.grey[900]))),
-          backgroundColor: Colors.orange[50],),
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+          centerTitle: true,
+          title: Text('Historiska Stockholm',
+                  style: TextStyle(color:Colors.grey[900],)),
+          backgroundColor: Colors.orange[50]
+    ),
         body: Column(
           //mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

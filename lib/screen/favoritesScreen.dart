@@ -30,6 +30,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             },
           )
         ],
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+      ), // bakgrundsfärg på titel längst upp
+      body: new Center(
+        child:new Text('Favoriter'),
       ),
 
     );

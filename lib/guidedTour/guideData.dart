@@ -42,7 +42,7 @@ class Data {
     Data('assets/visabilder.jpg', 'Visa bilder',
         'Se historiska bilder från en specifik adress genom att trycka på motsvarande kartnål på kartan.'),
 
-    Data('assets/zooma.jpg', 'Zomma in på bilder.',
+    Data('assets/zooma.jpg', 'Zooma in på bilder.',
         'Du kan zooma in på bilder som tagits på en viss adress genom att välja en bild.')
   ];
 //}

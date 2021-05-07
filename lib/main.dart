@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:historiskasthlm_app/screen/favoritesScreen.dart';
-import 'package:historiskasthlm_app/maps/map_screen.dart';
+import 'package:historiskasthlm_app/maps/Map_screen.dart';
 import 'package:historiskasthlm_app/screen/notificationScreen.dart';
 import 'package:historiskasthlm_app/screen/searchScreen.dart';
 import 'package:historiskasthlm_app/screen/startScreen.dart';
@@ -47,12 +47,6 @@ class MyApp extends StatelessWidget {
 
   }
 
-//@override
-//Widget build(BuildContext context) {
-//return MaterialApp(
-//  home: StartScreen(),
-// theme: ThemeData(
-//);
 }
 
 class MyNavigationBar extends StatefulWidget { //Bottombar class

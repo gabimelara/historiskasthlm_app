@@ -11,12 +11,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int currentIndex = 0;
+  int currentIndex = 0;        //skapar en index
   PageController _controller;
 
   @override
   void initState() {
-    _controller = PageController(initialPage: 0);
+    _controller = PageController(initialPage: 0); //startar index första sidan
     super.initState();
   }
 
@@ -29,32 +29,43 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(230,236,255,1),
+      backgroundColor: Color.fromRGBO(230,236,255,1),   //backgrundsfärgen
       body: SafeArea(
         child: Stack(children: [
-     // body: Column(
-       // children: [
-       //   Expanded(
-        //    child:
+  //  IconButton(
+   // icon: const Icon(Icons.arrow_back),
+              //TODO:
+  //  onPressed: () {
+   //   if (currentIndex == dataPage.length - 1) {
+     //   Navigator.pushReplacement(
+      //    context,(_) => Navigator.of(context).pop(),
+      //    ),
+       // );
+     // }
+            //  onPressed: (){
+             //   Navigator.pop(context);
+             // },
+             // onPressed:() => Navigator.of(context).pop(),
+
+             // if (currentIndex == dataPage.length - 1) {
+               //  Navigator.of(context).pop();
+                //Navigator.push(context);
+             // },
+
             PageView.builder(
               controller: _controller,
               itemCount: dataPage.length,
               onPageChanged: (int index) {
-                setState(() {
+                setState(() {            //gör att man kan byta sidorna
                   currentIndex = index;
                 });
               },
               itemBuilder: (_, i) {
-               // return Padding(
-                  //padding: const EdgeInsets.all(40),
-                  //child: Column(
-                    //children: [
-
                 return Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
+                      Image.asset(  //hämtar bilden från data klassen
                         dataPage[i].image,
                     //height: 500,
 
@@ -67,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                         left: 20, right: 20, bottom: 0, top: 5), //RUBRIK
                     child: Text(
                       //RUBRIK
-                     dataPage[i].title,
+                     dataPage[i].title,  //hämtar titeln från data klassen
                       style: TextStyle(
                           fontSize: 30, fontWeight: FontWeight.w500, color: Color.fromRGBO(27,32,49,100)),
                     ),
@@ -77,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.only(  //ny
                 left: 20, right: 20, bottom: 40, top: 0), //ny
                 child: Text(
-                        dataPage[i].description,
+                        dataPage[i].description,  //hämtar beskrivningen från data klassen
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 20,
@@ -93,18 +104,18 @@ class _HomePageState extends State<HomePage> {
             bottom:30,
             left: 146,
             height: 100,
-            child: Row(
+            child: Row(  //skapar prickarna
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
                 dataPage.length,
-                    (index) => buildDot(index, context),   //ändra design
+                    (index) => buildDot(index, context),   //gör att prickarna ändras när man byter sida
               ),
             ),
           ),
           Positioned(
-            left: 10,
+            left: 9,
             bottom: 10,
-            child: ElevatedButton(
+            child: ElevatedButton(  //knapp
               style: ElevatedButton.styleFrom(
                   onPrimary: Colors.white,
                   primary: Color.fromRGBO(104,112, 137, 1),
@@ -112,29 +123,30 @@ class _HomePageState extends State<HomePage> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
 
-              child: Text(
+              child: Text(  //gör att knappen nästa ändras till starta på sista sidan
                   currentIndex == dataPage.length - 1 ? "Starta" : "Nästa"),
               onPressed: () {
-                if (currentIndex == dataPage.length - 1) {
+                if (currentIndex == dataPage.length - 1) { //if satsen som gör att man kan navigera med  starta knappen till kartan/startsidan
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => MyNavigationBar(), //skickar till start sidan, om det står mapScreen kommer inte navigationBar upp
+                      builder: (_) => MyNavigationBar(), //skickar till startsidan
                     ),
                   );
                 }
                 _controller.nextPage(
-                  duration: Duration(milliseconds: 100),
+                  duration: Duration(milliseconds: 100), //tid
                   curve: Curves.bounceIn,
                 );
               },
 
             ),
             ),
+
           Positioned(
-            left: 195,
-            bottom: 740,
-            child: TextButton(
+            left: 205,
+            bottom: 760,
+            child: TextButton( //knappen högst upp
               style: ElevatedButton.styleFrom(
                   onPrimary: Color.fromRGBO(104,112, 137, 1),
                   primary: Color.fromRGBO(230,236,255,1),
@@ -146,12 +158,12 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => MyNavigationBar(),
+                      builder: (_) => MyNavigationBar(), //skickar direk till startsidan
                     ),
                   );
 
                 _controller.nextPage(
-                  duration: Duration(milliseconds: 100),
+                  duration: Duration(milliseconds: 100), //tid
                   curve: Curves.bounceIn,
                 );
               },
@@ -162,7 +174,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Container buildDot(int index, BuildContext context) {
+  Container buildDot(int index, BuildContext context) {  //dekoration av prickarna.
     return Container(
       height: 10,
       width: currentIndex == index ? 25 : 10,

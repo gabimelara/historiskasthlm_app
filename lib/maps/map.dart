@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:historiskasthlm_app/maps/geolocator.dart';
+
 class Map extends StatefulWidget {
   final Position initialPosition;
 
