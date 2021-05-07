@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:historiskasthlm_app/screen/favoritesScreen.dart';
 import 'package:historiskasthlm_app/maps/Map_screen.dart';
 import 'package:historiskasthlm_app/screen/notificationScreen.dart';
-import 'package:historiskasthlm_app/screen/searchScreen.dart';
 import 'package:historiskasthlm_app/screen/startScreen.dart';
 import 'package:provider/provider.dart';
 
@@ -59,7 +58,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   int _currentIndex = 0; //// skrivs för att ikonen man klickar ska bli större
   final List<Widget> _screens=[
     Map_screen(),
-    SearchScreen(),
+   /* SearchScreen(),*/
     FavoriteScreen(),
     NotificationScreen(),
   ];
@@ -81,11 +80,11 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
             label:('Karta'), //text under ikon
             backgroundColor: Colors.orange[50], //Bakgrundsfärg
           ),
-          new BottomNavigationBarItem(
+        /*  new BottomNavigationBarItem(
             icon: Icon(Icons.search), //Sök ikon
             label: ('Sök'), //text under ikon
             backgroundColor: Colors.orange[50], //Bakgrundsfärg
-          ),
+          ),*/
           new BottomNavigationBarItem(
             icon: Icon(Icons.favorite_sharp), //Hjärta ikon
             label: ('Favoriter'), //text under ikon

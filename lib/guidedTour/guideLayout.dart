@@ -32,12 +32,12 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Color.fromRGBO(230,236,255,1),   //backgrundsfärgen
       body: SafeArea(
         child: Stack(children: [
-  //  IconButton(
-   // icon: const Icon(Icons.arrow_back),
+   // IconButton(
+   //icon: const Icon(Icons.arrow_back),
               //TODO:
-  //  onPressed: () {
-   //   if (currentIndex == dataPage.length - 1) {
-     //   Navigator.pushReplacement(
+          // onPressed: () {
+    //if (currentIndex == dataPage.length - 1) {
+   //  Navigator.pushReplacement(
       //    context,(_) => Navigator.of(context).pop(),
       //    ),
        // );

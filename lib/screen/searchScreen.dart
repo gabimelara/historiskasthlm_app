@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+/*import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 
@@ -74,5 +74,5 @@ class _SearchScreenState extends State<SearchScreen> {//LÄGG DE I EN STACK
             );
   }
 
-}
+}*/
 

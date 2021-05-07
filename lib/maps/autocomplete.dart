@@ -5,7 +5,7 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 
 //AIzaSyB5CATDvNh2pQVoAshkcfsj2DPRIxY9TAw
 
-const apiKey = "AIzaSyB5CATDvNh2pQVoAshkcfsj2DPRIxY9TAw";
+const apiKey = "AIzaSyCgp3abC2j7C5SaW65u3jLMxUE4BjisXDo";
 
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: apiKey);
 
