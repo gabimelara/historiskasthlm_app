@@ -22,27 +22,27 @@ class MyApp extends StatelessWidget {
         create: (context) => geoService.getInitialLocation(),
         child:
         MaterialApp(
-          theme: ThemeData(
+            theme: ThemeData(
             primarySwatch: Colors.deepOrange,
             visualDensity: VisualDensity.adaptivePlatformDensity,
-            accentColor: Colors.orange[50],
-            textTheme: TextTheme(
-              headline1: TextStyle(
-                  fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.white), //RUBRIKEN
-              bodyText1: TextStyle(
-                  fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
-              bodyText2: TextStyle(
-                  fontSize: 20.0, height: 1.3, color: Colors.white, fontWeight: FontWeight.w200), //SKIPP KANPP
-              button: TextStyle(
-                  fontSize: 20, color: Colors.pink, fontWeight: FontWeight.w700), //NU KÖR VI KNAPP
-            ),
+     //       accentColor: Colors.orange[50],
+        //    textTheme: TextTheme(
+         //     headline1: TextStyle(
+          //        fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.white), //RUBRIKEN
+           //   bodyText1: TextStyle(
+          //        fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+          //    bodyText2: TextStyle(
+          //        fontSize: 20.0, height: 1.3, color: Colors.white, fontWeight: FontWeight.w200), //SKIPP KANPP
+           //   button: TextStyle(
+            //      fontSize: 20, color: Colors.pink, fontWeight: FontWeight.w700), //NU KÖR VI KNAPP
+         // ),
             // This makes the visual density adapt to the platform that you run
             // the app on. For desktop platforms, the controls will be smaller and
             // closer together (more dense) than on mobile platforms.
           ),
           home: Scaffold(body:StartScreen()),
         )
-    );
+   );
 
   }
 
@@ -70,6 +70,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
       bottomNavigationBar: BottomNavigationBar(  // Navbar med alla ikoner
         selectedItemColor: Colors.deepOrange[900], //färgar ikonen man har klickat på vinröd
         unselectedItemColor: Colors.black, // de övriga ikonerna som inte är selected är då svarta
+        backgroundColor: Colors.orange[50], //bakgrundsgärg på bottomNavigationBar
         onTap: onTabTapped, //Gör att ikoner är klickbara genom en void metod som finns längre ned i koden
         // new
         currentIndex: _currentIndex, // Gör att ikonen färgas varje gång man trycker på den.
@@ -78,22 +79,14 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
           new BottomNavigationBarItem(
             icon: Icon(Icons.pin_drop), //Karta ikon
             label:('Karta'), //text under ikon
-            backgroundColor: Colors.orange[50], //Bakgrundsfärg
           ),
-        /*  new BottomNavigationBarItem(
-            icon: Icon(Icons.search), //Sök ikon
-            label: ('Sök'), //text under ikon
-            backgroundColor: Colors.orange[50], //Bakgrundsfärg
-          ),*/
           new BottomNavigationBarItem(
             icon: Icon(Icons.favorite_sharp), //Hjärta ikon
             label: ('Favoriter'), //text under ikon
-            backgroundColor: Colors.orange[50], //Bakgrundsfärg
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.notifications),  //Notiser ikon
             label: ('Notiser'), // text under ikon
-            backgroundColor: Colors.orange[50], //Bakgrundsfärg
           ),
         ],
       ),
