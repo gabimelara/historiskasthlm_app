@@ -36,7 +36,7 @@ class _MapState extends State<Map> {
       zoom: 10.0),
       mapType: MapType.satellite,
       myLocationEnabled: true,
-      padding: EdgeInsets.only(top: 155.0,),
+     // padding: EdgeInsets.only(top: 155.0,),
       onMapCreated: (GoogleMapController controller) {
         _controller.complete(controller);
       }
