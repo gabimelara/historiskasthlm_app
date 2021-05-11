@@ -6,8 +6,10 @@ import 'package:geolocator/geolocator.dart';
 //KARTASCREEN LAYOUT HÄR
 
 class Map_screen extends StatefulWidget {
+
   @override
   _Map_screenState createState() => _Map_screenState();
+
 }
 
 class _Map_screenState extends State<Map_screen> {
