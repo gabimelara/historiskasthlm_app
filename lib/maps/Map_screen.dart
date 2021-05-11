@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:http/http.dart' as http;
 //KARTASCREEN LAYOUT HÄR
 
 class Map_screen extends StatefulWidget {
@@ -46,9 +45,12 @@ class _Map_screenState extends State<Map_screen> {
                     target: _initialcameraposition),
                 onMapCreated: _onMapCreated,
                 myLocationEnabled: true,
-
-              )
+                markers:{
+                  stockholmMarker
+                },
+              ),
           ),
+
           Positioned( //HÄR BÖRJAR SÖKRUTAN
               top: 70,
               right: 15,
@@ -188,3 +190,22 @@ class _Map_screenState extends State<Map_screen> {
     );
   }
 }
+Marker stockholmMarker = Marker(
+  markerId: MarkerId('stockholm1'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(14),
+  position: LatLng(59.31433730000001, 18.0735509),
+  infoWindow: InfoWindow(title: 'Medborgarplatsen'),
+  // onTap: () {
+  //     Navigator.push(context,
+  //       MaterialPageRoute(builder: (context) => HomePage()),
+  //     );
+  //   }
+  // }
+  onTap: () {
+    print('hej');
+  }
+);
+
+//https://www.youtube.com/watch?v=lNqEfnnmoHk
+//https://www.geoapify.com/map-marker-icons-generator-create-beautiful-icons-for-your-map
+//https://www.youtube.com/watch?v=acjtWVc_7sc
