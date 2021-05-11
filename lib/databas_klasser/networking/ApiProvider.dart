@@ -7,11 +7,21 @@ class ApiProvider  { //kommunicerar mellan app och API
   final String _baseUrl = "https://group10-15.pvt.dsv.su.se/demo/"; //länk till vår databas
   final String _getByAddress = "files/getByAddress/"; //länkändelse för ovanstående länk, för att söka efter adresser. Slås alltså ihop med ovanstående för en komplett länk.
 
-
-  Future<dynamic> get(String url) async {
+  Future<dynamic> getSearchedAddress(String url) async {
     var responseJson;
     try {
       final response = await http.get(Uri.parse(_baseUrl + _getByAddress + url)); //"url" byts ut mot adressen användaren söker efter. Blir alltså https://group10-15.pvt.dsv.su.se/demo/files/getByAddress/Karlaplan+10 om användaren skulle söka på Karlaplan 10
+      responseJson = _response(response);
+    } on SocketException {
+      throw FetchDataException('Ingen internetkoppling');
+    }
+    return responseJson;
+  }
+
+  Future<dynamic> getAllAddresses() async {
+    var responseJson;
+    try {
+      final response = await http.get(Uri.parse(_baseUrl ));
       responseJson = _response(response);
     } on SocketException {
       throw FetchDataException('Ingen internetkoppling');
