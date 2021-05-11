@@ -27,19 +27,20 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: GoogleMap(
+      return Scaffold(
+          body: Center(
+          child: GoogleMap(
           initialCameraPosition: CameraPosition(
-              target: LatLng(widget.initialPosition.latitude,
-                  widget.initialPosition.longitude),
-              zoom: 10.0),
-          mapType: MapType.satellite,
-          myLocationEnabled: true,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
-        ),
+          target: LatLng(widget.initialPosition.latitude,
+          widget.initialPosition.longitude),
+      zoom: 10.0),
+      mapType: MapType.satellite,
+      myLocationEnabled: true,
+     // padding: EdgeInsets.only(top: 155.0,),
+      onMapCreated: (GoogleMapController controller) {
+        _controller.complete(controller);
+      }
+      ),
       ),
     );
   }
