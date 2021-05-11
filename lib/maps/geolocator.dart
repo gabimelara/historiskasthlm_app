@@ -8,7 +8,14 @@ class GeolocatorService {
     return geo.getPositionStream(locationOptions);
   }
 
-  Future<Position> getInitialLocation() async {
+     Future<Position> getInitialLocation() async {
     return geo.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
 }
+
+
+
+  //Future<Position> getCurrentLocation() async {
+  //  return  await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+ // }
+//}

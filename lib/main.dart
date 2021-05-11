@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:historiskasthlm_app/screen/favoritesScreen.dart';
-import 'package:historiskasthlm_app/maps/Map_screen.dart';
 import 'package:historiskasthlm_app/screen/notificationScreen.dart';
 import 'package:historiskasthlm_app/screen/startScreen.dart';
 import 'package:provider/provider.dart';
 
+import 'maps/Map_screen.dart';
 import 'maps/geolocator.dart';
 void main() {
   runApp(MyApp());
@@ -58,9 +58,9 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   int _currentIndex = 0; //// skrivs för att ikonen man klickar ska bli större
   final List<Widget> _screens=[
     Map_screen(),
-   /* SearchScreen(),*/
     FavoriteScreen(),
     NotificationScreen(),
+    /* SearchScreen(),*/
   ];
 
   @override
