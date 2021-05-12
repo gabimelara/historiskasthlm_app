@@ -176,7 +176,7 @@ class _Map_screenState extends State<Map_screen> {
     );
   }
 }
-class Year {
+class Year {   //hårdkodad klass för att se om det funkar
   final String artal;
   final String avatar;
   Year({this.artal, this.avatar});

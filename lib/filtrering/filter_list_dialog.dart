@@ -82,7 +82,7 @@ part 'filter_list_widget.dart';
 ///  }
 /// ```
 
-class FilterListDialog {
+class FilterListDialog {  //dialogen som dyker upp
   static Future display<T>(context,
       {
 

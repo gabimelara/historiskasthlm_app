@@ -46,7 +46,7 @@ typedef ValidateRemoveItem<T> = List<T> Function(List<T> list, T item);
 ///    },
 ///   )
 /// ```
-class FilterListWidget<T> extends StatefulWidget {
+class FilterListWidget<T> extends StatefulWidget { //lista
   const FilterListWidget(
       {Key key,
         this.height,
