@@ -6,10 +6,8 @@ import 'package:geolocator/geolocator.dart';
 //KARTASCREEN LAYOUT HÄR
 
 class Map_screen extends StatefulWidget {
-
   @override
   _Map_screenState createState() => _Map_screenState();
-
 }
 
 class _Map_screenState extends State<Map_screen> {
@@ -33,25 +31,25 @@ class _Map_screenState extends State<Map_screen> {
   Widget build(BuildContext context) {
     return new Stack(children: <Widget>[
       Scaffold(
-        appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: Colors.black, //change your color here
+          appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: Colors.black, //change your color here
+            ),
+            centerTitle: true,
+            title: Text('Historiska Stockholm',
+                style: new TextStyle(
+                  color: Colors.grey[900],
+                )),
+            backgroundColor: Colors.orange[50],
           ),
-          centerTitle: true,
-          title: Text('Historiska Stockholm',
-              style: new TextStyle(
-                color: Colors.grey[900],
-              )),
-          backgroundColor: Colors.orange[50],
-        ),
-        body: GoogleMap(
-          initialCameraPosition: CameraPosition(target: _initialcameraposition),
-          onMapCreated: _onMapCreated,
-          // mapType: MapType.hybrid,
-          myLocationButtonEnabled: false,
-          myLocationEnabled: true,
-        ),
-      ),
+          body: GoogleMap(
+            initialCameraPosition:
+                CameraPosition(target: _initialcameraposition),
+            onMapCreated: _onMapCreated,
+            // mapType: MapType.hybrid,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: false,
+          )),
       Positioned(
         top: 650,
         right: 320,
@@ -78,29 +76,27 @@ class _Map_screenState extends State<Map_screen> {
         top: 85,
         right: 15,
         left: 15,
-        child: TextField(
-          autofocus: false,
-          style: TextStyle(fontSize: 20.0, color: Color.fromRGBO(0, 0, 0, 1)),
-          decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Sök...',
-              border: new OutlineInputBorder(
-                borderSide: new BorderSide(color: Colors.white),
-                borderRadius: const BorderRadius.all(
-                  const Radius.circular(20.0),
-                ),
-              ),
-              contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
-              suffixIcon: IconButton(
-                  icon: Icon(Icons.search), //ändra färg
-                  onPressed: searchandNavigate,
-                  iconSize: 30.0)),
-          onChanged: (val) {
-            setState(() {
-              searchAddr = val;
-            });
-          },
+        child: Container(
+          height: 50.0,
+          width: double.infinity,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0), color: Colors.white),
+          child: TextField(
+            decoration: InputDecoration(
+                hintText: 'Sök',
+                border: InputBorder.none,
+                //  keyboardType: TextInputType.text,
+                contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
+                suffixIcon: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: searchandNavigate,
+                    iconSize: 30.0)),
+            onChanged: (val) {
+              setState(() {
+                searchAddr = val;
+              });
+            },
+          ),
         ),
       ),
       Positioned(
@@ -190,38 +186,38 @@ class _Map_screenState extends State<Map_screen> {
 }
 
 /* Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: Colors.white,
-              ),
-              child: Row(children: <Widget>[
-                IconButton(
-                  splashColor: Colors.grey,
-                  icon: Icon(Icons.place),
-                  onPressed: () {},
-                ),
-                Expanded(
-                  child: TextField(
-                    cursorColor: Colors.black,
-                    keyboardType: TextInputType.text,
-                    //BYTTA KEYBOAD TYPE
-                    textInputAction: TextInputAction.go,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                        hintText: "Sök..."),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: IconButton(
-                    splashColor: Colors.grey,
-                    icon: const Icon(Icons.search),
-                    onPressed: () {
-                      setState(
-                            () {},
-                      );
-                    },
-                  ),
-                )
-              ]))), */
+             decoration: BoxDecoration(
+               borderRadius: BorderRadius.all(Radius.circular(20)),
+               color: Colors.white,
+             ),
+             child: Row(children: <Widget>[
+               IconButton(
+                 splashColor: Colors.grey,
+                 icon: Icon(Icons.place),
+                 onPressed: () {},
+               ),
+               Expanded(
+                 child: TextField(
+                   cursorColor: Colors.black,
+                   keyboardType: TextInputType.text,
+                   //BYTTA KEYBOAD TYPE
+                   textInputAction: TextInputAction.go,
+                   decoration: InputDecoration(
+                       border: InputBorder.none,
+                       contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                       hintText: "Sök..."),
+                 ),
+               ),
+               Padding(
+                 padding: const EdgeInsets.only(right: 8.0),
+                 child: IconButton(
+                   splashColor: Colors.grey,
+                   icon: const Icon(Icons.search),
+                   onPressed: () {
+                     setState(
+                           () {},
+                     );
+                   },
+                 ),
+               )
+             ]))), */
