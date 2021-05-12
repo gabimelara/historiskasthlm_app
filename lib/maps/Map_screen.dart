@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:historiskasthlm_app/databas_klasser/blocs/allAddresses_bloc.dart';
+import 'package:historiskasthlm_app/databas_klasser/addressesStreamer.dart';
+
 //KARTASCREEN LAYOUT HÄR
 
 class Map_screen extends StatefulWidget {
@@ -190,6 +193,9 @@ class _Map_screenState extends State<Map_screen> {
     );
   }
 }
+
+
+
 Marker stockholmMarker = Marker(
   markerId: MarkerId('stockholm1'),
   icon: BitmapDescriptor.defaultMarkerWithHue(14),
@@ -202,7 +208,7 @@ Marker stockholmMarker = Marker(
   //   }
   // }
   onTap: () {
-    print('hej');
+    addressesStreamer;
   }
 );
 
