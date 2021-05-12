@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:historiskasthlm_app/Databas_klasser/models/searchAddress.dart';
-import 'package:historiskasthlm_app/Databas_klasser/networking/Response.dart';
-import 'package:historiskasthlm_app/Databas_klasser/repository/searchedAdresses_repository.dart';
+import 'package:historiskasthlm_app/databas_klasser/models/searchAddress.dart';
+import 'package:historiskasthlm_app/databas_klasser/networking/Response.dart';
+import 'package:historiskasthlm_app/databas_klasser/repository/searchedAddresses_repository.dart';
 
 class searchedAddresses_bloc {
-  addresses_repository _searchedAddressRep;
+  searchedAddresses_repository _searchedAddressRep;
   StreamController _searchedAddressController;
 
   StreamSink<Response<searchAddress>> get searchedAddressListSink =>
@@ -16,7 +16,7 @@ class searchedAddresses_bloc {
 
   searchedAddresses_bloc() {
     _searchedAddressController = StreamController<Response<searchAddress>>();
-    _searchedAddressRep = addresses_repository();
+    _searchedAddressRep = searchedAddresses_repository();
     fetchAddress();
   }
 
