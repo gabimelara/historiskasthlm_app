@@ -2,9 +2,9 @@ class allAddresses {
   String address;
   double latitude;
   double longitude;
-  List<Null> bilder;
+  //List<Null> bilder;
 
-  allAddresses({this.address, this.latitude, this.longitude, this.bilder});
+  allAddresses({this.address, this.latitude, this.longitude});
 
   allAddresses.fromJson(Map<String, dynamic> json) {
     address = json['address'];

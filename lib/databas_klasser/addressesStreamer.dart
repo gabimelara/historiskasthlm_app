@@ -20,7 +20,7 @@ class _addressesStreamerState extends State<addressesStreamer> {
       stream: _bloc.allAddressesListStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          switch (snapshot.data.status) {
+          /* switch (snapshot.data.status) {
             case Status.LOADING:
               return Loading(loadingMessage: snapshot.data.message);
               break;
@@ -33,12 +33,13 @@ class _addressesStreamerState extends State<addressesStreamer> {
                 onRetryPressed: () => _bloc.fetchCategories(),
               );
               break;
-          }
+          }  */
+        print('hej');
         }
         return Container();
       },
-    )
-    ,
+    );
+
 
   }
   @override
