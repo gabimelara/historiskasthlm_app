@@ -32,8 +32,9 @@ class _Map_screenState extends State<Map_screen> {
     var response = await http.get(Uri.parse(url));
     final dynamic responseBody = jsonDecode(response.body);
    // allAddresses address = new allAddresses.fromJson(responseBody);
-    print(responseBody);
-    return responseBody;
+    List<String> addressesConverted = new List<String>.from(responseBody);
+    print(addressesConverted);
+    return addressesConverted;
   }
 
   List<Marker> allMarkers = [];
@@ -264,6 +265,8 @@ class allAddresses {
   allAddresses({this.address, this.latitude, this.longitude});
 
   allAddresses.fromJson(Map<String, dynamic> json) {
+    var addressConverted = json['allAddresses'];
+
     address = json['address'];
     latitude = json['latitude'];
     longitude = json['longitude'];
