@@ -34,8 +34,9 @@ class ApiProvider {
 
   Future<dynamic> getAllAddresses() async {
     var responseJson;
+    String addresses = 'addresses/';
     try {
-      final response = await http.get(Uri.parse(_baseUrl));
+      final response = await http.get(Uri.parse(_baseUrl + addresses));
      /* tror inte detta behövs, men låter det vara kvar än så länge.
       var addressesParsed = List<allAddresses>();
        for (var responses in responseJson) {
