@@ -44,9 +44,9 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.deepOrange,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          //home: Scaffold(body:StartScreen()),
-          initialRoute: PAGE_HOME, ///BUG HÄR
-          routes: materialRoutes,
+          home: Scaffold(body:StartScreen()),
+          // initialRoute: PAGE_HOME, ///BUG HÄR
+          // routes: materialRoutes,
         )
    );
 
