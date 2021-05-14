@@ -1,8 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:giffy_dialog/giffy_dialog.dart';
-
 import 'routes.dart';
 
 class NotificationHomePage extends StatefulWidget {
@@ -22,9 +20,6 @@ class _NotificationHomePageState extends State<NotificationHomePage> {
   @override
   void initState() {
 
-    // Here you ensure to request the user permission, but do not do so
-    // directly. Ask the user permission before in a personalized pop up dialog
-    // this is more friendly to the user
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       _notificationsAllowed = isAllowed;
       if (!isAllowed) {
@@ -67,84 +62,6 @@ class _NotificationHomePageState extends State<NotificationHomePage> {
     super.initState();
   }
 
- /* Future<void> initializeFirebaseService() async {
-    String firebaseAppToken;
-    bool isFirebaseAvailable;
-
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      isFirebaseAvailable = await AwesomeNotifications().isFirebaseAvailable;
-
-      if(isFirebaseAvailable){
-        try {
-          firebaseAppToken = await AwesomeNotifications().firebaseAppToken;
-          debugPrint('Firebase token: $firebaseAppToken');
-        } on Exception {
-          firebaseAppToken = 'failed';
-          debugPrint('Firebase failed to get token');
-        }
-      }
-      else {
-        firebaseAppToken = 'unavailable';
-        debugPrint('Firebase is not available on this project');
-      }
-
-    } on Exception {
-      isFirebaseAvailable = false;
-      firebaseAppToken = 'Firebase is not available on this project';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted){
-      return;
-    }
-
-    setState(() {
-    });
-  }
-*/
- /* Future<void> requestUserPermission() async {
-    showDialog(
-        context: context,
-        builder: (_) =>
-            NetworkGiffyDialog(
-              buttonOkText: Text('Allow', style: TextStyle(color: Colors.white)),
-              buttonCancelText: Text('Later', style: TextStyle(color: Colors.white)),
-              buttonCancelColor: Colors.grey,
-              buttonOkColor: Colors.deepPurple,
-              buttonRadius: 0.0,
-              image: Image.asset("assets/animated-bell.gif", fit: BoxFit.cover),
-              title: Text('Get Notified!',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.w600)
-              ),
-              description: Text('Allow Awesome Notifications to send to you beautiful notifications!',
-                textAlign: TextAlign.center,
-              ),
-              entryAnimation: EntryAnimation.DEFAULT,
-              onCancelButtonPressed: () async {
-                Navigator.of(context).pop();
-                _notificationsAllowed = await AwesomeNotifications().isNotificationAllowed();
-                setState(() {
-                  _notificationsAllowed = _notificationsAllowed;
-                });
-              },
-              onOkButtonPressed: () async {
-                Navigator.of(context).pop();
-                await AwesomeNotifications().requestPermissionToSendNotifications();
-                _notificationsAllowed = await AwesomeNotifications().isNotificationAllowed();
-                setState(() {
-                  _notificationsAllowed = _notificationsAllowed;
-                });
-              },
-            )
-    );
-  }
-*/
   void sendNotification() async {
 
     AwesomeNotifications().createNotification(
@@ -165,19 +82,6 @@ class _NotificationHomePageState extends State<NotificationHomePage> {
     );
 
   }
-/*
-  void sendLocalImageNotification() async {
-
-    if(!_notificationsAllowed){
-      await requestUserPermission();
-    }
-
-    if(!_notificationsAllowed){
-      return;
-    }
-
-
-  }*/
 
   void cancelAllNotifications(){
     AwesomeNotifications().cancelAll();
