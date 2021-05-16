@@ -16,6 +16,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
     Map_screen(),
     FavoriteScreen(),
     NotificationHomePage(),
+    //Databasobjekt_som_text(),
 
   ];
 
