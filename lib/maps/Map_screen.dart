@@ -18,7 +18,7 @@ class _Map_screenState extends State<Map_screen> {
   String searchAddr;
   Location _location = Location();
   BitmapDescriptor pinLocationIcon;
-  List<Year> selectYear = [];
+  List<FilterList> selectFilters = [];
 
 
   void _onMapCreated(GoogleMapController _cntlr) {
@@ -142,9 +142,8 @@ class _Map_screenState extends State<Map_screen> {
                       child: SizedBox(
                           height: 520,
                           width: 320,
-                          child: Image.network( ///FÖR ATT HANTERA FLER ÄN 1 BILD KAN VI ANVÄNDA LIST
-                              'https://group10-15.pvt.dsv.su.se/demo/files/3183',
-                                  fit: BoxFit.fill)
+                          child: Image.network('https://group10-15.pvt.dsv.su.se/demo/files/3183',
+                                  fit: BoxFit.fill) ///FÖR ATT HANTERA FLER ÄN 1 BILD KAN VI ANVÄNDA LIST
                       ),
                       margin: EdgeInsets.only(bottom: 40, left: 12, right: 12),
                       decoration: BoxDecoration(
@@ -220,15 +219,24 @@ class _Map_screenState extends State<Map_screen> {
   }
 
   void _openFilterDialog() async {
-    await FilterListDialog.display<Year>(
-      context,
-      listData: yearList,
-      selectedListData: selectYear,
-      height: 480,
-      headlineText: "Välj årtal",
-      searchFieldHintText: "Sök",
+    await FilterListDialog.display<FilterList>(
+        context,
+      listData: filterList,
+      selectedListData: selectFilters,
+      applyButonTextBackgroundColor: Colors.blueGrey,
+      applyButtonTextStyle:  TextStyle(color: Colors.black87,
+        fontWeight: FontWeight.bold,
+        fontSize: 20),
+      controlButtonTextStyle: TextStyle(color: Colors.black87,
+          fontWeight: FontWeight.bold,
+          fontSize: 20),
+      height: 600,
+      hideHeaderText: true,
+      hideCloseIcon :true,
+      //headlineText: "Välj filtrering",
+      searchFieldHintText: "Filtrera här...",
       choiceChipLabel: (item) {
-        return item.artal;
+        return item.filter;
       },
       validateSelectedItem: (list, val) {
         return list.contains(val);
@@ -237,11 +245,11 @@ class _Map_screenState extends State<Map_screen> {
       onItemSearch: (list, text) {
         if (list != null) {
           if (list.any((element) =>
-              element.artal.toLowerCase().contains(text.toLowerCase()))) {
+              element.filter.toLowerCase().contains(text.toLowerCase()))) {
             /// return list which contains matches
             return list
                 .where((element) =>
-                element.artal.toLowerCase().contains(text.toLowerCase()))
+                element.filter.toLowerCase().contains(text.toLowerCase()))
                 .toList();
           }
         }
@@ -251,7 +259,7 @@ class _Map_screenState extends State<Map_screen> {
 
       onApplyButtonClick: (list) {
         setState(() {
-          selectYear = List.from(list);
+          selectFilters = List.from(list);
         });
         Navigator.pop(context);
       },
@@ -261,22 +269,20 @@ class _Map_screenState extends State<Map_screen> {
 
 }
 
-
-class Year {
-  final String artal;
-  final String avatar;
-  Year({this.artal, this.avatar});
+class FilterList {
+  final String filter;
+  FilterList({this.filter});
 }
 
 /// Creating a global list for example purpose.
 /// Generally it should be within data class or where ever you want
-List<Year> yearList = [
-  Year(artal: "1990"),
-  Year(artal: "1900 "),
-  Year(artal: "1995 "),
-  Year(artal: "1994 "),
-  Year(artal: "1989"),
-  Year(artal: "1992 "),
-  Year(artal: "1986 "),
+List<FilterList> filterList = [
+  FilterList(filter: "1990"),
+  FilterList(filter: "1900 "),
+  FilterList(filter: "1995 "),
+  FilterList(filter: "1994 "),
+  FilterList(filter: "Persson"),
+  FilterList(filter: "1992 "),
+  FilterList(filter: "1986 "),
 
 ];

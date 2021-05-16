@@ -24,15 +24,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             ),
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DisplayPictureScreen()),);
+                context,
+                MaterialPageRoute(builder: (context) => DisplayPictureScreen()),);
               // do something
             },
           )
         ],
-          iconTheme: IconThemeData(
-            color: Colors.black, //change your color here
-          ),
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
       ), // bakgrundsfärg på titel längst upp
       body: new Center(
         child:new Text('Favoriter'),

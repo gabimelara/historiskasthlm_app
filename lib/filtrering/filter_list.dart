@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'choice_chip.dart';
 
+/// SKA BORT SEN.
 typedef ValidateSelectedItem<T> = bool Function(List<T> list, T item);
 typedef OnApplyButtonClick<T> = Function(List<T> list);
 typedef ChoiceChipBuilder<T> = Widget Function(
@@ -32,7 +33,7 @@ class FilterListWidget<T> extends StatefulWidget { //lista
         this.headerTextStyle,
         this.searchFieldTextStyle,
         this.headlineText = "Valda",
-        this.searchFieldHintText = "Sök här",
+        this.searchFieldHintText = "Sök här...",
         this.hideSelectedTextCount = false,
         this.hideSearchField = false,
         this.hideCloseIcon = true,
@@ -46,9 +47,6 @@ class FilterListWidget<T> extends StatefulWidget { //lista
         this.selectedTextBackgroundColor = Colors.orange,
         this.unselectedTextbackGroundColor = const Color(0xfff8f8f8),
         this.enableOnlySingleSelection = false,
-        this.allButtonText = 'Alla',
-        this.applyButtonText = 'Applicera',
-        this.resetButtonText = 'Radera',
         this.selectedItemsText = 'Valda items',
         this.controlContainerDecoration = const BoxDecoration(
           color: Colors.white,
@@ -137,14 +135,6 @@ class FilterListWidget<T> extends StatefulWidget { //lista
   /// The `choiceChipBuilder` is a builder to design custom choice chip.
   final ChoiceChipBuilder choiceChipBuilder;
 
-  /// Apply Button Label
-  final String applyButtonText;
-
-  /// Reset Button Label
-  final String resetButtonText;
-
-  /// All Button Label
-  final String allButtonText;
 
   /// Selected items count text
   final String selectedItemsText;
@@ -255,7 +245,7 @@ class _FilterListWidgetState<T> extends State<FilterListWidget<T>> {
     );
     choices.add(
       SizedBox(
-        height: 70,
+        height: 200,
         width: MediaQuery.of(context).size.width,
       ),
     );
@@ -293,7 +283,7 @@ class _FilterListWidgetState<T> extends State<FilterListWidget<T>> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-        height: 45,
+        height: 200,
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         alignment: Alignment.center,
         child: Container(
@@ -303,7 +293,7 @@ class _FilterListWidgetState<T> extends State<FilterListWidget<T>> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               _controlButton(
-                  choiceChipLabel: '${widget.allButtonText}',
+                  choiceChipLabel: 'Alla',
                   onPressed: widget.enableOnlySingleSelection
                       ? null
                       : () {
@@ -323,7 +313,7 @@ class _FilterListWidgetState<T> extends State<FilterListWidget<T>> {
                 width: widget.buttonSpacing ?? 0,
               ),
               _controlButton(
-                  choiceChipLabel: '${widget.resetButtonText}',
+                  choiceChipLabel: 'Radera',
                   onPressed: () {
                     setState(() {
                       _selectedListData.clear();
@@ -334,10 +324,10 @@ class _FilterListWidgetState<T> extends State<FilterListWidget<T>> {
                           fontSize: 20, color: Theme.of(context).primaryColor),
                   radius: widget.buttonRadius),
               SizedBox(
-                width: widget.buttonSpacing ?? 0,
+                width: widget.buttonSpacing ?? 1,
               ),
               _controlButton(
-                  choiceChipLabel: '${widget.applyButtonText}',
+                  choiceChipLabel: 'Applicera',
                   onPressed: () {
                     if (widget.onApplyButtonClick != null) {
                       widget.onApplyButtonClick(_selectedListData);
@@ -346,7 +336,7 @@ class _FilterListWidgetState<T> extends State<FilterListWidget<T>> {
                     }
                   },
                   elevation: 5,
-                  backgroundColor: widget.applyButtonTextBackgroundColor,
+                  backgroundColor: Color.fromRGBO(200, 200, 200, 1),
                   textStyle: widget.applyButtonTextStyle ??
                       Theme.of(context).textTheme.bodyText2.copyWith(
                           fontSize: 20,
@@ -368,8 +358,8 @@ class _FilterListWidgetState<T> extends State<FilterListWidget<T>> {
       body: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius)),
         child: Container(
-          height: widget.height,
-          width: widget.width,
+          height: 200,
+          width: 200,
           color: widget.backgroundColor,
           child: Stack(
             children: <Widget>[

@@ -23,7 +23,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_svg: any
   http: ^0.13.2
   material_floating_search_bar: ^0.3.4
   get:
@@ -36,6 +35,10 @@ dependencies:
   awesome_notifications: ^0.0.5+1
   progressive_image: ^1.0.1
   giffy_dialog: ^1.8.0
+  json_annotation: ^4.0.1
+  cached_network_image: ^3.0.0
+  flutter_cache_manager: ^3.0.2
+  intl: ^0.17.0
 
 
 

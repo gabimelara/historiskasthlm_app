@@ -1,6 +1,8 @@
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 
+
+/// SKA BORT SEN.
 class ChoiceChipWidget<T> extends StatelessWidget {
   const ChoiceChipWidget( {Key key,
       this.text,
