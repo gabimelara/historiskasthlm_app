@@ -8,6 +8,31 @@ import 'package:http/http.dart' as http;
 //KARTASCREEN LAYOUT HÄR
 //https://medium.com/flutter-community/parsing-complex-json-in-flutter-747c46655f51
 
+/*
+Vad fetchAddresses gör är att hämta innehållet som finns på den angivna länken (url). Det innehållet består av en json-fil, det vill säga ett objekt som innehåller
+adresser samt koordinater. For-loopen styckar sedan upp innehållet till flera objekt baserat på de kriterier som finns i
+modell-klassen (allAddresses, ligger längst ner) och lägger dessa i en lista (addressList).
+
+Efter detta måste de uppstyckade objekten omvandlas till pins och läggas i ett set, vilket görs i initState-metoden.
+Metoden i sig bestämmer vad för information som ska finnas med initialt på sidan. Vad metoden först gör är att kalla på fetchAddresses-metoden
+för att kopiera listan (addressList) som returnerats därifrån till en egen lista (_addressesList).
+Själva setState (tror jag) är där det som initialt ska finnas med på sidan definieras, vilket i vårt fall är att vi vill omvandla alla element till pins och lägga dessa
+i ett set. For-loopen fungerar ungefär likadant som den i fetchAddresses, men här vill vi ta varje objekt i listan (_addressesList) och ha dess adress (address.address)
+som ID för markern samt att koordinaterna bestämmer var markern kommer placeras. När markern är skapad läggs den i ett set (markers), eftersom Google - vid utplacering
+av multipla markers - kräver att dessa ligger i just ett set. I bodyn finns en sats (markers: Set.from(markers)) som säger att det är i "markers" våra markers finns.
+
+Modell-klassen (allAddresses) ligger längst ner i Map_screen. Eftersom filen som hämtas från databasen är just en fil som måste delas upp har vi modellklassen, som i sig
+berättar vad i filen som avser ett enskilt objekt (alltså efter vilka kriterier filen ska delas upp). Den styckar även upp det enskilda objektets innehåll och placerar
+detta i variabler så att det uppstyckade objektet i sig innehåller variabler med dess unika data. I vårt fall består det uppstyckade objektet av en adress, latitude,
+longitude samt en array (bilder, används dock ej för något). För extra övertydlighet ser varje objekts rådata ut så här när det hämtats från databasen:
+{"address":"Medborgarplatsen","latitude":59.31433730000001,"longitude":18.0735509,"bilder":[]}
+När vi sedan styckar upp objektet i fetchAddresses for-loop, kommer variabeln address innehålla "Medborgarplatsen", latitude "59.31433730000001", longitude "18.0735509"
+och bilder (den tomma) arrayen.
+
+
+
+ */ //Övertydlig beskrivning av hur data hämtas från databas och omvandlas till pins
+
 class Map_screen extends StatefulWidget {
   @override
   _Map_screenState createState() => _Map_screenState();
@@ -30,19 +55,34 @@ class _Map_screenState extends State<Map_screen> {
     });
   }
   List<allAddresses> _addressesList = List<allAddresses>(); //field för att representera adresserna i UI
-
+  /*
+@url - länken till vår databas.
+@response - innehållet som skickats tillbaka från databasen.
+@addressesList - lista med databasens innehåll parsed/uppdelat till objekt
+@If-sats - kollar statuskoden på innehållet (response) och om statuskoden är 200 betyder det att det inte blivit något fel vid hämtningen,
+utan att rätt objekt har hämtats.
+@addressesJson - sparar innehållet avkodat så det är i rätt format för att använda i flutter.
+@for-loop - innehållet delas upp till mindre objekt efter en modell (allAddresses), och lägger till i listan addressesList.
+ */
   Future<List<allAddresses>> fetchAddresses() async {
     var url = Uri.parse('https://group10-15.pvt.dsv.su.se/demo/addresses');
     var response = await http.get(url);
     var addressesList = List<allAddresses>();
     if(response.statusCode == 200) {
-      var addressesJson = json.decode(response.body); //kodar om responsen från json till en map
-      for(var add in addressesJson){
-        addressesList.add(allAddresses.fromJson(add));
+      var addressesJson = json.decode(response.body);
+      for(var addressParsed in addressesJson){
+        addressesList.add(allAddresses.fromJson(addressParsed));
       }
     }
     return addressesList;
   }
+  /*
+  @initState - avser hur appens initiala tillstånd ska vara.
+  @_addressesList - kopierar innehållet från addressesList.
+  @for-loop - för varje objekt (address) i listan (_addressesList) skapas en marker, där objektets adress (address.address)
+  blir markerns ID och latitude & longitude (address.latitude respektive address.longitude) berättar var markern ska placeras.
+  Markern placeras sen i ett set (markers).
+   */
   @override
   void initState(){
     fetchAddresses().then((value) {
