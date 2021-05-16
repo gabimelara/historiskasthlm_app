@@ -29,7 +29,7 @@ longitude samt en array (bilder, används dock ej för något). För extra över
 När vi sedan styckar upp objektet i fetchAddresses for-loop, kommer variabeln address innehålla "Medborgarplatsen", latitude "59.31433730000001", longitude "18.0735509"
 och bilder (den tomma) arrayen.
 
-
+Test-klassen "Databasobjekt_som_text" (ligger i mappen test_klasser) visar hur objekten ser ut som text och är förmodligen lite enklare att förstå!
 
  */ //Övertydlig beskrivning av hur data hämtas från databas och omvandlas till pins
 
