@@ -177,6 +177,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
+  google_maps_utils:
+    dependency: "direct main"
+    description:
+      name: google_maps_utils
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.0+1"
   google_maps_webservice:
     dependency: transitive
     description:

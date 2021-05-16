@@ -1,18 +1,12 @@
 import 'dart:convert';
-
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:historiskasthlm_app/databas_klasser/addressesStreamer.dart';
-import 'package:historiskasthlm_app/databas_klasser/blocs/allAddresses_bloc.dart';
 import 'package:http/http.dart' as http;
 
 //KARTASCREEN LAYOUT HÄR
-
-//https://stackoverflow.com/questions/64615365/flutter-how-can-i-get-markers-from-json-api-and-show-on-google-map
 //https://medium.com/flutter-community/parsing-complex-json-in-flutter-747c46655f51
-//https://stackoverflow.com/questions/51854891/error-listdynamic-is-not-a-subtype-of-type-mapstring-dynamic
-//Kvar att göra: type conversion av List<map<String, dynamic>>
 
 class Map_screen extends StatefulWidget {
   @override
@@ -23,21 +17,7 @@ class _Map_screenState extends State<Map_screen> {
   LatLng _initialcameraposition = LatLng(59.3294, 18.0686);
   GoogleMapController _controller;
   Location _location = Location();
-  Future _future;
-
-
-
-  Future loadString() async {
-    var url = "https://group10-15.pvt.dsv.su.se/demo/addresses/";
-    var response = await http.get(Uri.parse(url));
-    final dynamic responseBody = jsonDecode(response.body);
-   // allAddresses address = new allAddresses.fromJson(responseBody);
-    List<String> addressesConverted = new List<String>.from(responseBody);
-    print(addressesConverted);
-    return addressesConverted;
-  }
-
-  List<Marker> allMarkers = [];
+  Set<Marker> markers = Set();
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
@@ -49,12 +29,36 @@ class _Map_screenState extends State<Map_screen> {
       );
     });
   }
+  List<allAddresses> _addressesList = List<allAddresses>(); //field för att representera adresserna i UI
 
+  Future<List<allAddresses>> fetchAddresses() async {
+    var url = Uri.parse('https://group10-15.pvt.dsv.su.se/demo/addresses');
+    var response = await http.get(url);
+    var addressesList = List<allAddresses>();
+    if(response.statusCode == 200) {
+      var addressesJson = json.decode(response.body); //kodar om responsen från json till en map
+      for(var add in addressesJson){
+        addressesList.add(allAddresses.fromJson(add));
+      }
+    }
+    return addressesList;
+  }
   @override
-  void initState() {
-    // TODO: implement initState
+  void initState(){
+    fetchAddresses().then((value) {
+      _addressesList.addAll(value);
+      for(var address in _addressesList) {
+        setState(() {
+          markers.add(
+              Marker(
+                markerId: MarkerId(address.address),
+                position: LatLng(address.latitude, address.longitude),
+                icon: BitmapDescriptor.defaultMarkerWithHue(14),
+              ));
+        });
+      }
+    });
     super.initState();
-    _future = loadString();
   }
 
   @override
@@ -72,60 +76,16 @@ class _Map_screenState extends State<Map_screen> {
               )),
           backgroundColor: Colors.orange[50],
         ),
-        /* body: GoogleMap(
-
-               initialCameraPosition: CameraPosition(
-                  target: _initialcameraposition),
-
-
-                onMapCreated: _onMapCreated,
-                myLocationEnabled: true,
-
-                markers: {
-                 stockholmMarker
-              },
-
-
-              ),*/
-        body: Stack(children: [
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: FutureBuilder(
-              future: _future,
-              builder: (context, AsyncSnapshot snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                List<dynamic> parsedJson = jsonDecode(snapshot.data);
-
-                allMarkers = parsedJson.map((i) {
-                  return Marker(
-                    markerId: MarkerId(i['address']),
-                    position: LatLng(i['latitude'], i['longitude']),
-                    onTap: () {},
-                  );
-                }).toList();
-                return GoogleMap(
-                  initialCameraPosition:
-                      CameraPosition(target: _initialcameraposition),
-                  markers: Set.from(allMarkers),
-                  onMapCreated: _onMapCreated,
-                  mapType: MapType.normal,
-                  tiltGesturesEnabled: true,
-                  compassEnabled: true,
-                  rotateGesturesEnabled: true,
-                  myLocationEnabled: true,
-                );
-              },
-            ),
-          ),
-        ]),
+        body: GoogleMap(
+          initialCameraPosition: CameraPosition(
+              target: _initialcameraposition),
+          onMapCreated: _onMapCreated,
+          myLocationEnabled: true,
+          markers: Set.from(markers),
+        ),
       ),
       Positioned(
-          //HÄR BÖRJAR SÖKRUTAN
+        //HÄR BÖRJAR SÖKRUTAN
           top: 70,
           right: 15,
           left: 15,
@@ -159,7 +119,7 @@ class _Map_screenState extends State<Map_screen> {
                     icon: const Icon(Icons.search),
                     onPressed: () {
                       setState(
-                        () {},
+                            () {},
                       );
                     },
                   ),
@@ -173,7 +133,7 @@ class _Map_screenState extends State<Map_screen> {
             height: 73,
             width: 50,
             child:
-                ListView(scrollDirection: Axis.horizontal, children: <Widget>[
+            ListView(scrollDirection: Axis.horizontal, children: <Widget>[
               Container(
                 padding: EdgeInsets.fromLTRB(15.0, 0.0, 0.0, 34.0),
                 decoration: BoxDecoration(
@@ -186,7 +146,8 @@ class _Map_screenState extends State<Map_screen> {
                     onPressed: () {},
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0))),
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(30.0))),
                     label: Text(
                       'Adress',
                       style: new TextStyle(
@@ -208,7 +169,8 @@ class _Map_screenState extends State<Map_screen> {
                     onPressed: () {},
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0))),
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(30.0))),
                     label: Text('År',
                         style: new TextStyle(
                           fontSize: 20.0,
@@ -228,7 +190,8 @@ class _Map_screenState extends State<Map_screen> {
                     onPressed: () {},
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0))),
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(30.0))),
                     label: Text('Byggnader',
                         style: new TextStyle(
                           fontSize: 20.0,
@@ -242,40 +205,22 @@ class _Map_screenState extends State<Map_screen> {
   }
 }
 
-Marker stockholmMarker = Marker(
-    markerId: MarkerId('stockholm1'),
-    icon: BitmapDescriptor.defaultMarkerWithHue(14),
-    position: LatLng(59.31433730000001, 18.0735509),
-    infoWindow: InfoWindow(title: 'Medborgarplatsen'),
-    // onTap: () {
-    //     Navigator.push(context,
-    //       MaterialPageRoute(builder: (context) => HomePage()),
-    //     );
-    //   }
-    // }
-    onTap: () {
-      print('hej');
-    });
 class allAddresses {
   String address;
   double latitude;
   double longitude;
-  //List<Null> bilder;
+  List<Null> bilder;
 
   allAddresses({this.address, this.latitude, this.longitude});
 
   allAddresses.fromJson(Map<String, dynamic> json) {
-    var addressConverted = json['allAddresses'];
-
     address = json['address'];
     latitude = json['latitude'];
     longitude = json['longitude'];
-    /*if (json['bilder'] != null) {
+    if (json['bilder'] != null) {
       bilder = new List<Null>();
-      json['bilder'].forEach((v) {
-        bilder.add(new Null.fromJson(v));
-      });
-    }*/ //kopplade bilder
+
+    } //kopplade bilder
   }
 
   Map<String, dynamic> toJson() {
@@ -283,14 +228,33 @@ class allAddresses {
     data['address'] = this.address;
     data['latitude'] = this.latitude;
     data['longitude'] = this.longitude;
-    /*  if (this.bilder != null) {
-      data['bilder'] = this.bilder.map((v) => v.toJson()).toList();
-    }
+
     return data;
-  } */ //kopplade bilder
-  }
+  }  //kopplade bilder
 }
+
+
+/*
+Aggregering/klustring av pins:
+https://developers.google.com/maps/documentation/android-sdk/utility/marker-clustering
+
+Koppla data till pin:
+https://developers.google.com/maps/documentation/android-sdk/marker#associate_data_with_a_marker
+
+Gömma pins:
+https://stackoverflow.com/questions/14507821/is-it-possible-to-show-hide-markers-in-android-google-maps-api-v2
+
+Custom pin pop-up:
+https://www.youtube.com/watch?v=DhYofrJPzlI&ab_channel=CodingWithMitch
+https://developers.google.com/maps/documentation/android-sdk/infowindows#custom_info_windows
+
+Marker customization:
+https://developers.google.com/maps/documentation/android-sdk/marker#customize_a_marker
+
+
+ */
 
 //https://www.youtube.com/watch?v=lNqEfnnmoHk
 //https://www.geoapify.com/map-marker-icons-generator-create-beautiful-icons-for-your-map
 //https://www.youtube.com/watch?v=acjtWVc_7sc
+
