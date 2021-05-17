@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
+import 'dart:ui';
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _Map_screenState extends State<Map_screen> {
   BitmapDescriptor pinLocationIcon;
   List<FilterList> selectFilters = [];
   Set<Marker> markers = Set();
-  double pinPillPosition = -100;
+
 
 
   void _onMapCreated(GoogleMapController _cntlr) {
@@ -53,6 +54,25 @@ class _Map_screenState extends State<Map_screen> {
       //
       // double distance = locationA.distanceTo(locationB);;
     }
+    );
+  }
+
+  Container Images(String url, String header, String description){
+    return Container(
+        width: 400,
+        child: Card(
+            child: Wrap(
+              children: <Widget>[
+                Image.network( url),
+                ListTile(
+                  title: Text(header),
+                  subtitle: Text(description),
+                )
+              ],
+            )
+        )
+
+
     );
   }
 
@@ -89,54 +109,27 @@ class _Map_screenState extends State<Map_screen> {
                     transitionDuration: Duration(milliseconds: 500),
                     context: context,
                     pageBuilder: (context, anim1, anim2) {
+
                       return Align(
-                          alignment: Alignment.bottomCenter,
+                          //alignment: Alignment.bottomCenter,
                           child: Container(
-                              height: 600,
-                              width: 380,
-                              margin: EdgeInsets.only(
-                                  bottom: 100, left: 12, right: 12),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          20.0))),
-                                  child: ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 20, left:20, top:20, bottom:20 ),
-                                          child: Container(
-                                            width: 320.0,
-                                            height: 80.0,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(30.0),
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        'https://group10-15.pvt.dsv.su.se/demo/files/3183'
-                                                    ), fit: BoxFit.cover)
-                                            )),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 20, left:20, top:20, bottom:20 ),
-                                          child: Container(
-                                              width: 320.0,
-                                              height: 80.0,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(30.0),
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          'https://group10-15.pvt.dsv.su.se/demo/files/3183'
-                                                      ), fit: BoxFit.cover)
-                                              )),
-
-
-                                        )
-
+                            height: 700,
+                              // decoration: BoxDecoration(
+                              // color: Colors.white,
+                              // borderRadius: BorderRadius.all(
+                              //     Radius.circular(
+                              //   20.0)
+                              child: ListView(
+                                  scrollDirection: Axis.horizontal, ///byt till vertical om ni vill
+                                  children: <Widget>[
+                                    Images('https://group10-15.pvt.dsv.su.se/demo/files/3183', 'Title (Skriv nåt här)', 'Description. godis, chips, bla bla'),
+                                    Images('https://group10-15.pvt.dsv.su.se/demo/files/3183', 'Header', 'Description'),
+                                    Images('https://group10-15.pvt.dsv.su.se/demo/files/3183', 'Header', 'Description'),
+                                    Images('https://group10-15.pvt.dsv.su.se/demo/files/3183', 'Header', 'Description'),
+                                    Images('https://group10-15.pvt.dsv.su.se/demo/files/3183', 'Header', 'Description'),
                                   ]
-                                  )
-                              ));
-
+                              )
+                          ));
                     },
                     transitionBuilder: (context, anim1, anim2, child) {
                       return SlideTransition(
