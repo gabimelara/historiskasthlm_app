@@ -123,14 +123,19 @@ class _Map_screenState extends State<Map_screen> {
                             itemCount: _bildList.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
-                                  width: 400,
+                                  width: 370,
                                   child: Card(
                                       child: Wrap(
                                         children: <Widget>[
                                       Image.memory(base64Decode(
                                       _bildList[index].image)),
                                           ListTile(
-                                            title: Text((_bildList[index].description)),
+                                            title: Text((_bildList[index].description),
+                                              style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                            ),),
                                           )
                                         ],
                                       )
