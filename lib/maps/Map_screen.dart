@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
 import 'package:filter_list/filter_list.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -57,7 +58,6 @@ class _Map_screenState extends State<Map_screen> {
 
   List<allAddresses> _addressesList = List<allAddresses>();
   ///ÄNDRA TILL List<allAddresses> _addressesList = [];
-
   Future<List<allAddresses>> fetchAddresses() async {
     var url = Uri.parse('https://group10-15.pvt.dsv.su.se/demo/addresses');
     var response = await http.get(url);
@@ -92,33 +92,51 @@ class _Map_screenState extends State<Map_screen> {
                       return Align(
                           alignment: Alignment.bottomCenter,
                           child: Container(
-                            height: 600,
-                            width: 380,
-                            margin: EdgeInsets.only(
-                                bottom: 100, left: 12, right: 12),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(Radius.circular(
-                                    20.0))),
-                            child: Container(
-                              alignment: Alignment.bottomCenter,
-                              child: SizedBox(
-                                  height: 520,
-                                  width: 320,
-                                  child: Image.network(
-                                      'https://group10-15.pvt.dsv.su.se/demo/files/3183',
-                                      fit: BoxFit.fill)
-
-                                ///FÖR ATT HANTERA FLER ÄN 1 BILD KAN VI ANVÄNDA LIST
-                              ),
+                              height: 600,
+                              width: 380,
                               margin: EdgeInsets.only(
-                                  bottom: 40, left: 12, right: 12),
+                                  bottom: 100, left: 12, right: 12),
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0))),
-                            ),
-                          ));
+                                      Radius.circular(
+                                          20.0))),
+                                  child: ListView(
+                                      scrollDirection: Axis.horizontal,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 20, left:20, top:20, bottom:20 ),
+                                          child: Container(
+                                            width: 320.0,
+                                            height: 80.0,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(30.0),
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        'https://group10-15.pvt.dsv.su.se/demo/files/3183'
+                                                    ), fit: BoxFit.cover)
+                                            )),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 20, left:20, top:20, bottom:20 ),
+                                          child: Container(
+                                              width: 320.0,
+                                              height: 80.0,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(30.0),
+                                                  image: DecorationImage(
+                                                      image: NetworkImage(
+                                                          'https://group10-15.pvt.dsv.su.se/demo/files/3183'
+                                                      ), fit: BoxFit.cover)
+                                              )),
+
+
+                                        )
+
+                                  ]
+                                  )
+                              ));
+
                     },
                     transitionBuilder: (context, anim1, anim2, child) {
                       return SlideTransition(
@@ -135,9 +153,9 @@ class _Map_screenState extends State<Map_screen> {
         }
         );
       }
-        });
-      }
-    //super.initState();
+    });
+  }
+  //super.initState();
 
 
 
@@ -157,8 +175,8 @@ class _Map_screenState extends State<Map_screen> {
           backgroundColor: Colors.orange[50],
         ),
         body: GoogleMap(
-              initialCameraPosition: CameraPosition(
-                  target: _initialcameraposition, zoom: 16),
+          initialCameraPosition: CameraPosition(
+              target: _initialcameraposition, zoom: 16),
           onMapCreated: _onMapCreated,
           markers: Set.from(markers),
           // mapType: MapType.hybrid,
@@ -226,9 +244,9 @@ class _Map_screenState extends State<Map_screen> {
               hintText: 'Sök här...',
               contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
               suffixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: searchandNavigate,
-                  iconSize: 35.0, color: Colors.black87,)),
+                icon: Icon(Icons.search),
+                onPressed: searchandNavigate,
+                iconSize: 35.0, color: Colors.black87,)),
           onChanged: (val) {
             setState(() {
               searchAddr = val;
@@ -342,7 +360,6 @@ class allAddresses {
     longitude = json['longitude'];
     if (json['bilder'] != null) {
       bilder = new List<Null>();
-
     } //kopplade bilder
   }
 
@@ -353,5 +370,5 @@ class allAddresses {
     data['longitude'] = this.longitude;
 
     return data;
-  }  //kopplade bilder
+  } //kopplade bilder
 }
