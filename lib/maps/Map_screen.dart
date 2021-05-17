@@ -8,6 +8,32 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
 //KARTASCREEN LAYOUT HÄR
+//https://medium.com/flutter-community/parsing-complex-json-in-flutter-747c46655f51
+
+/*
+Vad fetchAddresses gör är att hämta innehållet som finns på den angivna länken (url). Det innehållet består av en json-fil, det vill säga ett objekt som innehåller
+adresser samt koordinater. For-loopen styckar sedan upp innehållet till flera objekt baserat på de kriterier som finns i
+modell-klassen (allAddresses, ligger längst ner) och lägger dessa i en lista (addressList).
+
+Efter detta måste de uppstyckade objekten omvandlas till pins och läggas i ett set, vilket görs i initState-metoden.
+Metoden i sig bestämmer vad för information som ska finnas med initialt på sidan. Vad metoden först gör är att kalla på fetchAddresses-metoden
+för att kopiera listan (addressList) som returnerats därifrån till en egen lista (_addressesList).
+Själva setState (tror jag) är där det som initialt ska finnas med på sidan definieras, vilket i vårt fall är att vi vill omvandla alla element till pins och lägga dessa
+i ett set. For-loopen fungerar ungefär likadant som den i fetchAddresses, men här vill vi ta varje objekt i listan (_addressesList) och ha dess adress (address.address)
+som ID för markern samt att koordinaterna bestämmer var markern kommer placeras. När markern är skapad läggs den i ett set (markers), eftersom Google - vid utplacering
+av multipla markers - kräver att dessa ligger i just ett set. I bodyn finns en sats (markers: Set.from(markers)) som säger att det är i "markers" våra markers finns.
+
+Modell-klassen (allAddresses) ligger längst ner i Map_screen. Eftersom filen som hämtas från databasen är just en fil som måste delas upp har vi modellklassen, som i sig
+berättar vad i filen som avser ett enskilt objekt (alltså efter vilka kriterier filen ska delas upp). Den styckar även upp det enskilda objektets innehåll och placerar
+detta i variabler så att det uppstyckade objektet i sig innehåller variabler med dess unika data. I vårt fall består det uppstyckade objektet av en adress, latitude,
+longitude samt en array (bilder, används dock ej för något). För extra övertydlighet ser varje objekts rådata ut så här när det hämtats från databasen:
+{"address":"Medborgarplatsen","latitude":59.31433730000001,"longitude":18.0735509,"bilder":[]}
+När vi sedan styckar upp objektet i fetchAddresses for-loop, kommer variabeln address innehålla "Medborgarplatsen", latitude "59.31433730000001", longitude "18.0735509"
+och bilder (den tomma) arrayen.
+
+Test-klassen "Databasobjekt_som_text" (ligger i mappen test_klasser) visar hur objekten ser ut som text och är förmodligen lite enklare att förstå!
+
+ */ //Övertydlig beskrivning av hur data hämtas från databas och omvandlas till pins
 
 class Map_screen extends StatefulWidget {
 
