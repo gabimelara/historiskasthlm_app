@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/guidedTour/guideLayout.dart';
 
 
+
 //Öppnas från GUIDELAYOUT/Laura
 class StartScreen extends StatelessWidget {
   @override
@@ -35,7 +36,7 @@ class StartScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
+                        MaterialPageRoute(builder: (context) => Guidade()),
                       );
                     },
 

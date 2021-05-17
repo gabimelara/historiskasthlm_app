@@ -1,19 +1,19 @@
+import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 
-import 'filter_list_dialog.dart';
 
+/// SKA BORT SEN.
 class ChoiceChipWidget<T> extends StatelessWidget {
-  const ChoiceChipWidget(  //choicechip
-      {Key key,
-        this.text,
-        this.item,
-        this.selected,
-        this.onSelected,
-        this.unselectedTextBackgroundColor,
-        this.selectedTextBackgroundColor,
-        this.choiceChipBuilder,
-        this.selectedChipTextStyle,
-        this.unselectedChipTextStyle})
+  const ChoiceChipWidget( {Key key,
+    this.text,
+    this.item,
+    this.selected,
+    this.onSelected,
+    this.unselectedTextBackgroundColor,
+    this.selectedTextBackgroundColor,
+    this.choiceChipBuilder,
+    this.selectedChipTextStyle,
+    this.unselectedChipTextStyle})
       : super(key: key);
 
   final String text;
@@ -40,9 +40,9 @@ class ChoiceChipWidget<T> extends StatelessWidget {
     return choiceChipBuilder != null
         ? GestureDetector(
       onTap: () {
-        onSelected(true);
+        onSelected (true);
       },
-      child: choiceChipBuilder(context, item, selected),
+      child: choiceChipBuilder (context, item, selected),
     )
         : Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),

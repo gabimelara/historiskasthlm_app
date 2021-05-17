@@ -15,7 +15,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         centerTitle: true,
         title: Text(
             'Favoriter', style: new TextStyle(color: Colors.grey[900],)),
-        backgroundColor: Colors.orange[50], // bakgrundsfärg på titel längst upp
+        backgroundColor: Colors.orange[50],
+        // bakgrundsfärg på titel längst upp
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -24,18 +25,19 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             ),
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DisplayPictureScreen()),);
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DisplayPictureScreen()),);
               // do something
             },
           )
         ],
-          iconTheme: IconThemeData(
-            color: Colors.black, //change your color here
-          ),
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
       ), // bakgrundsfärg på titel längst upp
       body: new Center(
-        child:new Text('Favoriter'),
+        child: new Text('Favoriter'),
       ),
 
     );
