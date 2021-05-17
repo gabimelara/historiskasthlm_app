@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -53,8 +54,34 @@ class _NotificationScreenState extends State<NotificationScreen> {
               setState(() => _toggled3 = value);
             },
           ),
-        ],
+    FloatingActionButton.extended(
+    backgroundColor: Colors.black,
+    onPressed: () => sendNotification(),
+    label: Text('Skicka test notis')
+    ),
+
+          ]
       ),
     );
+  }
+  void sendNotification() async {
+
+    AwesomeNotifications().createNotification(
+        content: NotificationContent(
+            id: 100,
+            channelKey: "basic_channel",
+            title: "En gammal gård i Stockholm",
+            body: "En gammal gård i Stockholm på 1800",
+            notificationLayout: NotificationLayout.BigPicture,
+            largeIcon: "https://group10-15.pvt.dsv.su.se/demo/files/3183",
+            bigPicture: "https://group10-15.pvt.dsv.su.se/demo/files/3183",
+            showWhen: true,
+            autoCancel: true,
+            payload: {
+              "secret": "Historiska"
+            }
+        )
+    );
+
   }
 }
