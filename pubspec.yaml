@@ -40,6 +40,7 @@ dependencies:
   flutter_cache_manager: ^3.0.2
   intl: ^0.17.0
   google_maps_utils: ^1.4.0+1
+  carousel_slider: ^2.3.1
 
 
 
