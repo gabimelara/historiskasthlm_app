@@ -55,6 +55,7 @@ class _Map_screenState extends State<Map_screen> {
     );
   }
 
+
   List<allAddresses> _addressesList = List<allAddresses>();
   ///ÄNDRA TILL List<allAddresses> _addressesList = [];
 
@@ -70,6 +71,22 @@ class _Map_screenState extends State<Map_screen> {
     }
     return addressesList;
   }
+
+  List<Bild> _bildList = <Bild>[];
+
+  Future<List<Bild>> fetchBilder(String address) async{
+    var url = Uri.parse('https://group10-15.pvt.dsv.su.se/demo/files/getByAddress/' + address);
+    var response = await http.get(url);
+    var bildList = <Bild>[];
+    if (response.statusCode == 200) {
+      var bilderJson = json.decode(response.body);
+      for (var bildParsed in bilderJson) {
+        bildList.add(Bild.fromJson(bildParsed));
+      }
+    }
+    return bildList;
+  }
+
   @override
   void initState(){
     fetchAddresses().then((value) {
@@ -328,6 +345,8 @@ List<FilterList> filterList = [
   FilterList(filter: "1986 "),
 
 ];
+
+
 class allAddresses {
   String address;
   double latitude;
@@ -355,3 +374,100 @@ class allAddresses {
     return data;
   }  //kopplade bilder
 }
+
+class Bild {
+  int id;
+  String image;
+  int year;
+  String description;
+  String documentID;
+  String photographer;
+  String licence;
+  String block;
+  String district;
+  List<Tags> tags;
+  List<allAddresses> addresses;
+
+  Bild(
+      {this.id,
+        this.image,
+        this.year,
+        this.description,
+        this.documentID,
+        this.photographer,
+        this.licence,
+        this.block,
+        this.district,
+        this.tags,
+        this.addresses});
+
+  Bild.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    image = json['image'];
+    year = json['year'];
+    description = json['description'];
+    documentID = json['documentID'];
+    photographer = json['photographer'];
+    licence = json['licence'];
+    block = json['block'];
+    district = json['district'];
+    if (json['tags'] != null) {
+      tags = new List<Tags>();
+      json['tags'].forEach((v) {
+        tags.add(new Tags.fromJson(v));
+      });
+    }
+    if (json['addresses'] != null) {
+      addresses = new List<allAddresses>();
+      json['addresses'].forEach((v) {
+        addresses.add(new allAddresses.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['image'] = this.image;
+    data['year'] = this.year;
+    data['description'] = this.description;
+    data['documentID'] = this.documentID;
+    data['photographer'] = this.photographer;
+    data['licence'] = this.licence;
+    data['block'] = this.block;
+    data['district'] = this.district;
+    if (this.tags != null) {
+      data['tags'] = this.tags.map((v) => v.toJson()).toList();
+    }
+    if (this.addresses != null) {
+      data['addresses'] = this.addresses.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Tags {
+  String tag;
+  List<Null> bilder;
+
+  Tags({this.tag, this.bilder});
+
+  Tags.fromJson(Map<String, dynamic> json) {
+    tag = json['tag'];
+    if (json['bilder'] != null) {
+      bilder = new List<Null>();
+      }
+    }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['tag'] = this.tag;
+    // if (this.bilder != null) {
+    //   data['bilder'] = this.bilder.map((v) => v.toJson()).toList();
+    // }
+    return data;
+  }
+}
+
+
+
