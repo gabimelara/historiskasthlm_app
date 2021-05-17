@@ -107,9 +107,13 @@ class _Map_screenState extends State<Map_screen> {
                                   width: 320,
                                   child: Image.network(
                                       'https://group10-15.pvt.dsv.su.se/demo/files/3183',
-                                      fit: BoxFit.fill)
-
-                                ///FÖR ATT HANTERA FLER ÄN 1 BILD KAN VI ANVÄNDA LIST
+                                      fit: BoxFit.fill),
+                                  child: Text(
+                                      'TEST TEXT',
+                                      style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      ),
+                                  ),
                               ),
                               margin: EdgeInsets.only(
                                   bottom: 40, left: 12, right: 12),
