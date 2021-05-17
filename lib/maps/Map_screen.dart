@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
-import 'dart:ui';
 import 'package:filter_list/filter_list.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -12,7 +10,6 @@ import 'package:http/http.dart' as http;
 //KARTASCREEN LAYOUT HÄR
 
 class Map_screen extends StatefulWidget {
-
   @override
   _Map_screenState createState() => _Map_screenState();
 }
@@ -25,14 +22,11 @@ class _Map_screenState extends State<Map_screen> {
   BitmapDescriptor pinLocationIcon;
   List<FilterList> selectFilters = [];
   Set<Marker> markers = Set();
-
-
+  double pinPillPosition = -100;
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
     _location.onLocationChanged.listen((l) {
-
-
       //   _controller.animateCamera(
       //    CameraUpdate.newCameraPosition(
       //
@@ -53,104 +47,119 @@ class _Map_screenState extends State<Map_screen> {
       // locationB.setLongitude(latLngB.longitude);
       //
       // double distance = locationA.distanceTo(locationB);;
-    }
-    );
-  }
-
-  Container Images(String url, String header, String description){
-    return Container(
-        width: 400,
-        child: Card(
-            child: Wrap(
-              children: <Widget>[
-                Image.network( url),
-                ListTile(
-                  title: Text(header),
-                  subtitle: Text(description),
-                )
-              ],
-            )
-        )
-
-
-    );
+    });
   }
 
   List<allAddresses> _addressesList = List<allAddresses>();
+
   ///ÄNDRA TILL List<allAddresses> _addressesList = [];
   Future<List<allAddresses>> fetchAddresses() async {
     var url = Uri.parse('https://group10-15.pvt.dsv.su.se/demo/addresses');
     var response = await http.get(url);
     var addressesList = List<allAddresses>();
     if (response.statusCode == 200) {
-      var addressesJson = json.decode(response.body);
+      var addressesJson = json.decode(utf8.decode(response.bodyBytes));
       for (var addressParsed in addressesJson) {
         addressesList.add(allAddresses.fromJson(addressParsed));
       }
     }
     return addressesList;
   }
+
+  List<Bild> _bildList = <Bild>[];
+
+  Future<List<Bild>> fetchBilder(String address) async {
+    var url = Uri.parse(
+        'https://group10-15.pvt.dsv.su.se/demo/files/getByAddress/' + address);
+    var response = await http.get(url);
+    var bildList = <Bild>[];
+    if (response.statusCode == 200) {
+      var bilderJson = json.decode(utf8.decode(response.bodyBytes));
+      for (var bildParsed in bilderJson) {
+        bildList.add(Bild.fromJson(bildParsed));
+      }
+    }
+    return bildList;
+  }
+
   @override
-  void initState(){
+  void initState() {
+    String markerValue;
     fetchAddresses().then((value) {
       _addressesList.addAll(value);
-      for(var address in _addressesList) {
+      for (var address in _addressesList) {
         setState(() {
-          markers.add(
-              Marker(
-                markerId: MarkerId(address.address),
-                position: LatLng(address.latitude, address.longitude),
-                icon: BitmapDescriptor.defaultMarkerWithHue(10),
-                onTap: () {     ///FIXA ontap change color
-                  showGeneralDialog(
-                    barrierDismissible: true,
-                    barrierLabel: "Map",
-                    barrierColor: Colors.black.withOpacity(0.4),
-                    transitionDuration: Duration(milliseconds: 500),
-                    context: context,
-                    pageBuilder: (context, anim1, anim2) {
+          markers.add(Marker(
+            markerId: MarkerId(address.address),
+            position: LatLng(address.latitude, address.longitude),
+            icon: BitmapDescriptor.defaultMarkerWithHue(10),
+            onTap: () {
+              ///FIXA ontap change color
+              markerValue = address.address;
+              fetchBilder(markerValue).then((value) {
+                _bildList = value;
+                // print("address: " +
+                //     address.address +
+                //     "\nmarkerValue: " +
+                //     markerValue +
+                //     "\nvalue: " +
+                //     value.toString() +
+                //     "\ndesc: " +
+                //     value[0].description);
+                showGeneralDialog(
+                  barrierDismissible: true,
+                  barrierLabel: "Map",
+                  barrierColor: Colors.black.withOpacity(0.4),
+                  transitionDuration: Duration(milliseconds: 500),
+                  context: context,
+                  pageBuilder: (context, anim1, anim2) {
+                    return Align(
+                      //alignment: Alignment.bottomCenter,
+                        child: Container(
+                          height: 700,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal, ///byt till vertical om ni vill
+                            padding: EdgeInsets.all(20),
+                            itemCount: _bildList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                  width: 400,
+                                  child: Card(
+                                      child: Wrap(
+                                        children: <Widget>[
+                                      Image.memory(base64Decode(
+                                      _bildList[index].image)),
+                                          ListTile(
+                                            title: Text((_bildList[index].description)),
+                                          )
+                                        ],
+                                      )
+                                  )
 
-                      return Align(
-                          //alignment: Alignment.bottomCenter,
-                          child: Container(
-                            height: 700,
-                              // decoration: BoxDecoration(
-                              // color: Colors.white,
-                              // borderRadius: BorderRadius.all(
-                              //     Radius.circular(
-                              //   20.0)
-                              child: ListView(
-                                  scrollDirection: Axis.horizontal, ///byt till vertical om ni vill
-                                  children: <Widget>[
-                                    Images('https://group10-15.pvt.dsv.su.se/demo/files/3183', 'Title (Skriv nåt här)', 'Description. godis, chips, bla bla'),
-                                    Images('https://group10-15.pvt.dsv.su.se/demo/files/3183', 'Header', 'Description'),
-                                    Images('https://group10-15.pvt.dsv.su.se/demo/files/3183', 'Header', 'Description'),
-                                    Images('https://group10-15.pvt.dsv.su.se/demo/files/3183', 'Header', 'Description'),
-                                    Images('https://group10-15.pvt.dsv.su.se/demo/files/3183', 'Header', 'Description'),
-                                  ]
-                              )
-                          ));
-                    },
-                    transitionBuilder: (context, anim1, anim2, child) {
-                      return SlideTransition(
-                        position: Tween(begin: Offset(0, 1), end: Offset(0, 0))
-                            .animate(anim1),
-                        child: child,
-                      );
-                    },
-                  );
-                },
 
-              )
-          );
-        }
-        );
+                              );
+                            },
+                          ),
+
+                        ));
+                  },
+                  transitionBuilder: (context, anim1, anim2, child) {
+                    return SlideTransition(
+                      position: Tween(begin: Offset(0, 1), end: Offset(0, 0))
+                          .animate(anim1),
+                      child: child,
+                    );
+                  },
+                );
+              });
+            },
+          ));
+        });
       }
     });
   }
+
   //super.initState();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -168,8 +177,8 @@ class _Map_screenState extends State<Map_screen> {
           backgroundColor: Colors.orange[50],
         ),
         body: GoogleMap(
-          initialCameraPosition: CameraPosition(
-              target: _initialcameraposition, zoom: 16),
+          initialCameraPosition:
+          CameraPosition(target: _initialcameraposition, zoom: 16),
           onMapCreated: _onMapCreated,
           markers: Set.from(markers),
           // mapType: MapType.hybrid,
@@ -184,24 +193,20 @@ class _Map_screenState extends State<Map_screen> {
           child: FloatingActionButton(
             backgroundColor: const Color(0xffffffff),
             foregroundColor: Colors.white,
-            onPressed: () =>
-                _location.onLocationChanged.listen((l) {
-                  _controller.animateCamera(
-                    CameraUpdate
-                        .newCameraPosition( //BUG NÄR MAN ANVÄNDER DET SÅ GÅR INTE ATT SÖKA PÅ PLATSER
-                      CameraPosition(
-                          target: LatLng(l.latitude, l.longitude), zoom: 15),
-                    ),
-                  );
-                }
+            onPressed: () => _location.onLocationChanged.listen((l) {
+              _controller.animateCamera(
+                CameraUpdate.newCameraPosition(
+                  //BUG NÄR MAN ANVÄNDER DET SÅ GÅR INTE ATT SÖKA PÅ PLATSER
+                  CameraPosition(
+                      target: LatLng(l.latitude, l.longitude), zoom: 15),
                 ),
+              );
+            }),
             // Respond to button press
             child: Icon(Icons.center_focus_strong, color: Colors.grey),
-
           )
         //Positions knappen
       ),
-
       Positioned(
         top: 150,
         right: 0,
@@ -211,10 +216,8 @@ class _Map_screenState extends State<Map_screen> {
           foregroundColor: Colors.white,
           onPressed: _openFilterDialog,
           child: Icon(Icons.filter_list_alt, color: Colors.black),
-
         ),
       ),
-
       Positioned(
         //HÄR BÖRJAR SÖKRUTAN
         top: 85,
@@ -228,18 +231,20 @@ class _Map_screenState extends State<Map_screen> {
               fillColor: Colors.white,
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.deepOrange, width: 2.0),
-                  borderRadius: const BorderRadius.all(
-                      const Radius.circular(20.0))),
+                  borderRadius:
+                  const BorderRadius.all(const Radius.circular(20.0))),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black12, width: 2.0),
-                  borderRadius: const BorderRadius.all(
-                      const Radius.circular(20.0))),
+                  borderRadius:
+                  const BorderRadius.all(const Radius.circular(20.0))),
               hintText: 'Sök här...',
               contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
               suffixIcon: IconButton(
                 icon: Icon(Icons.search),
                 onPressed: searchandNavigate,
-                iconSize: 35.0, color: Colors.black87,)),
+                iconSize: 35.0,
+                color: Colors.black87,
+              )),
           onChanged: (val) {
             setState(() {
               searchAddr = val;
@@ -247,8 +252,7 @@ class _Map_screenState extends State<Map_screen> {
           },
         ),
       )
-    ]
-    );
+    ]);
   }
 
 /*  Set<Marker> _createMarker() {
@@ -277,12 +281,10 @@ class _Map_screenState extends State<Map_screen> {
       listData: filterList,
       selectedListData: selectFilters,
       applyButonTextBackgroundColor: Colors.blueGrey,
-      applyButtonTextStyle: TextStyle(color: Colors.black87,
-          fontWeight: FontWeight.bold,
-          fontSize: 20),
-      controlButtonTextStyle: TextStyle(color: Colors.black87,
-          fontWeight: FontWeight.bold,
-          fontSize: 20),
+      applyButtonTextStyle: TextStyle(
+          color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 20),
+      controlButtonTextStyle: TextStyle(
+          color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 20),
       height: 600,
       hideHeaderText: true,
       hideCloseIcon: true,
@@ -316,14 +318,13 @@ class _Map_screenState extends State<Map_screen> {
         });
         Navigator.pop(context);
       },
-
     );
   }
-
 }
 
 class FilterList {
   final String filter;
+
   FilterList({this.filter});
 }
 
@@ -337,8 +338,8 @@ List<FilterList> filterList = [
   FilterList(filter: "Persson"),
   FilterList(filter: "1992 "),
   FilterList(filter: "1986 "),
-
 ];
+
 class allAddresses {
   String address;
   double latitude;
@@ -364,4 +365,98 @@ class allAddresses {
 
     return data;
   } //kopplade bilder
+}
+
+class Bild {
+  int id;
+  String image;
+  int year;
+  String description;
+  String documentID;
+  String photographer;
+  String licence;
+  String block;
+  String district;
+  List<Tags> tags;
+  List<allAddresses> addresses;
+
+  Bild(
+      {this.id,
+        this.image,
+        this.year,
+        this.description,
+        this.documentID,
+        this.photographer,
+        this.licence,
+        this.block,
+        this.district,
+        this.tags,
+        this.addresses});
+
+  Bild.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    image = json['image'];
+    year = json['year'];
+    description = json['description'];
+    documentID = json['documentID'];
+    photographer = json['photographer'];
+    licence = json['licence'];
+    block = json['block'];
+    district = json['district'];
+    if (json['tags'] != null) {
+      tags = new List<Tags>();
+      json['tags'].forEach((v) {
+        tags.add(new Tags.fromJson(v));
+      });
+    }
+    if (json['addresses'] != null) {
+      addresses = new List<allAddresses>();
+      json['addresses'].forEach((v) {
+        addresses.add(new allAddresses.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['image'] = this.image;
+    data['year'] = this.year;
+    data['description'] = this.description;
+    data['documentID'] = this.documentID;
+    data['photographer'] = this.photographer;
+    data['licence'] = this.licence;
+    data['block'] = this.block;
+    data['district'] = this.district;
+    if (this.tags != null) {
+      data['tags'] = this.tags.map((v) => v.toJson()).toList();
+    }
+    if (this.addresses != null) {
+      data['addresses'] = this.addresses.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Tags {
+  String tag;
+  List<Null> bilder;
+
+  Tags({this.tag, this.bilder});
+
+  Tags.fromJson(Map<String, dynamic> json) {
+    tag = json['tag'];
+    if (json['bilder'] != null) {
+      bilder = new List<Null>();
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['tag'] = this.tag;
+    // if (this.bilder != null) {
+    //   data['bilder'] = this.bilder.map((v) => v.toJson()).toList();
+    // }
+    return data;
+  }
 }
