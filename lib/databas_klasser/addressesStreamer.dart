@@ -27,6 +27,10 @@ class _addressesStreamerState extends State<addressesStreamer> {
       stream: _bloc.allAddressesListStream,
       builder: (context, snapshot) {
         print (snapshot);
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 /*        if (snapshot.hasData) {
           *//* switch (snapshot.data.status) {
             case Status.LOADING:
@@ -62,6 +66,10 @@ class _addressesStreamerState extends State<addressesStreamer> {
             );
           }*//*
         } else { print('ingen data');}*/
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
       }, ),
     );
     return Container();
