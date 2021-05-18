@@ -53,7 +53,6 @@ class _Map_screenState extends State<Map_screen> {
   List<allAddresses> _addressesList = List<allAddresses>();
 
   ///ÄNDRA TILL List<allAddresses> _addressesList = [];
-
   Future<List<allAddresses>> fetchAddresses() async {
     var url = Uri.parse('https://group10-15.pvt.dsv.su.se/demo/addresses');
     var response = await http.get(url);
@@ -115,68 +114,38 @@ class _Map_screenState extends State<Map_screen> {
                   context: context,
                   pageBuilder: (context, anim1, anim2) {
                     return Align(
-                        alignment: Alignment.bottomCenter,
+                      //alignment: Alignment.bottomCenter,
                         child: Container(
-                          height: 600,
-                          width: 380,
-                          margin:
-                              EdgeInsets.only(bottom: 100, left: 12, right: 12),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0))),
+                          height: 700,
                           child: ListView.builder(
+                            scrollDirection: Axis.horizontal, ///byt till vertical om ni vill
                             padding: EdgeInsets.all(20),
-                            scrollDirection: Axis.horizontal,
                             itemCount: _bildList.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
-                                width: 320.0,
-                                height: 80.0,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    image: DecorationImage(
-                                        image: MemoryImage(base64Decode(
-                                            _bildList[index].image)),
-                                        fit: BoxFit.cover)),
-                                child: Text(_bildList[index].description),
+                                  width: 370,
+                                  child: Card(
+                                      child: Wrap(
+                                        children: <Widget>[
+                                      Image.memory(base64Decode(
+                                      _bildList[index].image)),
+                                          ListTile(
+                                            title: Text((_bildList[index].description),
+                                              style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                            ),),
+                                          )
+                                        ],
+                                      )
+                                  )
+
+
                               );
                             },
                           ),
-/*                                  child: ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 20, left:20, top:20, bottom:20 ),
-                                          child: Container(
-                                            width: 320.0,
-                                            height: 80.0,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(30.0),
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        'https://group10-15.pvt.dsv.su.se/demo/files/3183'
-                                                    ), fit: BoxFit.cover)
-                                            )),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 20, left:20, top:20, bottom:20 ),
-                                          child: Container(
-                                              width: 320.0,
-                                              height: 80.0,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(30.0),
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          'https://group10-15.pvt.dsv.su.se/demo/files/3183'
-                                                      ), fit: BoxFit.cover)
-                                              )),
 
-
-                                        )
-
-                                  ]
-                                  )*/
                         ));
                   },
                   transitionBuilder: (context, anim1, anim2, child) {
@@ -214,7 +183,7 @@ class _Map_screenState extends State<Map_screen> {
         ),
         body: GoogleMap(
           initialCameraPosition:
-              CameraPosition(target: _initialcameraposition, zoom: 16),
+          CameraPosition(target: _initialcameraposition, zoom: 16),
           onMapCreated: _onMapCreated,
           markers: Set.from(markers),
           // mapType: MapType.hybrid,
@@ -241,8 +210,8 @@ class _Map_screenState extends State<Map_screen> {
             // Respond to button press
             child: Icon(Icons.center_focus_strong, color: Colors.grey),
           )
-          //Positions knappen
-          ),
+        //Positions knappen
+      ),
       Positioned(
         top: 150,
         right: 0,
@@ -268,11 +237,11 @@ class _Map_screenState extends State<Map_screen> {
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.deepOrange, width: 2.0),
                   borderRadius:
-                      const BorderRadius.all(const Radius.circular(20.0))),
+                  const BorderRadius.all(const Radius.circular(20.0))),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black12, width: 2.0),
                   borderRadius:
-                      const BorderRadius.all(const Radius.circular(20.0))),
+                  const BorderRadius.all(const Radius.circular(20.0))),
               hintText: 'Sök här...',
               contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
               suffixIcon: IconButton(
@@ -306,7 +275,7 @@ class _Map_screenState extends State<Map_screen> {
     Geolocator().placemarkFromAddress(searchAddr).then((result) {
       _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
           target:
-              LatLng(result[0].position.latitude, result[0].position.longitude),
+          LatLng(result[0].position.latitude, result[0].position.longitude),
           zoom: 12)));
     });
   }
@@ -340,7 +309,7 @@ class _Map_screenState extends State<Map_screen> {
             /// return list which contains matches
             return list
                 .where((element) =>
-                    element.filter.toLowerCase().contains(text.toLowerCase()))
+                element.filter.toLowerCase().contains(text.toLowerCase()))
                 .toList();
           }
         }
@@ -418,16 +387,16 @@ class Bild {
 
   Bild(
       {this.id,
-      this.image,
-      this.year,
-      this.description,
-      this.documentID,
-      this.photographer,
-      this.licence,
-      this.block,
-      this.district,
-      this.tags,
-      this.addresses});
+        this.image,
+        this.year,
+        this.description,
+        this.documentID,
+        this.photographer,
+        this.licence,
+        this.block,
+        this.district,
+        this.tags,
+        this.addresses});
 
   Bild.fromJson(Map<String, dynamic> json) {
     id = json['id'];
