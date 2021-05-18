@@ -118,31 +118,61 @@ class _Map_screenState extends State<Map_screen> {
                         child: Container(
                           height: 700,
                           child: ListView.builder(
-                            scrollDirection: Axis.horizontal, ///byt till vertical om ni vill
+                            scrollDirection: Axis.vertical, ///byt till vertical om ni vill
                             padding: EdgeInsets.all(20),
                             itemCount: _bildList.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
-                                  width: 370,
-                                  child: Card(
+                                  width: 400,
+                                  child:
+                                      Card(
+                                        margin: EdgeInsets.only(left: 10, right: 10, top: 12),
+                                        elevation: 15,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                        ),
+                                        semanticContainer: true,
+                                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                                        child: Container(
+                                            height: 650,
+                                            child: Stack(children: <Widget>[
+                                            Positioned(
+                                              right: 12,
+                                      left: 12,
+                                      bottom: 10,
+                                      top: 10,
                                       child: Wrap(
                                         children: <Widget>[
                                       Image.memory(base64Decode(
                                       _bildList[index].image)),
                                           ListTile(
-                                            title: Text((_bildList[index].description),
+                                            leading:Text((_bildList[index].photographer),
+                                              style: TextStyle(
+                                                fontSize: 10.0,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w200,
+                                              ),
+                                            ),
+                                              title: Text((_bildList[index].description),
                                               style: TextStyle(
                                               fontSize: 20.0,
                                               color: Colors.black,
-                                              fontWeight: FontWeight.w600,
-                                            ),),
+                                              fontWeight: FontWeight.w200,
+                                            ),
+                                            ),
+                                            subtitle: Text((_bildList[index].licence),
+                                                style: TextStyle(
+                                                    fontSize: 10.0,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w200)),
                                           )
                                         ],
                                       )
                                   )
 
 
-                              );
+                              ])
+                              )));
                             },
                           ),
 
