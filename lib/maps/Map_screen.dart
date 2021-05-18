@@ -110,7 +110,7 @@ class _Map_screenState extends State<Map_screen> {
                   barrierDismissible: true,
                   barrierLabel: "Map",
                   barrierColor: Colors.black.withOpacity(0.4),
-                  transitionDuration: Duration(milliseconds: 500),
+                  transitionDuration: Duration(milliseconds: 600),
                   context: context,
                   pageBuilder: (context, anim1, anim2) {
                     return Align(
@@ -118,61 +118,166 @@ class _Map_screenState extends State<Map_screen> {
                         child: Container(
                           height: 700,
                           child: ListView.builder(
-                            scrollDirection: Axis.vertical, ///byt till vertical om ni vill
+                            scrollDirection: Axis.horizontal,
+
+                            ///byt till vertical om ni vill
                             padding: EdgeInsets.all(20),
                             itemCount: _bildList.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
                                   width: 400,
                                   child:
-                                      Card(
-                                        margin: EdgeInsets.only(left: 10, right: 10, top: 12),
-                                        elevation: 15,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20.0),
-                                        ),
-                                        semanticContainer: true,
-                                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                                        child: Container(
-                                            height: 650,
-                                            child: Stack(children: <Widget>[
+                                  Card(
+                                      margin: EdgeInsets.only(
+                                          left: 10, right: 10, top: 12),
+                                      elevation: 15,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            20.0),
+                                      ),
+                                      semanticContainer: true,
+                                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                                      child: Container(
+                                          height: 700,
+                                          child: Stack(children: <Widget>[
                                             Positioned(
-                                              right: 12,
-                                      left: 12,
-                                      bottom: 10,
-                                      top: 10,
-                                      child: Wrap(
-                                        children: <Widget>[
-                                      Image.memory(base64Decode(
-                                      _bildList[index].image)),
-                                          ListTile(
-                                            leading:Text((_bildList[index].photographer),
-                                              style: TextStyle(
-                                                fontSize: 10.0,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w200,
-                                              ),
-                                            ),
-                                              title: Text((_bildList[index].description),
-                                              style: TextStyle(
-                                              fontSize: 20.0,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w200,
-                                            ),
-                                            ),
-                                            subtitle: Text((_bildList[index].licence),
-                                                style: TextStyle(
-                                                    fontSize: 10.0,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w200)),
-                                          )
-                                        ],
-                                      )
-                                  )
+                                                top: 10,
+                                                left: 10,
+                                                right: 10,
+                                                child: Container(
+                                                    color: Colors.white,
+                                                    child: Column(
+                                                        children: <Widget>[
+
+                                                          Wrap(
+                                                            children: <Widget>[
+                                                              Image.memory(
+                                                                  base64Decode(
+                                                                      _bildList[index]
+                                                                          .image),
+                                                                  height: 400,
+                                                                  width: 400,
+                                                                  colorBlendMode: BlendMode
+                                                                      .darken,
+                                                                  fit: BoxFit
+                                                                      .fill),
+                                                              ListTile(
+                                                                leading: Padding(
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                        right: 0,
+                                                                        left: 0,
+                                                                        top: 0),
+                                                                    child: Text(
+                                                                      (_bildList[index]
+                                                                          .documentID
+                                                                          .toString()),
+                                                                      style: TextStyle(
+                                                                        fontSize: 10.0,
+                                                                        color: Colors
+                                                                            .red,
+                                                                        fontWeight: FontWeight
+                                                                            .w300,
+                                                                      ),)),
+                                                                //child: Icon(Icons.camera_enhance_outlined)),
+                                                                title: Padding(
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                        right: 0,
+                                                                        left: 0,
+                                                                        top: 20),
+                                                                    child: Text(
+                                                                      (_bildList[index]
+                                                                          .description),
+                                                                      style: TextStyle(
+                                                                        fontSize: 15.0,
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontWeight: FontWeight
+                                                                            .w300,
+                                                                      ),
+                                                                    )),
+
+                                                                subtitle: Padding(
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                        right: 0,
+                                                                        left: 0,
+                                                                        top: 10),
+                                                                    child: Text(
+                                                                        (_bildList[index]
+                                                                            .photographer),
+                                                                        style: TextStyle(
+                                                                            fontSize: 15.0,
+                                                                            color: Colors
+                                                                                .green,
+                                                                            fontWeight: FontWeight
+                                                                                .w300))),
+                                                              ),
+
+                                                              ListTile(
+                                                                title: Padding(
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                        right: 0,
+                                                                        left: 0,
+                                                                        top: 10),
+                                                                    child: Text(
+                                                                      (_bildList[index]
+                                                                          .district),
+                                                                      style: TextStyle(
+                                                                        fontSize: 15.0,
+                                                                        color: Colors
+                                                                            .orange,
+                                                                        fontWeight: FontWeight
+                                                                            .w300,
+                                                                      ),
+                                                                    )
+                                                                ),
+                                                                subtitle: Padding(
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                        right: 0,
+                                                                        left: 0,
+                                                                        top: 10),
+                                                                    child: Text(
+                                                                      (_bildList[index]
+                                                                          .block),
+                                                                      style: TextStyle(
+                                                                        fontSize: 15.0,
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        fontWeight: FontWeight
+                                                                            .w300,
+                                                                      ),
+                                                                    )
+                                                                ),
+                                                                leading: Padding(
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                        right: 0,
+                                                                        left: 0,
+                                                                        top: 40),
+                                                                    child: Text(
+                                                                      (_bildList[index]
+                                                                          .year.toString()),
+                                                                      style: TextStyle(
+                                                                        fontSize: 12.0,
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontWeight: FontWeight
+                                                                            .w300,
+                                                                      ),)),
+
+                                                              )
+                                                            ],
+                                                          )
+                                                        ]
 
 
-                              ])
-                              )));
+                                                    )
+                                                ))
+                                          ]))));
                             },
                           ),
 
