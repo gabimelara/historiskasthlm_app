@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'choice_chip.dart';
-=======
 import 'choice_chip_widget.dart';
->>>>>>> master
+
 
 /// SKA BORT SEN.
 typedef ValidateSelectedItem<T> = bool Function(List<T> list, T item);
@@ -205,56 +203,56 @@ class _FilterListWidgetState<T> extends State<FilterListWidget<T>> {
   }
 
 
-  List<Widget> _buildChoiceList() {
-    List<Widget> choices = [];
-    _listData.forEach(
-          (item) {
-        var selectedText = widget.validateSelectedItem(_selectedListData, item);
-        choices.add(
-          ChoiceChipWidget(
-            choiceChipBuilder: widget.choiceChipBuilder,
-            item: item,
-            onSelected: (value) {
-              setState(
-                    () {
-                  if (widget.enableOnlySingleSelection) {
-                    _selectedListData.clear();
-                    _selectedListData.add(item);
-                  } else {
-                    print(selectedText);
-                    if(selectedText) {
-                      if(widget.validateRemoveItem != null) {
-                        var shouldDelete = widget.validateRemoveItem(_selectedListData, item);
-                        _selectedListData = shouldDelete;
-                      } else {
-                        _selectedListData.remove(item);
-                      }
-                    } else {
-                      _selectedListData.add(item);
-                    }
-
-                  }
-                },
-              );
-            },
-            selected: selectedText,
-            selectedTextBackgroundColor: widget.selectedTextBackgroundColor,
-            unselectedTextBackgroundColor: widget.unselectedTextbackGroundColor,
-            selectedChipTextStyle: widget.selectedChipTextStyle,
-            unselectedChipTextStyle: widget.unselectedChipTextStyle,
-            text: widget.choiceChipLabel(item),
-          ),
-        );
-      },
-    );
-    choices.add(
-      SizedBox(
-        height: 200,
-        width: MediaQuery.of(context).size.width,
-      ),
-    );
-    return choices;
-  }
+  // List<Widget> _buildChoiceList() {
+  //   List<Widget> choices = [];
+  //   _listData.forEach(
+  //         (item) {
+  //       var selectedText = widget.validateSelectedItem(_selectedListData, item);
+  //       choices.add(
+  //         ChoiceChipWidget(
+  //           choiceChipBuilder: widget.choiceChipBuilder,
+  //           item: item,
+  //           onSelected: (value) {
+  //             setState(
+  //                   () {
+  //                 if (widget.enableOnlySingleSelection) {
+  //                   _selectedListData.clear();
+  //                   _selectedListData.add(item);
+  //                 } else {
+  //                   print(selectedText);
+  //                   if(selectedText) {
+  //                     if(widget.validateRemoveItem != null) {
+  //                       var shouldDelete = widget.validateRemoveItem(_selectedListData, item);
+  //                       _selectedListData = shouldDelete;
+  //                     } else {
+  //                       _selectedListData.remove(item);
+  //                     }
+  //                   } else {
+  //                     _selectedListData.add(item);
+  //                   }
+  //
+  //                 }
+  //               },
+  //             );
+  //           },
+  //           selected: selectedText,
+  //           selectedTextBackgroundColor: widget.selectedTextBackgroundColor,
+  //           unselectedTextBackgroundColor: widget.unselectedTextbackGroundColor,
+  //           selectedChipTextStyle: widget.selectedChipTextStyle,
+  //           unselectedChipTextStyle: widget.unselectedChipTextStyle,
+  //           text: widget.choiceChipLabel(item),
+  //         ),
+  //       );
+  //     },
+  //   );
+  //   choices.add(
+  //     SizedBox(
+  //       height: 200,
+  //       width: MediaQuery.of(context).size.width,
+  //     ),
+  //   );
+  //   return choices;
+  // }
 
   Widget _controlButton({String choiceChipLabel,
     Function onPressed,
