@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'all_addresses.dart';
 import 'bilder.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 
 //KARTASCREEN LAYOUT HÄR
 
@@ -58,7 +59,6 @@ class _Map_screenState extends State<Map_screen> {
   }
 
   List<Bild> _bildList = <Bild>[];
-
   Future<List<Bild>> fetchBilder(String address) async {
     var url = Uri.parse(
         'https://group10-15.pvt.dsv.su.se/demo/files/getByAddress/' + address);
@@ -72,19 +72,7 @@ class _Map_screenState extends State<Map_screen> {
     }
     return bildList;
   }
-  Container buildDot(int index, BuildContext context)
-  {//dekoration av prickarna.
-    return Container(
-      height: 10,
-      width: dotsIndex == index ? 25 : 10,
-      margin: EdgeInsets.only(right: 5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Color.fromRGBO(100,0, 0, 1),
-      ),
-    );
 
-  }
 
   @override
   void initState() {
@@ -96,20 +84,12 @@ class _Map_screenState extends State<Map_screen> {
           markers.add(Marker(
             markerId: MarkerId(address.address),
             position: LatLng(address.latitude, address.longitude),
-            icon: BitmapDescriptor.defaultMarkerWithHue(10),
-            onTap: () {
+            icon: BitmapDescriptor.defaultMarkerWithHue(8),
+            onTap: (){
               ///FIXA ontap change color
               markerValue = address.address;
               fetchBilder(markerValue).then((value) {
                 _bildList = value;
-                // print("address: " +
-                //     address.address +
-                //     "\nmarkerValue: " +
-                //     markerValue +
-                //     "\nvalue: " +
-                //     value.toString() +
-                //     "\ndesc: " +
-                //     value[0].description);
                 showGeneralDialog(
                   barrierDismissible: true,
                   barrierLabel: "Map",
@@ -255,20 +235,24 @@ class _Map_screenState extends State<Map_screen> {
                                                                 )
                                                               ])))
                                                   ,
-                                                  Positioned(
-                                                    bottom:20,
-                                                    left: 100,
-                                                    right: 80,
-                                                    height: 50,
-                                                   child: Row(  //skapar prickarna
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                   children: List.generate(
-                                                    _bildList.length,
-                                                       (index) => buildDot(index, context),   //gör att prickarna ändras när man byter sida
+                                                  Padding(
+
+                                                   padding: EdgeInsets.only(bottom: 20),
+                                                    child: Align(
+                                                      alignment: Alignment. bottomCenter,
+
+                                                   child: DotsIndicator(
+                                                     dotsCount: _bildList.length,
+                                                     position: index,
+                                                     decorator: DotsDecorator(
+                                                       color: Colors.black87,
+                                                       activeColor: Colors.blueGrey,
+                                                     ),
+                                                   )
+
                                                   ),
-                                                  ),
-                                                  ),
-                                               ])))));
+                                                  )])
+                                        ))));
                               }),
                         ));
                   },
@@ -389,7 +373,7 @@ class _Map_screenState extends State<Map_screen> {
       _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
           target:
           LatLng(result[0].position.latitude, result[0].position.longitude),
-          zoom: 12)));
+          zoom: 18)));
     });
   }
 
