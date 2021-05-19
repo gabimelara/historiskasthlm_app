@@ -34,26 +34,6 @@ class _GuidadeState extends State<Guidade> {
       backgroundColor: Color.fromRGBO(230,236,255,1),   //backgrundsfärgen
       body: SafeArea(
         child: Stack(children: [
-          // IconButton(
-          //icon: const Icon(Icons.arrow_back),
-          //TODO:
-          // onPressed: () {
-          //if (currentIndex == dataPage.length - 1) {
-          //  Navigator.pushReplacement(
-          //    context,(_) => Navigator.of(context).pop(),
-          //    ),
-          // );
-          // }
-          //  onPressed: (){
-          //   Navigator.pop(context);
-          // },
-          // onPressed:() => Navigator.of(context).pop(),
-
-          // if (currentIndex == dataPage.length - 1) {
-          //  Navigator.of(context).pop();
-          //Navigator.push(context);
-          // },
-
           PageView.builder(
               controller: _controller,
               itemCount: dataPage.length,

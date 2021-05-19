@@ -4,8 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:historiskasthlm_app/screen/startScreen.dart';
 import 'package:provider/provider.dart';
 import 'maps/geolocator.dart';
-import 'notification/routes.dart';
-
 
 
 void main() {

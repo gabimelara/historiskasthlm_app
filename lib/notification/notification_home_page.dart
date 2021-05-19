@@ -29,7 +29,7 @@ class _NotificationHomePageState extends State<NotificationHomePage> {
 
     // Here you get the token every time its changed by firebase process or by a new installation
     AwesomeNotifications().fcmTokenStream.listen((String newFcmToken) {
-      print("New FCM token: "+newFcmToken);
+      print("New FCM token: "+ newFcmToken);
     });
 
     AwesomeNotifications().createdStream.listen((ReceivedNotification notification) {

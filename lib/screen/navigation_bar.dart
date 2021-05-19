@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/maps/Map_screen.dart';
 import 'package:historiskasthlm_app/notification/notificationScreen.dart';
-import 'package:historiskasthlm_app/notification/notification_home_page.dart';
 import 'favoritesScreen.dart';
 
 class MyNavigationBar extends StatefulWidget { //Bottom bar class
