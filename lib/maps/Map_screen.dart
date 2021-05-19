@@ -1,3 +1,4 @@
+import 'package:fluster/fluster.dart';
 import 'dart:convert';
 import 'dart:core';
 import 'package:filter_list/filter_list.dart';
@@ -50,7 +51,20 @@ class _Map_screenState extends State<Map_screen> {
   List<FilterList> selectFilters = [];
   Set<Marker> markers = Set();
   double pinPillPosition = -100;
+  List<allAddresses> ads;
+  Fluster<allAddresses> fluster;
 
+  /// [Fluster] instance used to manage the clusters
+  Fluster<allAddresses> _clusterManager;
+
+  /// Current map zoom. Initial zoom will be 15, street level
+  double _currentZoom = 15;
+
+  /// Color of the cluster circle
+  final Color _clusterColor = Colors.blue;
+
+  /// Color of the cluster text
+  final Color _clusterTextColor = Colors.white;
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
@@ -77,9 +91,29 @@ class _Map_screenState extends State<Map_screen> {
       // locationB.setLongitude(latLngB.longitude);
       //
       // double distance = locationA.distanceTo(locationB);;
+      Fluster<allAddresses> fluster = Fluster<allAddresses>(
+          minZoom: 0,
+          maxZoom: 20,
+          radius: 150,
+          extent: 2048,
+          nodeSize: 64,
+          points: ads,
+          createCluster: (BaseCluster cluster, double longitude, double latitude)
+          => allAddresses(
+            markerId: cluster.id.toString(),
+            position: LatLng(latitude, longitude),
+            isCluster: cluster.isCluster,
+            clusterId: cluster.id,
+            pointsSize: cluster.pointsSize,
+            childMarkerId: cluster.childMarkerId,
+          ));
     }
     );
   }
+
+  //https://www.coletiv.com/blog/how-to-cluster-markers-on-google-maps-using-flutter/
+  //https://pub.dev/packages/google_maps_cluster_manager/example
+  //https://medium.com/coletiv-stories/how-to-cluster-markers-on-flutter-google-maps-44620f607de3
 
   List<allAddresses> _addressesList = List<allAddresses>();
   ///ÄNDRA TILL List<allAddresses> _addressesList = [];
@@ -95,11 +129,48 @@ class _Map_screenState extends State<Map_screen> {
     }
     return addressesList;
   }
+
   @override
   void initState(){
+    final updatedMarkers = getClusterMarkers(
+      _clusterManager,
+      _currentZoom,
+      _clusterColor,
+      _clusterTextColor,
+      80,
+    );
+
+    Future<List<Marker>> getClusterMarkers(
+        Fluster<allAddresses> clusterManager,
+        double currentZoom,
+        Color clusterColor,
+        Color clusterTextColor,
+        int clusterWidth,
+        ) {
+      if (clusterManager == null) return Future.value([]);
+
+      return Future.wait(clusterManager.clusters(
+        [-180, -85, 180, 85],
+        currentZoom.toInt(),
+      ).map((mapMarker) async {
+        if (mapMarker.isCluster != null) {
+          mapMarker.icon = await _getClusterMarker(
+            mapMarker.pointsSize != null,
+            clusterColor,
+            clusterTextColor,
+            clusterWidth,
+          );
+        }
+
+        return mapMarker.toMarker();
+      }).toList());  }
+    final List<Marker> googleMarkers = fluster
+        .clusters([-180, -85, 180, 85], 16)
+        .map((cluster) => cluster.toMarker())
+        .toList();
     fetchAddresses().then((value) {
-      _addressesList.addAll(value);
-      for(var address in _addressesList) {
+      ads.addAll(value);
+      for(var address in ads) {
         setState(() {
           markers.add(
               Marker(
@@ -351,32 +422,52 @@ List<FilterList> filterList = [
   FilterList(filter: "Persson"),
   FilterList(filter: "1992 "),
   FilterList(filter: "1986 "),
-
 ];
-class allAddresses {
+
+class allAddresses extends Clusterable{
   String address;
   double latitude;
   double longitude;
   List<Null> bilder;
+  LatLng position;
+  Icon icon;
 
-  allAddresses({this.address, this.latitude, this.longitude});
+  allAddresses({this.address, this.latitude, this.longitude, markerId,  isCluster = false, clusterId, pointsSize, childMarkerId, position, this.icon}):
+
+  super(
+  markerId: address,
+  latitude: latitude,
+  longitude: longitude,
+  isCluster: isCluster,
+  clusterId: clusterId,
+  pointsSize: pointsSize,
+  childMarkerId: childMarkerId,
+  );
 
   allAddresses.fromJson(Map<String, dynamic> json) {
     address = json['address'];
     latitude = json['latitude'];
     longitude = json['longitude'];
     if (json['bilder'] != null) {
-      bilder = new List<Null>();
-
+      bilder = [];
     } //kopplade bilder
   }
 
-  Map<String, dynamic> toJson() {
+  Marker toMarker() => Marker(
+    markerId: MarkerId(address),
+    position: LatLng(
+      latitude,
+      longitude,
+    ),
+    icon: BitmapDescriptor.defaultMarkerWithHue(10),
+  );
+
+  /*Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['address'] = this.address;
     data['latitude'] = this.latitude;
     data['longitude'] = this.longitude;
 
     return data;
-  }  //kopplade bilder
+  }  //kopplade bilder*/
 }

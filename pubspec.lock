@@ -155,6 +155,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.7"
+  fluster:
+    dependency: "direct main"
+    description:
+      name: fluster
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -258,6 +265,13 @@ packages:
     dependency: transitive
     description:
       name: google_api_headers
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
+  google_maps_cluster_manager:
+    dependency: "direct main"
+    description:
+      name: google_maps_cluster_manager
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
