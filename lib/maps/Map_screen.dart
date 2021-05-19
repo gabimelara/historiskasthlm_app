@@ -101,7 +101,7 @@ class _Map_screenState extends State<Map_screen> {
                         alignment: Alignment.center,
                         child: Container(
                           ///  alignment: Alignment.center,
-                          height: 700,
+                          height: 710,
 
                           child: ListView.builder(
                               physics: BouncingScrollPhysics(),
