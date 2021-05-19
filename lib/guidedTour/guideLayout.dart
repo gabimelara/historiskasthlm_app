@@ -167,10 +167,35 @@ class _GuidadeState extends State<Guidade> {
                 },
 
               )
-          )]),
+          ),
+          Positioned(
+              left: 20,
+              bottom: 760,
+              child: TextButton( //knappen högst upp
+                style: ElevatedButton.styleFrom(
+                    onPrimary: Color.fromRGBO(104,112, 137, 1),
+                    primary: Color.fromRGBO(230,236,255,1),
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(9))),
+                child: Text(
+                    currentIndex == dataPage.length + 1 ? "Tillbaka" : "Tillbaka"),
+                onPressed: () {
+                  if (currentIndex == dataPage.length + 1) {
+                  }
+                  _controller.previousPage(
+                    duration: Duration(milliseconds: 100), //tid
+                    curve: Curves.bounceIn,
+                  );
+                },
+
+              )
+          )
+        ]),
       ),
     );
   }
+
 
   Container buildDot(int index, BuildContext context) {  //dekoration av prickarna.
     return Container(

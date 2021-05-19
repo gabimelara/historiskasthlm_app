@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/guidedTour/guideLayout.dart';
 
+import 'navigation_bar.dart';
+
 
 
 //Öppnas från GUIDELAYOUT/Laura
@@ -34,11 +36,24 @@ class StartScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(13))
                     ),
                     onPressed: () {
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Guidade()),
                       );
                     },
+
+
+                      /*Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => MyNavigationBar(), //skickar till startsidan
+                        ),
+                      )
+                    */
+
+
+
 
                     child: new Text('Öppna karta',
                         style: TextStyle(color: Colors.white, fontSize: 20)),
