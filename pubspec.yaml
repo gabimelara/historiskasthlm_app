@@ -23,22 +23,23 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.2
+  http: ^0.13.3
   material_floating_search_bar: ^0.3.4
-  get:
-  provider: ^4.0.4
+  get: ^4.1.4
+  provider: ^5.0.0
   flutter_google_places: ^0.3.0
   geocoding: ^2.0.0
   filter_list: ^0.0.9
-  flutter_local_notifications: ^5.0.0+1
+  flutter_local_notifications: ^5.0.0+4
   path_provider: ^2.0.1
-  awesome_notifications: ^0.0.5+1
-  progressive_image: ^1.0.1
+  awesome_notifications: ^0.0.6+7
+  progressive_image: ^2.0.0
   json_annotation: ^4.0.1
   cached_network_image: ^3.0.0
   flutter_cache_manager: ^3.0.2
   intl: ^0.17.0
   google_maps_utils: ^1.4.0+1
+  google_maps_cluster_manager: ^1.0.0
 
 
 
@@ -47,18 +48,18 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.3
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  google_maps_flutter: ^2.0.3
+  google_maps_flutter: ^2.0.5
   location: ^4.1.1
   flutter_polyline_points: ^1.0.0
-  geolocator: ^5.3.1
-  firebase_core: "^1.0.4"
-  firebase_messaging: "^9.1.2"
+  geolocator: ^7.0.3
+  firebase_core: ^1.2.0
+  firebase_messaging: ^10.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 
 //KARTASCREEN LAYOUT HÄR
 
@@ -25,6 +26,8 @@ class _Map_screenState extends State<Map_screen> {
   List<FilterList> selectFilters = [];
   Set<Marker> markers = Set();
   double pinPillPosition = -100;
+  List<allAddresses> _addressesList = [];
+  final double stopClusteringZoom;
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
@@ -51,8 +54,6 @@ class _Map_screenState extends State<Map_screen> {
       // double distance = locationA.distanceTo(locationB);;
     });
   }
-
-  List<allAddresses> _addressesList = List<allAddresses>();
 
   ///ÄNDRA TILL List<allAddresses> _addressesList = [];
   Future<List<allAddresses>> fetchAddresses() async {
@@ -83,13 +84,23 @@ class _Map_screenState extends State<Map_screen> {
     }
     return bildList;
   }
-
+//https://pub.dev/packages/google_maps_cluster_manager
   @override
   void initState() {
     String markerValue;
     fetchAddresses().then((value) {
       _addressesList.addAll(value);
+      ClusterManager<allAddresses>(
+          _items, // Your items to be clustered on the map (of Place type for this example)
+          _updateMarkers, // Method to be called when markers are updated
+          markerBuilder: _markerBuilder, // Optional : Method to implement if you want to customize markers
+          levels: [1, 4.25, 6.75, 8.25, 11.5, 14.5, 16.0, 16.5, 20.0], // Optional : Configure this if you want to change zoom levels at which the clustering precision change
+          extraPercent: 0.2, // Optional : This number represents the percentage (0.2 for 20%) of latitude and longitude (in each direction) to be considered on top of the visible map bounds to render clusters. This way, clusters don't "pop out" when you cross the map.
+          initialZoom: 5.0, // Optional : The initial zoom of your map to be able to render good clusters on map creation
+          stopClusteringZoom: 17.0 // Optional : The zoom level to stop clustering, so it's only rendering single item "clusters"
+      );
       for (var address in _addressesList) {
+        ClusterItem(LatLng(address.latitude, address.longitude), item: allAddresses(address: address.address));
         setState(() {
           markers.add(Marker(
             markerId: MarkerId(address.address),
