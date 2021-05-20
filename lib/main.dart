@@ -1,6 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:historiskasthlm_app/maps/Map_screen.dart';
 import 'package:historiskasthlm_app/screen/startScreen.dart';
 import 'package:provider/provider.dart';
 import 'maps/geolocator.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.deepOrange,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          home: Scaffold(body:StartScreen()),
+          home: Scaffold(body:Map_screen()),
           // initialRoute: PAGE_HOME, ///BUG HÄR
           // routes: materialRoutes,
         )

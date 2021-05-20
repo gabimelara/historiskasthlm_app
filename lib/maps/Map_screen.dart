@@ -3,9 +3,13 @@ import 'dart:core';
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:historiskasthlm_app/filtrering/filter_test.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'all_addresses.dart';
+import 'bilder.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 
 //KARTASCREEN LAYOUT HÄR
 
@@ -23,6 +27,7 @@ class _Map_screenState extends State<Map_screen> {
   List<FilterList> selectFilters = [];
   Set<Marker> markers = Set();
   double pinPillPosition = -100;
+  int dotsIndex= 0;
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
@@ -34,19 +39,6 @@ class _Map_screenState extends State<Map_screen> {
       //   ),
       // );
       // });
-
-      // LatLng latLngA = new LatLng(12.3456789,98.7654321);
-      // LatLng latLngB = new LatLng(98.7654321,12.3456789);
-      //
-      // Location locationA = new Location();
-      // locationA.setLatitude(latLngA.latitude);
-      // locationA.setLongitude(latLngA.longitude);
-      //
-      // Location locationB = new Location();
-      // locationB.setLatitude(latLngB.latitude);
-      // locationB.setLongitude(latLngB.longitude);
-      //
-      // double distance = locationA.distanceTo(locationB);;
     });
   }
 
@@ -67,7 +59,6 @@ class _Map_screenState extends State<Map_screen> {
   }
 
   List<Bild> _bildList = <Bild>[];
-
   Future<List<Bild>> fetchBilder(String address) async {
     var url = Uri.parse(
         'https://group10-15.pvt.dsv.su.se/demo/files/getByAddress/' + address);
@@ -82,6 +73,7 @@ class _Map_screenState extends State<Map_screen> {
     return bildList;
   }
 
+
   @override
   void initState() {
     String markerValue;
@@ -92,20 +84,12 @@ class _Map_screenState extends State<Map_screen> {
           markers.add(Marker(
             markerId: MarkerId(address.address),
             position: LatLng(address.latitude, address.longitude),
-            icon: BitmapDescriptor.defaultMarkerWithHue(10),
-            onTap: () {
+            icon: BitmapDescriptor.defaultMarkerWithHue(8),
+            onTap: (){
               ///FIXA ontap change color
               markerValue = address.address;
               fetchBilder(markerValue).then((value) {
                 _bildList = value;
-                // print("address: " +
-                //     address.address +
-                //     "\nmarkerValue: " +
-                //     markerValue +
-                //     "\nvalue: " +
-                //     value.toString() +
-                //     "\ndesc: " +
-                //     value[0].description);
                 showGeneralDialog(
                   barrierDismissible: true,
                   barrierLabel: "Map",
@@ -114,173 +98,162 @@ class _Map_screenState extends State<Map_screen> {
                   context: context,
                   pageBuilder: (context, anim1, anim2) {
                     return Align(
-                      //alignment: Alignment.bottomCenter,
+                        alignment: Alignment.center,
                         child: Container(
-                          height: 700,
+                          ///  alignment: Alignment.center,
+                          height: 710,
+
                           child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
 
-                            ///byt till vertical om ni vill
-                            padding: EdgeInsets.all(20),
-                            itemCount: _bildList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                  width: 400,
-                                  child:
-                                  Card(
-                                      margin: EdgeInsets.only(
-                                          left: 10, right: 10, top: 12),
-                                      elevation: 15,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            20.0),
-                                      ),
-                                      semanticContainer: true,
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      child: Container(
-                                          height: 700,
-                                          child: Stack(children: <Widget>[
-                                            Positioned(
-                                                top: 10,
-                                                left: 10,
-                                                right: 10,
-                                                child: Container(
-                                                    color: Colors.white,
-                                                    child: Column(
-                                                        children: <Widget>[
+                              ///byt till vertical om ni vill
+                              padding: EdgeInsets.all(4),
+                              itemCount: _bildList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                    width: 400,
+                                    child: Card(
+                                        margin: EdgeInsets.only(
+                                            left: 10, right: 20, top: 12),
+                                        elevation: 15,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(20.0),
+                                        ),
+                                        semanticContainer: true,
+                                        clipBehavior:
+                                        Clip.antiAliasWithSaveLayer,
+                                        child: SingleChildScrollView(
+                                          //DETTA ÄR NYTT
+                                            child: Container(
+                                                height: 700,
+                                                child: Stack(children: <Widget>[
+                                                  Positioned(
+                                                      top: 10,
+                                                      left: 10,
+                                                      right: 10,
+                                                      child: Container(
+                                                          color: Colors.white,
+                                                          child: Column(
+                                                              children: <
+                                                                  Widget>[
+                                                                Wrap(
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Image.memory(
+                                                                        base64Decode(_bildList[index]
+                                                                            .image),
+                                                                        height:
+                                                                        400,
+                                                                        width:
+                                                                        400,
+                                                                        colorBlendMode:
+                                                                        BlendMode
+                                                                            .darken,
+                                                                        fit: BoxFit
+                                                                            .fill),
 
-                                                          Wrap(
-                                                            children: <Widget>[
-                                                              Image.memory(
-                                                                  base64Decode(
-                                                                      _bildList[index]
-                                                                          .image),
-                                                                  height: 400,
-                                                                  width: 400,
-                                                                  colorBlendMode: BlendMode
-                                                                      .darken,
-                                                                  fit: BoxFit
-                                                                      .fill),
-                                                              ListTile(
-                                                                leading: Padding(
-                                                                    padding: EdgeInsets
-                                                                        .only(
-                                                                        right: 0,
-                                                                        left: 0,
-                                                                        top: 0),
-                                                                    child: Text(
-                                                                      (_bildList[index]
-                                                                          .documentID
-                                                                          .toString()),
-                                                                      style: TextStyle(
-                                                                        fontSize: 10.0,
-                                                                        color: Colors
-                                                                            .red,
-                                                                        fontWeight: FontWeight
-                                                                            .w300,
-                                                                      ),)),
-                                                                //child: Icon(Icons.camera_enhance_outlined)),
-                                                                title: Padding(
-                                                                    padding: EdgeInsets
-                                                                        .only(
-                                                                        right: 0,
-                                                                        left: 0,
-                                                                        top: 20),
-                                                                    child: Text(
-                                                                      (_bildList[index]
-                                                                          .description),
-                                                                      style: TextStyle(
-                                                                        fontSize: 15.0,
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontWeight: FontWeight
-                                                                            .w300,
-                                                                      ),
-                                                                    )),
+                                                                    ListTile(
+                                                                      leading: Padding(
+                                                                          padding: EdgeInsets.only(right: 0, left: 0, top: 0),
+                                                                          child: Text(
+                                                                            ("Id:" +
+                                                                                _bildList[index].documentID.toString()),
+                                                                            style:
+                                                                            TextStyle(
+                                                                              fontSize: 8.0,
+                                                                              color: Colors.black,
+                                                                              fontWeight: FontWeight.w500,
+                                                                            ),
+                                                                          )),
+                                                                      subtitle: Padding(
+                                                                          padding: EdgeInsets.only(right: 0, left: 120, top: 5, bottom:20),
+                                                                          child: Text(
+                                                                            ("År: " + _bildList[index].year.toString()),
+                                                                            style:
+                                                                            TextStyle(
+                                                                              fontSize: 17.0,
+                                                                              fontStyle: FontStyle.normal,
+                                                                              color: Colors.black,
+                                                                              fontWeight: FontWeight.w400,
+                                                                            ),
+                                                                          )),
+                                                                    ),
+                                                                    ListTile(
+                                                                      title: Padding(
+                                                                          padding: EdgeInsets.only(right: 10, left: 0, top: 0, bottom: 0),
+                                                                          child: Text(
+                                                                            (_bildList[index].description),
+                                                                            style:
+                                                                            TextStyle(
+                                                                              fontSize: 18.0,
+                                                                              fontStyle: FontStyle.normal,
+                                                                              color: Colors.black,
+                                                                              fontWeight: FontWeight.w400,
+                                                                            ),
+                                                                          )),
+                                                                    ),
 
-                                                                subtitle: Padding(
-                                                                    padding: EdgeInsets
-                                                                        .only(
-                                                                        right: 0,
-                                                                        left: 0,
-                                                                        top: 10),
-                                                                    child: Text(
-                                                                        (_bildList[index]
-                                                                            .photographer),
-                                                                        style: TextStyle(
-                                                                            fontSize: 15.0,
-                                                                            color: Colors
-                                                                                .green,
-                                                                            fontWeight: FontWeight
-                                                                                .w300))),
-                                                              ),
+                                                                    ListTile(
+                                                                      //child: Icon(Icons.camera_enhance_outlined)),
 
-                                                              ListTile(
-                                                                title: Padding(
-                                                                    padding: EdgeInsets
-                                                                        .only(
-                                                                        right: 0,
-                                                                        left: 0,
-                                                                        top: 10),
-                                                                    child: Text(
-                                                                      (_bildList[index]
-                                                                          .district),
-                                                                      style: TextStyle(
-                                                                        fontSize: 15.0,
-                                                                        color: Colors
-                                                                            .orange,
-                                                                        fontWeight: FontWeight
-                                                                            .w300,
-                                                                      ),
-                                                                    )
-                                                                ),
-                                                                subtitle: Padding(
-                                                                    padding: EdgeInsets
-                                                                        .only(
-                                                                        right: 0,
-                                                                        left: 0,
-                                                                        top: 10),
-                                                                    child: Text(
-                                                                      (_bildList[index]
-                                                                          .block),
-                                                                      style: TextStyle(
-                                                                        fontSize: 15.0,
-                                                                        color: Colors
-                                                                            .blue,
-                                                                        fontWeight: FontWeight
-                                                                            .w300,
-                                                                      ),
-                                                                    )
-                                                                ),
-                                                                leading: Padding(
-                                                                    padding: EdgeInsets
-                                                                        .only(
-                                                                        right: 0,
-                                                                        left: 0,
-                                                                        top: 40),
-                                                                    child: Text(
-                                                                      (_bildList[index]
-                                                                          .year.toString()),
-                                                                      style: TextStyle(
-                                                                        fontSize: 12.0,
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontWeight: FontWeight
-                                                                            .w300,
-                                                                      ),)),
+                                                                      subtitle: Padding(
+                                                                          padding: EdgeInsets.only(
+                                                                              right: 0, left: 0, top: 0, bottom: 20),
+                                                                          child: Text(
+                                                                              ("BY: " + _bildList[index].photographer),
+                                                                              style: TextStyle(fontSize: 15.0, fontStyle: FontStyle.italic, color: Colors.black, fontWeight: FontWeight.w400))),
+                                                                    ),
 
-                                                              )
-                                                            ],
-                                                          )
-                                                        ]
+                                                                    ListTile(
+                                                                      title: Padding(
+                                                                          padding: EdgeInsets.only(right: 0, left: 0, top: 0, bottom: 0),
+                                                                          child: Text(
+                                                                            (_bildList[index].district),
+                                                                            style:
+                                                                            TextStyle(
+                                                                              letterSpacing: 2.0,  //SKA VI HA DET?
+                                                                              fontSize: 15.0,
+                                                                              color: Colors.blueGrey,
+                                                                              fontWeight: FontWeight.w400,
+                                                                            ),
+                                                                          )),
+                                                                      subtitle: Padding(
+                                                                          padding: EdgeInsets.only(right: 0, left: 0, top: 0, bottom:50),
+                                                                          child: Text(
+                                                                            (_bildList[index].block),
+                                                                            style:
+                                                                            TextStyle(
+                                                                              fontSize: 15.0,
+                                                                              color: Colors.blueGrey,
+                                                                              fontWeight: FontWeight.w400,
+                                                                            ),
+                                                                          )),
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                              ])))
+                                                  ,
+                                                  Padding(
 
+                                                   padding: EdgeInsets.only(bottom: 20),
+                                                    child: Align(
+                                                      alignment: Alignment. bottomCenter,
 
-                                                    )
-                                                ))
-                                          ]))));
-                            },
-                          ),
+                                                   child: DotsIndicator(
+                                                     dotsCount: _bildList.length,
+                                                     position: index,
+                                                     decorator: DotsDecorator(
+                                                       color: Colors.black87,
+                                                       activeColor: Colors.blueGrey,
+                                                     ),
+                                                   )
 
+                                                  ),
+                                                  )])
+                                        ))));
+                              }),
                         ));
                   },
                   transitionBuilder: (context, anim1, anim2, child) {
@@ -338,7 +311,7 @@ class _Map_screenState extends State<Map_screen> {
                 CameraUpdate.newCameraPosition(
                   //BUG NÄR MAN ANVÄNDER DET SÅ GÅR INTE ATT SÖKA PÅ PLATSER
                   CameraPosition(
-                      target: LatLng(l.latitude, l.longitude), zoom: 15),
+                      target: LatLng(l.latitude, l.longitude), zoom: 18),
                 ),
               );
             }),
@@ -395,23 +368,12 @@ class _Map_screenState extends State<Map_screen> {
     ]);
   }
 
-/*  Set<Marker> _createMarker() {
-    return <Marker>[
-      Marker(
-        markerId: MarkerId("Din plats"),
-        position: LatLng(59.3294, 18.0686),
-        icon: BitmapDescriptor.defaultMarker,
-        infoWindow: InfoWindow(title: "Stockholm"),
-      ),
-    ].toSet();
-  }*/
-
   searchandNavigate() {
     Geolocator().placemarkFromAddress(searchAddr).then((result) {
       _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
           target:
           LatLng(result[0].position.latitude, result[0].position.longitude),
-          zoom: 12)));
+          zoom: 18)));
     });
   }
 
@@ -428,7 +390,6 @@ class _Map_screenState extends State<Map_screen> {
       height: 600,
       hideHeaderText: true,
       hideCloseIcon: true,
-      //headlineText: "Välj filtrering",
       searchFieldHintText: "Filtrera här...",
       choiceChipLabel: (item) {
         return item.filter;
@@ -462,141 +423,7 @@ class _Map_screenState extends State<Map_screen> {
   }
 }
 
-class FilterList {
-  final String filter;
 
-  FilterList({this.filter});
-}
 
-/// Creating a global list for example purpose.
-/// Generally it should be within data class or where ever you want
-List<FilterList> filterList = [
-  FilterList(filter: "1990"),
-  FilterList(filter: "1900 "),
-  FilterList(filter: "1995 "),
-  FilterList(filter: "1994 "),
-  FilterList(filter: "Persson"),
-  FilterList(filter: "1992 "),
-  FilterList(filter: "1986 "),
-];
 
-class allAddresses {
-  String address;
-  double latitude;
-  double longitude;
-  List<Null> bilder;
 
-  allAddresses({this.address, this.latitude, this.longitude});
-
-  allAddresses.fromJson(Map<String, dynamic> json) {
-    address = json['address'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
-    if (json['bilder'] != null) {
-      bilder = new List<Null>();
-    } //kopplade bilder
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['address'] = this.address;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-
-    return data;
-  } //kopplade bilder
-}
-
-class Bild {
-  int id;
-  String image;
-  int year;
-  String description;
-  String documentID;
-  String photographer;
-  String licence;
-  String block;
-  String district;
-  List<Tags> tags;
-  List<allAddresses> addresses;
-
-  Bild(
-      {this.id,
-        this.image,
-        this.year,
-        this.description,
-        this.documentID,
-        this.photographer,
-        this.licence,
-        this.block,
-        this.district,
-        this.tags,
-        this.addresses});
-
-  Bild.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    image = json['image'];
-    year = json['year'];
-    description = json['description'];
-    documentID = json['documentID'];
-    photographer = json['photographer'];
-    licence = json['licence'];
-    block = json['block'];
-    district = json['district'];
-    if (json['tags'] != null) {
-      tags = new List<Tags>();
-      json['tags'].forEach((v) {
-        tags.add(new Tags.fromJson(v));
-      });
-    }
-    if (json['addresses'] != null) {
-      addresses = new List<allAddresses>();
-      json['addresses'].forEach((v) {
-        addresses.add(new allAddresses.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['image'] = this.image;
-    data['year'] = this.year;
-    data['description'] = this.description;
-    data['documentID'] = this.documentID;
-    data['photographer'] = this.photographer;
-    data['licence'] = this.licence;
-    data['block'] = this.block;
-    data['district'] = this.district;
-    if (this.tags != null) {
-      data['tags'] = this.tags.map((v) => v.toJson()).toList();
-    }
-    if (this.addresses != null) {
-      data['addresses'] = this.addresses.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class Tags {
-  String tag;
-  List<Null> bilder;
-
-  Tags({this.tag, this.bilder});
-
-  Tags.fromJson(Map<String, dynamic> json) {
-    tag = json['tag'];
-    if (json['bilder'] != null) {
-      bilder = new List<Null>();
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['tag'] = this.tag;
-    // if (this.bilder != null) {
-    //   data['bilder'] = this.bilder.map((v) => v.toJson()).toList();
-    // }
-    return data;
-  }
-}
