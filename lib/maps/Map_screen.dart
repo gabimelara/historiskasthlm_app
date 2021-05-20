@@ -73,6 +73,194 @@ class _Map_screenState extends State<Map_screen> {
     return bildList;
   }
 
+  void updateMapState(var address, String markerValue) {
+    markers.add(Marker(
+      markerId: MarkerId(address.address),
+      position: LatLng(address.latitude, address.longitude),
+      icon: BitmapDescriptor.defaultMarkerWithHue(8),
+      onTap: (){
+        ///FIXA ontap change color
+        markerValue = address.address;
+        fetchBilder(markerValue).then((value) {
+          _bildList = value;
+          showGeneralDialog(
+            barrierDismissible: true,
+            barrierLabel: "Map",
+            barrierColor: Colors.black.withOpacity(0.4),
+            transitionDuration: Duration(milliseconds: 600),
+            context: context,
+            pageBuilder: (context, anim1, anim2) {
+              return Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    ///  alignment: Alignment.center,
+                    height: 710,
+
+                    child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+
+                        ///byt till vertical om ni vill
+                        padding: EdgeInsets.all(4),
+                        itemCount: _bildList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                              width: 400,
+                              child: Card(
+                                  margin: EdgeInsets.only(
+                                      left: 10, right: 20, top: 12),
+                                  elevation: 15,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(20.0),
+                                  ),
+                                  semanticContainer: true,
+                                  clipBehavior:
+                                  Clip.antiAliasWithSaveLayer,
+                                  child: SingleChildScrollView(
+                                    //DETTA ÄR NYTT
+                                      child: Container(
+                                          height: 700,
+                                          child: Stack(children: <Widget>[
+                                            Positioned(
+                                                top: 10,
+                                                left: 10,
+                                                right: 10,
+                                                child: Container(
+                                                    color: Colors.white,
+                                                    child: Column(
+                                                        children: <
+                                                            Widget>[
+                                                          Wrap(
+                                                            children: <
+                                                                Widget>[
+                                                              Image.memory(
+                                                                  base64Decode(_bildList[index]
+                                                                      .image),
+                                                                  height:
+                                                                  400,
+                                                                  width:
+                                                                  400,
+                                                                  colorBlendMode:
+                                                                  BlendMode
+                                                                      .darken,
+                                                                  fit: BoxFit
+                                                                      .fill),
+
+                                                              ListTile(
+                                                                leading: Padding(
+                                                                    padding: EdgeInsets.only(right: 0, left: 0, top: 0),
+                                                                    child: Text(
+                                                                      ("Id:" +
+                                                                          _bildList[index].documentID.toString()),
+                                                                      style:
+                                                                      TextStyle(
+                                                                        fontSize: 8.0,
+                                                                        color: Colors.black,
+                                                                        fontWeight: FontWeight.w500,
+                                                                      ),
+                                                                    )),
+                                                                subtitle: Padding(
+                                                                    padding: EdgeInsets.only(right: 0, left: 120, top: 5, bottom:20),
+                                                                    child: Text(
+                                                                      ("År: " + _bildList[index].year.toString()),
+                                                                      style:
+                                                                      TextStyle(
+                                                                        fontSize: 17.0,
+                                                                        fontStyle: FontStyle.normal,
+                                                                        color: Colors.black,
+                                                                        fontWeight: FontWeight.w400,
+                                                                      ),
+                                                                    )),
+                                                              ),
+                                                              ListTile(
+                                                                title: Padding(
+                                                                    padding: EdgeInsets.only(right: 10, left: 0, top: 0, bottom: 0),
+                                                                    child: Text(
+                                                                      (_bildList[index].description),
+                                                                      style:
+                                                                      TextStyle(
+                                                                        fontSize: 18.0,
+                                                                        fontStyle: FontStyle.normal,
+                                                                        color: Colors.black,
+                                                                        fontWeight: FontWeight.w400,
+                                                                      ),
+                                                                    )),
+                                                              ),
+
+                                                              ListTile(
+                                                                //child: Icon(Icons.camera_enhance_outlined)),
+
+                                                                subtitle: Padding(
+                                                                    padding: EdgeInsets.only(
+                                                                        right: 0, left: 0, top: 0, bottom: 20),
+                                                                    child: Text(
+                                                                        ("BY: " + _bildList[index].photographer),
+                                                                        style: TextStyle(fontSize: 15.0, fontStyle: FontStyle.italic, color: Colors.black, fontWeight: FontWeight.w400))),
+                                                              ),
+
+                                                              ListTile(
+                                                                title: Padding(
+                                                                    padding: EdgeInsets.only(right: 0, left: 0, top: 0, bottom: 0),
+                                                                    child: Text(
+                                                                      (_bildList[index].district),
+                                                                      style:
+                                                                      TextStyle(
+                                                                        letterSpacing: 2.0,  //SKA VI HA DET?
+                                                                        fontSize: 15.0,
+                                                                        color: Colors.blueGrey,
+                                                                        fontWeight: FontWeight.w400,
+                                                                      ),
+                                                                    )),
+                                                                subtitle: Padding(
+                                                                    padding: EdgeInsets.only(right: 0, left: 0, top: 0, bottom:50),
+                                                                    child: Text(
+                                                                      (_bildList[index].block),
+                                                                      style:
+                                                                      TextStyle(
+                                                                        fontSize: 15.0,
+                                                                        color: Colors.blueGrey,
+                                                                        fontWeight: FontWeight.w400,
+                                                                      ),
+                                                                    )),
+                                                              ),
+                                                            ],
+                                                          )
+                                                        ])))
+                                            ,
+                                            Padding(
+
+                                              padding: EdgeInsets.only(bottom: 20),
+                                              child: Align(
+                                                  alignment: Alignment. bottomCenter,
+
+                                                  child: DotsIndicator(
+                                                    dotsCount: _bildList.length,
+                                                    position: index,
+                                                    decorator: DotsDecorator(
+                                                      color: Colors.black87,
+                                                      activeColor: Colors.blueGrey,
+                                                    ),
+                                                  )
+
+                                              ),
+                                            )])
+                                      ))));
+                        }),
+                  ));
+            },
+            transitionBuilder: (context, anim1, anim2, child) {
+              return SlideTransition(
+                position: Tween(begin: Offset(0, 1), end: Offset(0, 0))
+                    .animate(anim1),
+                child: child,
+              );
+            },
+          );
+        });
+      },
+    ));
+  }
 
   @override
   void initState() {
@@ -81,192 +269,7 @@ class _Map_screenState extends State<Map_screen> {
       _addressesList.addAll(value);
       for (var address in _addressesList) {
         setState(() {
-          markers.add(Marker(
-            markerId: MarkerId(address.address),
-            position: LatLng(address.latitude, address.longitude),
-            icon: BitmapDescriptor.defaultMarkerWithHue(8),
-            onTap: (){
-              ///FIXA ontap change color
-              markerValue = address.address;
-              fetchBilder(markerValue).then((value) {
-                _bildList = value;
-                showGeneralDialog(
-                  barrierDismissible: true,
-                  barrierLabel: "Map",
-                  barrierColor: Colors.black.withOpacity(0.4),
-                  transitionDuration: Duration(milliseconds: 600),
-                  context: context,
-                  pageBuilder: (context, anim1, anim2) {
-                    return Align(
-                        alignment: Alignment.center,
-                        child: Container(
-                          ///  alignment: Alignment.center,
-                          height: 710,
-
-                          child: ListView.builder(
-                              physics: BouncingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-
-                              ///byt till vertical om ni vill
-                              padding: EdgeInsets.all(4),
-                              itemCount: _bildList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                    width: 400,
-                                    child: Card(
-                                        margin: EdgeInsets.only(
-                                            left: 10, right: 20, top: 12),
-                                        elevation: 15,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(20.0),
-                                        ),
-                                        semanticContainer: true,
-                                        clipBehavior:
-                                        Clip.antiAliasWithSaveLayer,
-                                        child: SingleChildScrollView(
-                                          //DETTA ÄR NYTT
-                                            child: Container(
-                                                height: 700,
-                                                child: Stack(children: <Widget>[
-                                                  Positioned(
-                                                      top: 10,
-                                                      left: 10,
-                                                      right: 10,
-                                                      child: Container(
-                                                          color: Colors.white,
-                                                          child: Column(
-                                                              children: <
-                                                                  Widget>[
-                                                                Wrap(
-                                                                  children: <
-                                                                      Widget>[
-                                                                    Image.memory(
-                                                                        base64Decode(_bildList[index]
-                                                                            .image),
-                                                                        height:
-                                                                        400,
-                                                                        width:
-                                                                        400,
-                                                                        colorBlendMode:
-                                                                        BlendMode
-                                                                            .darken,
-                                                                        fit: BoxFit
-                                                                            .fill),
-
-                                                                    ListTile(
-                                                                      leading: Padding(
-                                                                          padding: EdgeInsets.only(right: 0, left: 0, top: 0),
-                                                                          child: Text(
-                                                                            ("Id:" +
-                                                                                _bildList[index].documentID.toString()),
-                                                                            style:
-                                                                            TextStyle(
-                                                                              fontSize: 8.0,
-                                                                              color: Colors.black,
-                                                                              fontWeight: FontWeight.w500,
-                                                                            ),
-                                                                          )),
-                                                                      subtitle: Padding(
-                                                                          padding: EdgeInsets.only(right: 0, left: 120, top: 5, bottom:20),
-                                                                          child: Text(
-                                                                            ("År: " + _bildList[index].year.toString()),
-                                                                            style:
-                                                                            TextStyle(
-                                                                              fontSize: 17.0,
-                                                                              fontStyle: FontStyle.normal,
-                                                                              color: Colors.black,
-                                                                              fontWeight: FontWeight.w400,
-                                                                            ),
-                                                                          )),
-                                                                    ),
-                                                                    ListTile(
-                                                                      title: Padding(
-                                                                          padding: EdgeInsets.only(right: 10, left: 0, top: 0, bottom: 0),
-                                                                          child: Text(
-                                                                            (_bildList[index].description),
-                                                                            style:
-                                                                            TextStyle(
-                                                                              fontSize: 18.0,
-                                                                              fontStyle: FontStyle.normal,
-                                                                              color: Colors.black,
-                                                                              fontWeight: FontWeight.w400,
-                                                                            ),
-                                                                          )),
-                                                                    ),
-
-                                                                    ListTile(
-                                                                      //child: Icon(Icons.camera_enhance_outlined)),
-
-                                                                      subtitle: Padding(
-                                                                          padding: EdgeInsets.only(
-                                                                              right: 0, left: 0, top: 0, bottom: 20),
-                                                                          child: Text(
-                                                                              ("BY: " + _bildList[index].photographer),
-                                                                              style: TextStyle(fontSize: 15.0, fontStyle: FontStyle.italic, color: Colors.black, fontWeight: FontWeight.w400))),
-                                                                    ),
-
-                                                                    ListTile(
-                                                                      title: Padding(
-                                                                          padding: EdgeInsets.only(right: 0, left: 0, top: 0, bottom: 0),
-                                                                          child: Text(
-                                                                            (_bildList[index].district),
-                                                                            style:
-                                                                            TextStyle(
-                                                                              letterSpacing: 2.0,  //SKA VI HA DET?
-                                                                              fontSize: 15.0,
-                                                                              color: Colors.blueGrey,
-                                                                              fontWeight: FontWeight.w400,
-                                                                            ),
-                                                                          )),
-                                                                      subtitle: Padding(
-                                                                          padding: EdgeInsets.only(right: 0, left: 0, top: 0, bottom:50),
-                                                                          child: Text(
-                                                                            (_bildList[index].block),
-                                                                            style:
-                                                                            TextStyle(
-                                                                              fontSize: 15.0,
-                                                                              color: Colors.blueGrey,
-                                                                              fontWeight: FontWeight.w400,
-                                                                            ),
-                                                                          )),
-                                                                    ),
-                                                                  ],
-                                                                )
-                                                              ])))
-                                                  ,
-                                                  Padding(
-
-                                                   padding: EdgeInsets.only(bottom: 20),
-                                                    child: Align(
-                                                      alignment: Alignment. bottomCenter,
-
-                                                   child: DotsIndicator(
-                                                     dotsCount: _bildList.length,
-                                                     position: index,
-                                                     decorator: DotsDecorator(
-                                                       color: Colors.black87,
-                                                       activeColor: Colors.blueGrey,
-                                                     ),
-                                                   )
-
-                                                  ),
-                                                  )])
-                                        ))));
-                              }),
-                        ));
-                  },
-                  transitionBuilder: (context, anim1, anim2, child) {
-                    return SlideTransition(
-                      position: Tween(begin: Offset(0, 1), end: Offset(0, 0))
-                          .animate(anim1),
-                      child: child,
-                    );
-                  },
-                );
-              });
-            },
-          ));
+          updateMapState(address, markerValue);
         });
       }
     });
@@ -390,7 +393,8 @@ class _Map_screenState extends State<Map_screen> {
       height: 600,
       hideHeaderText: true,
       hideCloseIcon: true,
-      searchFieldHintText: "Filtrera här...",
+      hideSearchField: true,
+
       choiceChipLabel: (item) {
         return item.filter;
       },
@@ -414,13 +418,27 @@ class _Map_screenState extends State<Map_screen> {
       },
 
       onApplyButtonClick: (list) {
-        setState(() {
-          selectFilters = List.from(list);
+        /// TODO: cleara alla gamla markers(?)
+        String markerValue;
+        /// TODO: byt fetchAddresses till fetchFilteredAddresses
+        fetchAddresses().then((value) {
+          _addressesList.addAll(value);
+          for (var address in _addressesList) {
+            setState(() {
+              updateMapState(address, markerValue);
+            });
+          }
         });
+/*        setState(() {
+          selectFilters = List.from(list);
+        });*/
         Navigator.pop(context);
       },
     );
   }
+
+
+
 }
 
 
