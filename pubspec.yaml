@@ -40,7 +40,7 @@ dependencies:
   intl: ^0.17.0
   google_maps_utils: ^1.4.0+1
   dots_indicator: ^0.0.5+1
-
+  shared_preferences: ^2.0.5
 
 
 

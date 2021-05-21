@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:core';
 import 'package:filter_list/filter_list.dart';
@@ -10,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'all_addresses.dart';
 import 'bilder.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //KARTASCREEN LAYOUT HÄR
 
@@ -73,6 +75,23 @@ class _Map_screenState extends State<Map_screen> {
     return bildList;
   }
 
+  List<String> temp = [];
+
+  addToLikes(int i) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> list = prefs.getStringList('favorites');
+    if (list == null){
+      list = temp;
+    }
+    String id = i.toString();
+    if (list.contains(id)){
+      list.remove(id);
+    } else {
+      list.add(id);
+    }
+    await prefs.setStringList('favorites', list);
+    print(prefs.getStringList('favorites'));
+  }
 
   @override
   void initState() {
@@ -153,7 +172,12 @@ class _Map_screenState extends State<Map_screen> {
                                                                             .darken,
                                                                         fit: BoxFit
                                                                             .fill),
-
+                                                                    IconButton(
+                                                                      icon: Icon(Icons.auto_awesome),
+                                                                      onPressed: () => addToLikes(_bildList[index].id),
+                                                                      iconSize: 35.0,
+                                                                      color: Colors.black87,
+                                                                    ),
                                                                     ListTile(
                                                                       leading: Padding(
                                                                           padding: EdgeInsets.only(right: 0, left: 0, top: 0),
