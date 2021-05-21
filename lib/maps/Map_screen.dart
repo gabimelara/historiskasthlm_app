@@ -75,12 +75,13 @@ class _Map_screenState extends State<Map_screen> {
     return bildList;
   }
 
-  List<String> temp = [];
 
   addToLikes(int i) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> list = prefs.getStringList('favorites');
+
     if (list == null){
+      List<String> temp = [];
       list = temp;
     }
     String id = i.toString();

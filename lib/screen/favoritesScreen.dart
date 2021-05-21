@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/databas_klasser/models/allAddresses.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FavoriteScreen extends StatefulWidget {
   @override
@@ -15,9 +16,21 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   bool pictureView = false;
   bool liked = false;
   bool showHeartOverlay = false;
+  List<String> temp = [];
 
-  ///Potentiell Lista för favoriter
-  List<allAddresses> favorites;
+  getFavorites() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> list = prefs.getStringList('favorites');
+  return list;
+  }
+
+  @override
+  void initState(){
+    getFavorites().then((value) {
+      temp.addAll(value);
+    },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +51,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
     );
   }
+  favoritesBuild() async{
+
+  }
+
+
 
   Column bodyCon() {
     if (pictureView) {
@@ -151,24 +169,32 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   ///GridView för favoriter
   GridView _buildGridView() {
+    setState(() {
+
+    });
+    print(temp);
+
     return GridView.builder(
-        itemCount: 27,
+        itemCount: temp.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
             crossAxisSpacing: 5.0,
             mainAxisSpacing: 5.0),
         itemBuilder: (_, index) {
-          return IconButton(
-            icon: Image.network(
-                'https://digitalastadsmuseet.stockholm.se/fotoweb/cache/5021/Skiss/SSMC002123S.t60a235d2.m600.xrhFT-K09Vg9dGT_Q.jpg',
-                width: 150, height: 150),
-            /*onPressed: () {
+         // for(int i = 0 ; i < temp.length ; i++) {
+            return IconButton(
+              icon: Image.network(
+                  'https://digitalastadsmuseet.stockholm.se/fotoweb/cache/5021/Skiss/SSMC002123S.t60a235d2.m600.xrhFT-K09Vg9dGT_Q.jpg',
+                  width: 150, height: 150),
+              /*onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                   builder: (context) => FavoriteScreenListView()));
             }*/);
-        });
+          }
+        //}
+        );
   }
 
   ///Listview för Favoriter
