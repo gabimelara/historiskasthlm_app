@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'displayPictureScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FavoriteScreen extends StatefulWidget {
   @override
@@ -8,6 +9,7 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
+  int i = 0;
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -37,9 +39,21 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         ),
       ), // bakgrundsfärg på titel längst upp
       body: new Center(
-        child: new Text('Favoriter'),
+        child: RaisedButton(
+    onPressed: _incrementCounter,
+    child: Text('Increment counter'),
+
+        ),
+
       ),
 
     );
   }
+}
+_incrementCounter() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int counter = (prefs.getInt('counter') ?? 0) + 1;
+  print('Pressed $counter times.');
+  await prefs.setInt('counter', counter);
+  print(prefs.getInt('counter'));
 }

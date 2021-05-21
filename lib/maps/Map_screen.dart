@@ -7,6 +7,7 @@ import 'package:historiskasthlm_app/filtrering/filter_test.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'all_addresses.dart';
 import 'bilder.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -76,6 +77,7 @@ class _Map_screenState extends State<Map_screen> {
 
   @override
   void initState() {
+
     String markerValue;
     fetchAddresses().then((value) {
       _addressesList.addAll(value);

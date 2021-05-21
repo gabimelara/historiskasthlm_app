@@ -59,7 +59,8 @@ class _Databasobjekt_som_text extends State<Databasobjekt_som_text> {
                       children: <Widget>[
                         Text(_addressesList[index].address),
                         Text(_addressesList[index].latitude.toString()),
-                        Text(_addressesList[index].longitude.toString())
+                        Text(_addressesList[index].longitude.toString()),
+
                       ]
                   )
               );

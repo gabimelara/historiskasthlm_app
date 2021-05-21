@@ -1,10 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/guidedTour/guideLayout.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'navigation_bar.dart';
 
 
 
 //Öppnas från GUIDELAYOUT/Laura
 class StartScreen extends StatelessWidget {
+  bool screenChoice;
+
+_guidedTourShown() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool tourShown = (prefs.getBool('guideShown'));
+    //print(tourShown);
+    if(tourShown == null){
+      prefs.setBool('guideShown', true);
+      print('guideShown');
+      return screenChoice = false;
+    } else{
+      print('hej');
+      return screenChoice = true;
+    }
+  }
+@override
+void initState(){
+
+  screenChoice = _guidedTourShown();
+
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,10 +58,17 @@ class StartScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(13))
                     ),
                     onPressed: () {
+                        if(_guidedTourShown()){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MyNavigationBar()),);
+                      }else {
+                         // _guidedTourShown().setBool('guideShown', true);
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Guidade()),
+                      context,
+                      MaterialPageRoute(builder: (context) => Guidade()),
                       );
+                      }
                     },
 
                     child: new Text('Öppna karta',

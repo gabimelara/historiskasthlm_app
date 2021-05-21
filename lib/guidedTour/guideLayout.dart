@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:historiskasthlm_app/screen/navigation_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 import 'guideData.dart';
@@ -27,6 +28,8 @@ class _GuidadeState extends State<Guidade> {
     _controller.dispose();
     super.dispose();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +108,7 @@ class _GuidadeState extends State<Guidade> {
                   currentIndex == dataPage.length - 1 ? "Starta" : "Nästa"),
               onPressed: () {
                 if (currentIndex == dataPage.length - 1) { //if satsen som gör att man kan navigera med  starta knappen till kartan/startsidan
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

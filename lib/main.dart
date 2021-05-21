@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:historiskasthlm_app/screen/startScreen.dart';
 import 'package:provider/provider.dart';
 import 'maps/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 void main() {
@@ -29,6 +31,8 @@ void initializeApp() async{
 
       ]);
 }
+
+
 class MyApp extends StatelessWidget {
   final geoService = GeolocatorService();
   //WIDGET ÄR APPENS ROT.
