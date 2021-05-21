@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/maps/Map_screen.dart';
 import 'package:historiskasthlm_app/notification/notificationScreen.dart';
+import 'package:historiskasthlm_app/screen/displayPictureScreen.dart';
+import 'package:historiskasthlm_app/screen/favoriteScreenListView.dart';
 import 'favoritesScreen.dart';
 
 class MyNavigationBar extends StatefulWidget { //Bottom bar class
@@ -15,6 +17,8 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   final List<Widget> _screens=[
     Map_screen(),
     FavoriteScreen(),
+    FavoriteScreenListView(),
+    DisplayPictureScreen(),
     NotificationScreen(),
     //Databasobjekt_som_text(),
 
