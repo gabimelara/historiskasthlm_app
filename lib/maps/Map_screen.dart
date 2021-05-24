@@ -58,6 +58,25 @@ class _Map_screenState extends State<Map_screen> {
     return addressesList;
   }
 
+
+
+  Future<List<allAddresses>> fetchAddressesFiltered(int start, int end, List<String> tag) async {
+    //var url = Uri.parse('http://group10-15.pvt.dsv.su.se/demo/getByFiltering?' + 'start=' + start + '&end=' + end + '&tag=' + tag);
+    var url = Uri(scheme: 'https',host: 'group10-15.pvt.dsv.su.se', path: '/demo/getByFiltering/',queryParameters: {'start': start, 'end' : end, 'tag' : tag});
+    var response = await http.get(url);
+    List <allAddresses> addressesList = [];
+    if (response.statusCode == 200) {
+      var addressesJson = json.decode(utf8.decode(response.bodyBytes));
+      for (var addressParsed in addressesJson) {
+        addressesList.add(allAddresses.fromJson(addressParsed));
+      }
+    }
+    return addressesList;
+  }
+
+  List<String> test = [];
+
+
   List<Bild> _bildList = <Bild>[];
   Future<List<Bild>> fetchBilder(String address) async {
     var url = Uri.parse(
@@ -265,6 +284,7 @@ class _Map_screenState extends State<Map_screen> {
   @override
   void initState() {
     String markerValue;
+
     fetchAddresses().then((value) {
       _addressesList.addAll(value);
       for (var address in _addressesList) {
@@ -417,21 +437,23 @@ class _Map_screenState extends State<Map_screen> {
         return [];
       },
 
+
       onApplyButtonClick: (list) {
         /// TODO: cleara alla gamla markers(?)
+        List<allAddresses> _filterList = [];
+        markers.clear();
         String markerValue;
-        /// TODO: byt fetchAddresses till fetchFilteredAddresses
-        fetchAddresses().then((value) {
-          _addressesList.addAll(value);
-          for (var address in _addressesList) {
+        fetchAddressesFiltered(1900, 1950, test).then((value) {
+          _filterList.addAll(value);
+          for (var address in _filterList) {
             setState(() {
               updateMapState(address, markerValue);
             });
           }
         });
 /*        setState(() {
-          selectFilters = List.from(list);
-        });*/
+         selectFilters = List.from(list);
+       });*/
         Navigator.pop(context);
       },
     );
@@ -440,6 +462,7 @@ class _Map_screenState extends State<Map_screen> {
 
 
 }
+
 
 
 
