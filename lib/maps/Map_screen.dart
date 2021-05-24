@@ -32,13 +32,6 @@ class _Map_screenState extends State<Map_screen> {
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
     _location.onLocationChanged.listen((l) {
-      //   _controller.animateCamera(
-      //    CameraUpdate.newCameraPosition(
-      //
-      // CameraPosition(target: LatLng(l.latitude, l.longitude), zoom: 15);
-      //   ),
-      // );
-      // });
     });
   }
 
