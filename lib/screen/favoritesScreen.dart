@@ -26,6 +26,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   return list;
   }
 
+  //TODO: avlikea inne i bild + listview
+  //TODO: fixa att bilder inte hinner laddas
+  //TODO: skapa bildvy
+  //TODO: formatera text osv i listview
+  //TODO: ändra så listview visas först
+
   List<picsById> _bildList = <picsById>[];
   Future<picsById> fetchPicById(String id) async {
     var url = Uri.parse(
@@ -43,20 +49,20 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   void initState() {
       getFavorites().then((value) {
-
-
-
           temp.addAll(value);
           print(temp);
-
+          for (String s in temp) {
+            setState(() {
+              fetchPicById(s).then((value) {
+                _bildList.add(value);
+                print('andra');
+                print(_bildList);
+            });
+            },);}
+          _buildGridView();
       }
-      );setState(() {
-        for (String s in temp) {
-          fetchPicById(s).then((value) {
-            _bildList.add(value);
-          },);}
-      });
-    }
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -202,6 +208,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 base64Decode(_bildList[index].image),
                 width: 150,
                 height: 150),
+                onPressed: () {
+                  setState(() {
+                    pictureView = true;
+                    listedPictures = false;
+                  });
+                }
               );
           }
         );
@@ -226,13 +238,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   ///Listview för Favoriter
   ListView _buildListView() {
     return ListView.builder(
-      itemCount: temp.length,
+      itemCount: _bildList.length,
       itemBuilder: (_, index) {
         return ListTile(
           minVerticalPadding: 40,
-          title: Text(_bildList[index].block),
+          title: Text(_bildList[index].description),
           leading: Image.memory(
-          base64Decode(_bildList[index].image)),
+
+          base64Decode(_bildList[index].image),
+              height: 150),
           trailing: Icon(Icons.arrow_forward),
           onTap: () {
             setState(() {
