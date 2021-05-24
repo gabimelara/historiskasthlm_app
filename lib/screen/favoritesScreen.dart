@@ -27,31 +27,36 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   }
 
   List<picsById> _bildList = <picsById>[];
-  Future<List<picsById>> fetchPicById(String id) async {
+  Future<picsById> fetchPicById(String id) async {
     var url = Uri.parse(
         'https://group10-15.pvt.dsv.su.se/demo/files/getById/' + id);
     var response = await http.get(url);
-    var bildId = <picsById>[];
+    var bildId;
     if (response.statusCode == 200) {
-      var bilderJson = json.decode(utf8.decode(response.bodyBytes));
-      for (var bildParsed in bilderJson) {
-        bildId.add(picsById.fromJson(bildParsed));
-      }
+      var bilderJson = json.decode(utf8.decode(response.bodyBytes)); //Ett objekt som är kopplat till addressId
+        bildId = (picsById.fromJson(bilderJson));
     }
     print(bildId);
     return bildId;
   }
 
   @override
-  void initState(){
+  void initState() {
+      getFavorites().then((value) {
 
-    getFavorites().then((value) {
-      temp.addAll(value);
-      print(temp);
-      _buildGridView();
-    },
-    );
-  }
+
+
+          temp.addAll(value);
+          print(temp);
+
+      }
+      );setState(() {
+        for (String s in temp) {
+          fetchPicById(s).then((value) {
+            _bildList.add(value);
+          },);}
+      });
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -186,16 +191,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   ///GridView för favoriter
   GridView _buildGridView() {
     return GridView.builder(
-        itemCount: temp.length,
+        itemCount: _bildList.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
             crossAxisSpacing: 5.0,
             mainAxisSpacing: 5.0),
-        itemBuilder: (BuildContext context, int index) {
-          for(String s in temp) {
-            fetchPicById(s).then((value) {
-              _bildList = value;
-            },);
+        itemBuilder: (_, index) {
             return IconButton(
               icon: Image.memory(
                 base64Decode(_bildList[index].image),
@@ -203,7 +204,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 height: 150),
               );
           }
-        }
         );
   }
 
@@ -226,13 +226,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   ///Listview för Favoriter
   ListView _buildListView() {
     return ListView.builder(
-      itemCount: 15,
+      itemCount: temp.length,
       itemBuilder: (_, index) {
         return ListTile(
           minVerticalPadding: 40,
-          title: Text('Picture item #$index'),
-          leading: Image.network(
-              'https://digitalastadsmuseet.stockholm.se/fotoweb/cache/5021/Skiss/SSMC002123S.t60a235d2.m600.xrhFT-K09Vg9dGT_Q.jpg'),
+          title: Text(_bildList[index].block),
+          leading: Image.memory(
+          base64Decode(_bildList[index].image)),
           trailing: Icon(Icons.arrow_forward),
           onTap: () {
             setState(() {
