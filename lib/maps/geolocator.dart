@@ -1,5 +1,5 @@
-import 'package:geolocator/geolocator.dart';
 
+import 'package:geolocator/geolocator.dart';
 class GeolocatorService {
   final Geolocator geo = Geolocator();
 
@@ -19,3 +19,4 @@ class GeolocatorService {
 //   _currentPosition.longitude,
 //   );
 }
+

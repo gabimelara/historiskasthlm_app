@@ -26,12 +26,6 @@ class FilterListWidget<T> extends StatefulWidget { //lista
         this.borderRadius = 20,
         this.onApplyButtonClick,
         this.choiceChipBuilder,
-        this.selectedChipTextStyle,
-        this.unselectedChipTextStyle,
-        this.controlButtonTextStyle,
-        this.applyButtonTextStyle,
-        this.headerTextStyle,
-        this.searchFieldTextStyle,
         this.headlineText = "Valda",
         this.searchFieldHintText = "Sök här...",
         this.hideSelectedTextCount = false,
@@ -39,13 +33,6 @@ class FilterListWidget<T> extends StatefulWidget { //lista
         this.hideCloseIcon = true,
         this.hideHeader = false,
         this.hideHeaderText = false,
-        this.closeIconColor = Colors.black,
-        this.headerTextColor = Colors.black,
-        this.applyButtonTextBackgroundColor = Colors.blue,
-        this.backgroundColor = Colors.white,
-        this.searchFieldBackgroundColor = const Color(0xfff5f5f5),
-        this.selectedTextBackgroundColor = Colors.orange,
-        this.unselectedTextbackGroundColor = const Color(0xfff8f8f8),
         this.enableOnlySingleSelection = false,
         this.selectedItemsText = 'Valda items',
         this.controlContainerDecoration = const BoxDecoration(
@@ -72,35 +59,10 @@ class FilterListWidget<T> extends StatefulWidget { //lista
   /// The [selectedListData] is used to preselect the choice chips.
   /// It takes list of object and this list should be subset og [listData]
   final List<T> selectedListData;
-  final Color closeIconColor;
-  final Color headerTextColor;
-  final Color backgroundColor;
-  final Color applyButtonTextBackgroundColor;
-  final Color searchFieldBackgroundColor;
-  final Color selectedTextBackgroundColor;
-  final Color unselectedTextbackGroundColor;
   final String headlineText;
   final String searchFieldHintText;
   final bool hideSelectedTextCount;
   final bool hideSearchField;
-
-  /// TextStyle for chip when selected.
-  final TextStyle selectedChipTextStyle;
-
-  /// TextStyle for chip when not selected.
-  final TextStyle unselectedChipTextStyle;
-
-  /// TextStyle for `All` and `Reset` button text.
-  final TextStyle controlButtonTextStyle;
-
-  /// TextStyle for `Apply` button.
-  final TextStyle applyButtonTextStyle;
-
-  /// TextStyle for header text.
-  final TextStyle headerTextStyle;
-
-  /// TextStyle for search field text.
-  final TextStyle searchFieldTextStyle;
 
   /// if true then it hides close icon.
   final bool hideCloseIcon;
@@ -165,7 +127,7 @@ class _FilterListWidgetState<T> extends State<FilterListWidget<T>> {
     super.initState();
   }
 
-  bool showApplyButton = false;
+  bool showApplyButton = true;
 
   Widget _body() {
     return Container(
@@ -174,15 +136,11 @@ class _FilterListWidgetState<T> extends State<FilterListWidget<T>> {
           Column(
             children: <Widget>[
               //   widget.hideHeader  SizedBox() : _header(),
-              widget.hideSelectedTextCount
-                  ? SizedBox()
-                  : Padding(
-                padding: EdgeInsets.only(top: 5),
-                child: Text(
+            Text(
                   '${_selectedListData.length} ${widget.selectedItemsText}',
                   style: Theme.of(context).textTheme.caption,
                 ),
-              ),
+
               Expanded(
                   child: Container(
                     padding: EdgeInsets.only(top: 0, bottom: 0, left: 5, right: 5),
@@ -234,10 +192,8 @@ class _FilterListWidgetState<T> extends State<FilterListWidget<T>> {
               );
             },
             selected: selectedText,
-            selectedTextBackgroundColor: widget.selectedTextBackgroundColor,
-            unselectedTextBackgroundColor: widget.unselectedTextbackGroundColor,
-            selectedChipTextStyle: widget.selectedChipTextStyle,
-            unselectedChipTextStyle: widget.unselectedChipTextStyle,
+            selectedTextBackgroundColor: Colors.grey,
+            unselectedTextBackgroundColor: Colors.blue,
             text: widget.choiceChipLabel(item),
           ),
         );
@@ -302,13 +258,7 @@ class _FilterListWidgetState<T> extends State<FilterListWidget<T>> {
                     });
                   },
                   // textColor:
-                  textStyle: widget.controlButtonTextStyle ??
-                      Theme.of(context).textTheme.bodyText2.copyWith(
-                          fontSize: 20,
-                          color: widget.enableOnlySingleSelection
-                              ? Theme.of(context).dividerColor
-                              : Theme.of(context).primaryColor),
-                  radius: widget.buttonRadius),
+                  ),
               SizedBox(
                 width: widget.buttonSpacing ?? 0,
               ),
@@ -319,10 +269,7 @@ class _FilterListWidgetState<T> extends State<FilterListWidget<T>> {
                       _selectedListData.clear();
                     });
                   },
-                  textStyle: widget.controlButtonTextStyle ??
-                      Theme.of(context).textTheme.bodyText2.copyWith(
-                          fontSize: 20, color: Theme.of(context).primaryColor),
-                  radius: widget.buttonRadius),
+                 ),
               SizedBox(
                 width: widget.buttonSpacing ?? 1,
               ),
@@ -337,13 +284,7 @@ class _FilterListWidgetState<T> extends State<FilterListWidget<T>> {
                   },
                   elevation: 5,
                   backgroundColor: Color.fromRGBO(200, 200, 200, 1),
-                  textStyle: widget.applyButtonTextStyle ??
-                      Theme.of(context).textTheme.bodyText2.copyWith(
-                          fontSize: 20,
-                          color: widget.enableOnlySingleSelection
-                              ? Theme.of(context).dividerColor
-                              : Theme.of(context).buttonColor),
-                  radius: widget.buttonRadius),
+               ),
             ],
           ),
         ),
@@ -360,7 +301,7 @@ class _FilterListWidgetState<T> extends State<FilterListWidget<T>> {
         child: Container(
           height: 200,
           width: 200,
-          color: widget.backgroundColor,
+          color:Colors.white,
           child: Stack(
             children: <Widget>[
               _body(),

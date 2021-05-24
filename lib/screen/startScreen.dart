@@ -40,7 +40,7 @@ class StartScreen extends StatelessWidget {
                       );
                     },
 
-                    child: new Text('Öppna karta',
+                    child: new Text('Start',
                         style: TextStyle(color: Colors.white, fontSize: 20)),
                   ),
                 ),

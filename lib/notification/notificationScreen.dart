@@ -1,5 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:historiskasthlm_app/notification/routes.dart';
 
 class NotificationScreen extends StatefulWidget {
 
@@ -10,6 +11,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
   bool _toggled1 = false;
   bool _toggled2 = false;
   bool _toggled3 = false;
+  bool _notificationsAllowed = true;
+  int _counter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SwitchListTile(
-            title: const Text('Rekommenderade platser'),
+            title: const Text('Stänga av notiser'),
             //     secondary: const FlutterLogo(),
             activeColor:_toggled1
                 ? Colors.deepOrange[900]: Theme.of(context).accentColor,
@@ -54,15 +57,60 @@ class _NotificationScreenState extends State<NotificationScreen> {
               setState(() => _toggled3 = value);
             },
           ),
-    FloatingActionButton.extended(
-    backgroundColor: Colors.black,
-    onPressed: () => sendNotification(),
-    label: Text('Skicka test notis')
+
+          FloatingActionButton.extended(
+              backgroundColor: Colors.black,
+              onPressed: () => sendNotification(),
+              label: Text('Skicka test notis')
     ),
 
           ]
       ),
     );
+  }
+  @override
+  void initState() {
+
+    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+      _notificationsAllowed = isAllowed;
+      if (!isAllowed) {
+        AwesomeNotifications().requestPermissionToSendNotifications();
+      }
+    });
+
+    // Here you get the token every time its changed by firebase process or by a new installation
+    AwesomeNotifications().fcmTokenStream.listen((String newFcmToken) {
+      print("New FCM token: "+newFcmToken);
+    });
+
+    AwesomeNotifications().createdStream.listen((ReceivedNotification notification) {
+      print("Notification created: "+(notification.title ?? notification.body ?? notification.id.toString()));
+    });
+
+    AwesomeNotifications().displayedStream.listen((ReceivedNotification notification) {
+      print("Notification displayed: "+(notification.title ?? notification.body ?? notification.id.toString()));
+    });
+
+    AwesomeNotifications().dismissedStream.listen((ReceivedAction dismissedAction) {
+      print("Notification dismissed: "+(dismissedAction.title ?? dismissedAction.body ?? dismissedAction.id.toString()));
+    });
+
+    AwesomeNotifications().actionStream.listen((ReceivedAction action){
+      print("Action received!");
+
+      // Avoid to open the notification details page twice
+      Navigator.pushNamedAndRemoveUntil(
+          context,
+          PAGE_NOTIFICATION_DETAILS,
+              (route) => (route.settings.name != PAGE_NOTIFICATION_DETAILS) || route.isFirst,
+          arguments: action
+      );
+
+    });
+
+    //initializeFirebaseService();
+
+    super.initState();
   }
   void sendNotification() async {
 

@@ -123,7 +123,7 @@ class _GuidadeState extends State<Guidade> {
                       borderRadius: BorderRadius.circular(10))),
 
               child: Text(  //gör att knappen nästa ändras till starta på sista sidan
-                  currentIndex == dataPage.length - 1 ? "Starta" : "Nästa"),
+                  currentIndex == dataPage.length - 1 ? "Visa kartan" : "Nästa"),
               onPressed: () {
                 if (currentIndex == dataPage.length - 1) { //if satsen som gör att man kan navigera med  starta knappen till kartan/startsidan
                   Navigator.pushReplacement(

@@ -17,6 +17,7 @@ class NotificationDetailsPage extends StatefulWidget {
 
   NotificationDetailsPage(this.receivedNotification);
 
+
   @override
   _NotificationDetailsPageState createState() => _NotificationDetailsPageState();
 }
@@ -169,7 +170,7 @@ class _NotificationDetailsPageState extends State<NotificationDetailsPage> {
                     ],
                   ),
                 ),
-                /*Container(
+                Container(
                   constraints: BoxConstraints(
                     minWidth: mediaQueryData.size.width,
                   ),
@@ -191,7 +192,7 @@ class _NotificationDetailsPageState extends State<NotificationDetailsPage> {
                       ),
                     ],
                   ),
-                )*/
+                )
               ],
             ),
             Theme.of(context).platform == TargetPlatform.android ?
