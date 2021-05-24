@@ -17,7 +17,7 @@ class _Databasobjekt_som_text extends State<Databasobjekt_som_text> {
   Future<List<allAddresses>> fetchAddresses() async {
     var url = Uri.parse('https://group10-15.pvt.dsv.su.se/demo/addresses');
     var response = await http.get(url);
-    var addressesList = List<allAddresses>();
+    var addressesList = List<allAddresses>();  //[]
     if(response.statusCode == 200) {
       var addressesJson = json.decode(response.body); //kodar om responsen från json till en map
       for(var add in addressesJson){

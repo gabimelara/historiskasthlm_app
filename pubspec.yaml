@@ -1,4 +1,3 @@
-
 name: historiskasthlm_app
 description: A new Flutter project.
 
@@ -103,5 +102,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-
-

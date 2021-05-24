@@ -7,7 +7,6 @@ import 'guideData.dart';
 
 /// Vi bör dock göra en if-sats om guidade tour ska bara visas engång inte varje gång man går in i appen.
 
-
 class Guidade extends StatefulWidget {
   @override
   _GuidadeState createState() => _GuidadeState();
@@ -35,27 +34,27 @@ class _GuidadeState extends State<Guidade> {
       backgroundColor: Color.fromRGBO(230,236,255,1),   //backgrundsfärgen
       body: SafeArea(
         child: Stack(children: [
-   // IconButton(
-   //icon: const Icon(Icons.arrow_back),
-              //TODO:
+          // IconButton(
+          //icon: const Icon(Icons.arrow_back),
+          //TODO:
           // onPressed: () {
-    //if (currentIndex == dataPage.length - 1) {
-   //  Navigator.pushReplacement(
-      //    context,(_) => Navigator.of(context).pop(),
-      //    ),
-       // );
-     // }
-            //  onPressed: (){
-             //   Navigator.pop(context);
-             // },
-             // onPressed:() => Navigator.of(context).pop(),
+          //if (currentIndex == dataPage.length - 1) {
+          //  Navigator.pushReplacement(
+          //    context,(_) => Navigator.of(context).pop(),
+          //    ),
+          // );
+          // }
+          //  onPressed: (){
+          //   Navigator.pop(context);
+          // },
+          // onPressed:() => Navigator.of(context).pop(),
 
-             // if (currentIndex == dataPage.length - 1) {
-               //  Navigator.of(context).pop();
-                //Navigator.push(context);
-             // },
+          // if (currentIndex == dataPage.length - 1) {
+          //  Navigator.of(context).pop();
+          //Navigator.push(context);
+          // },
 
-            PageView.builder(
+          PageView.builder(
               controller: _controller,
               itemCount: dataPage.length,
               onPageChanged: (int index) {
@@ -72,29 +71,29 @@ class _GuidadeState extends State<Guidade> {
                         dataPage[i].image,
                       ),
 
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20, right: 20, bottom: 0, top: 5), //RUBRIK
-                    child: Text(
-                      //RUBRIK
-                     dataPage[i].title,  //hämtar titeln från data klassen
-                      style: TextStyle(
-                          fontSize: 30, fontWeight: FontWeight.w500, color: Color.fromRGBO(27,32,49,100)),
-                    ),
-                  ),
-                      SizedBox(height:20),
-                Padding(
-                padding: const EdgeInsets.only(  //ny
-                left: 20, right: 20, bottom: 40, top: 0), //ny
-                child: Text(
-                        dataPage[i].description,  //hämtar beskrivningen från data klassen
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20, right: 20, bottom: 0, top: 5), //RUBRIK
+                        child: Text(
+                          //RUBRIK
+                          dataPage[i].title,  //hämtar titeln från data klassen
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.w500, color: Color.fromRGBO(27,32,49,100)),
                         ),
-                      )
-                )],
+                      ),
+                      SizedBox(height:20),
+                      Padding(
+                          padding: const EdgeInsets.only(  //ny
+                              left: 20, right: 20, bottom: 40, top: 0), //ny
+                          child: Text(
+                            dataPage[i].description,  //hämtar beskrivningen från data klassen
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          )
+                      )],
                   ),
                 );
               }),
@@ -140,20 +139,20 @@ class _GuidadeState extends State<Guidade> {
               },
 
             ),
-            ),
+          ),
 
           Positioned(
-            left: 205,
-            bottom: 760,
-            child: TextButton( //knappen högst upp
-              style: ElevatedButton.styleFrom(
-                  onPrimary: Color.fromRGBO(104,112, 137, 1),
-                  primary: Color.fromRGBO(230,236,255,1),
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(9))),
-              child: new Text("Skippa rundtur"),
-              onPressed: () {
+              left: 205,
+              bottom: 760,
+              child: TextButton( //knappen högst upp
+                style: ElevatedButton.styleFrom(
+                    onPrimary: Color.fromRGBO(104,112, 137, 1),
+                    primary: Color.fromRGBO(230,236,255,1),
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(9))),
+                child: new Text("Skippa rundtur"),
+                onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -161,13 +160,13 @@ class _GuidadeState extends State<Guidade> {
                     ),
                   );
 
-                _controller.nextPage(
-                  duration: Duration(milliseconds: 100), //tid
-                  curve: Curves.bounceIn,
-                );
-              },
+                  _controller.nextPage(
+                    duration: Duration(milliseconds: 100), //tid
+                    curve: Curves.bounceIn,
+                  );
+                },
 
-          )
+              )
           )]),
       ),
     );
@@ -187,7 +186,3 @@ class _GuidadeState extends State<Guidade> {
   }
 
 }
-
-
-
-

@@ -14,7 +14,7 @@ import 'notification/routes.dart';
 void main() {
   runApp(MyApp());
   theme: ThemeData(
-  visualDensity: VisualDensity.adaptivePlatformDensity);
+      visualDensity: VisualDensity.adaptivePlatformDensity);
   SystemChrome.setEnabledSystemUIOverlays([]);
   WidgetsFlutterBinding.ensureInitialized();
   initializeApp();
@@ -24,15 +24,15 @@ void initializeApp() async{
   AwesomeNotifications().initialize(
       null, // this makes you use your default icon, if you haven't one
       [
-      NotificationChannel(
-      channelKey: 'basic_channel',
-      channelName: 'Basic notifications',
-      channelDescription: 'Notification channel for basic tests',
-      defaultColor: Colors.blueAccent,
-      ledColor: Colors.white
-  )
+        NotificationChannel(
+            channelKey: 'basic_channel',
+            channelName: 'Basic notifications',
+            channelDescription: 'Notification channel for basic tests',
+            defaultColor: Colors.blueAccent,
+            ledColor: Colors.white
+        )
 
-  ]);
+      ]);
 }
 class MyApp extends StatelessWidget {
   final geoService = GeolocatorService();
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         create: (context) => geoService.getInitialLocation(),
         child:
         MaterialApp(
-            theme: ThemeData(
+          theme: ThemeData(
             primarySwatch: Colors.deepOrange,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
           initialRoute: PAGE_HOME, ///BUG HÄR
           routes: materialRoutes,
         )
-   );
+    );
 
   }
 }
