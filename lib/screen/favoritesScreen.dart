@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/screen/picsById.dart';
 import 'package:historiskasthlm_app/sharedPrefs/addToLikesClass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
 
 class FavoriteScreen extends StatefulWidget {
   @override
@@ -28,6 +30,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       barrierColor: Colors.black.withOpacity(0.4),
       transitionDuration: Duration(milliseconds: 600),
       context: context,
+
       pageBuilder: (context, anim1, anim2) {
         return Align(
             alignment: Alignment.center,
@@ -35,10 +38,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               ///  alignment: Alignment.center,
               height: 710,
 
-              child: ListView.builder(
+              child: ScrollablePositionedList.builder(
                   physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
-
+                  initialScrollIndex: id,
                   ///byt till vertical om ni vill
                   padding: EdgeInsets.all(4),
                   itemCount: _bildList.length,
@@ -213,7 +216,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   //TODO: avlikea inne i bild + listview
   //TODO: fixa att bilder inte hinner laddas
-  //TODO: skapa bildvy
   //TODO: formatera text osv i listview
   //TODO: ändra så listview visas först
 
@@ -404,8 +406,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   height: 150),
               onPressed: () {
                 setState(() {
-                  pictureView = true;
-                  listedPictures = false;
+                  showPopup(index);
+                  // jumpTo(_bildList[index].id);
+                  print(index.toString());
                 });
               }
           );
@@ -438,12 +441,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           minVerticalPadding: 40,
           title: Text(_bildList[index].description),
           leading: Image.memory(
-
               base64Decode(_bildList[index].image),
               height: 150),
           onTap: () { setState(() {
-            showPopup(_bildList[index].id);
-            print(_bildList[index].id);
+            showPopup(index);
+           // jumpTo(_bildList[index].id);
+            print(index.toString());
           });
           trailing: Icon(Icons.arrow_forward);
 

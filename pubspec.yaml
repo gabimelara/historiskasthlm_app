@@ -41,6 +41,8 @@ dependencies:
   google_maps_utils: ^1.4.0+1
   dots_indicator: ^0.0.5+1
   shared_preferences: ^2.0.5
+  flutter_widgets: ^0.1.12
+  scrollable_positioned_list: ^0.1.10
 
 
 
