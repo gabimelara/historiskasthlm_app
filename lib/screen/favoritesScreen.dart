@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/screen/picsById.dart';
-
+import 'package:historiskasthlm_app/sharedPrefs/addToLikesClass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FavoriteScreen extends StatefulWidget {
@@ -19,6 +20,190 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   bool liked = false;
   bool showHeartOverlay = false;
   List<String> temp = [];
+
+  void showPopup(int id) {
+    showGeneralDialog(
+      barrierDismissible: true,
+      barrierLabel: "Map",
+      barrierColor: Colors.black.withOpacity(0.4),
+      transitionDuration: Duration(milliseconds: 600),
+      context: context,
+      pageBuilder: (context, anim1, anim2) {
+        return Align(
+            alignment: Alignment.center,
+            child: Container(
+              ///  alignment: Alignment.center,
+              height: 710,
+
+              child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+
+                  ///byt till vertical om ni vill
+                  padding: EdgeInsets.all(4),
+                  itemCount: _bildList.length,
+
+                  itemBuilder: (BuildContext context, int index) {
+
+                    return Container(
+                        width: 400,
+                        child: Card(
+                            margin: EdgeInsets.only(
+                                left: 10, right: 20, top: 12),
+                            elevation: 15,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(20.0),
+                            ),
+                            semanticContainer: true,
+                            clipBehavior:
+                            Clip.antiAliasWithSaveLayer,
+                            child: SingleChildScrollView(
+                              //DETTA ÄR NYTT
+                                child: Container(
+                                    height: 700,
+                                    child: Stack(children: <Widget>[
+                                      Positioned(
+                                          top: 10,
+                                          left: 10,
+                                          right: 10,
+                                          child: Container(
+                                              color: Colors.white,
+                                              child: Column(
+                                                  children: <
+                                                      Widget>[
+                                                    Wrap(
+                                                      children: <
+                                                          Widget>[
+                                                        Image.memory(
+                                                            base64Decode(_bildList[index]
+                                                                .image),
+                                                            height:
+                                                            400,
+                                                            width:
+                                                            400,
+                                                            colorBlendMode:
+                                                            BlendMode
+                                                                .darken,
+                                                            fit: BoxFit
+                                                                .fill),
+                                                        IconButton(
+                                                          icon: Icon(Icons.auto_awesome),
+                                                          onPressed: () => addToLikes(_bildList[index].id),
+                                                          iconSize: 35.0,
+                                                          color: Colors.black87,
+                                                        ),
+                                                        ListTile(
+                                                          leading: Padding(
+                                                              padding: EdgeInsets.only(right: 0, left: 0, top: 0),
+                                                              child: Text(
+                                                                ("Id:" +
+                                                                    _bildList[index].documentID.toString()),
+                                                                style:
+                                                                TextStyle(
+                                                                  fontSize: 8.0,
+                                                                  color: Colors.black,
+                                                                  fontWeight: FontWeight.w500,
+                                                                ),
+                                                              )),
+                                                          subtitle: Padding(
+                                                              padding: EdgeInsets.only(right: 0, left: 120, top: 5, bottom:20),
+                                                              child: Text(
+                                                                ("År: " + _bildList[index].year.toString()),
+                                                                style:
+                                                                TextStyle(
+                                                                  fontSize: 17.0,
+                                                                  fontStyle: FontStyle.normal,
+                                                                  color: Colors.black,
+                                                                  fontWeight: FontWeight.w400,
+                                                                ),
+                                                              )),
+                                                        ),
+                                                        ListTile(
+                                                          title: Padding(
+                                                              padding: EdgeInsets.only(right: 10, left: 0, top: 0, bottom: 0),
+                                                              child: Text(
+                                                                (_bildList[index].description),
+                                                                style:
+                                                                TextStyle(
+                                                                  fontSize: 18.0,
+                                                                  fontStyle: FontStyle.normal,
+                                                                  color: Colors.black,
+                                                                  fontWeight: FontWeight.w400,
+                                                                ),
+                                                              )),
+                                                        ),
+
+                                                        ListTile(
+                                                          //child: Icon(Icons.camera_enhance_outlined)),
+
+                                                          subtitle: Padding(
+                                                              padding: EdgeInsets.only(
+                                                                  right: 0, left: 0, top: 0, bottom: 20),
+                                                              child: Text(
+                                                                  ("BY: " + _bildList[index].photographer),
+                                                                  style: TextStyle(fontSize: 15.0, fontStyle: FontStyle.italic, color: Colors.black, fontWeight: FontWeight.w400))),
+                                                        ),
+
+                                                        ListTile(
+                                                          title: Padding(
+                                                              padding: EdgeInsets.only(right: 0, left: 0, top: 0, bottom: 0),
+                                                              child: Text(
+                                                                (_bildList[index].district),
+                                                                style:
+                                                                TextStyle(
+                                                                  letterSpacing: 2.0,  //SKA VI HA DET?
+                                                                  fontSize: 15.0,
+                                                                  color: Colors.blueGrey,
+                                                                  fontWeight: FontWeight.w400,
+                                                                ),
+                                                              )),
+                                                          subtitle: Padding(
+                                                              padding: EdgeInsets.only(right: 0, left: 0, top: 0, bottom:50),
+                                                              child: Text(
+                                                                (_bildList[index].block),
+                                                                style:
+                                                                TextStyle(
+                                                                  fontSize: 15.0,
+                                                                  color: Colors.blueGrey,
+                                                                  fontWeight: FontWeight.w400,
+                                                                ),
+                                                              )),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ])))
+                                      ,
+                                      Padding(
+
+                                        padding: EdgeInsets.only(bottom: 20),
+                                        child: Align(
+                                            alignment: Alignment. bottomCenter,
+
+                                            child: DotsIndicator(
+                                              dotsCount: _bildList.length,
+                                              position: index,
+                                              decorator: DotsDecorator(
+                                                color: Colors.black87,
+                                                activeColor: Colors.blueGrey,
+                                              ),
+                                            )
+
+                                        ),
+                                      )])
+                                ))));
+                  }),
+            ));
+      },
+      transitionBuilder: (context, anim1, anim2, child) {
+        return SlideTransition(
+          position: Tween(begin: Offset(0, 1), end: Offset(0, 0))
+              .animate(anim1),
+          child: child,
+        );
+      },
+    );
+  }
 
   getFavorites() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -256,12 +441,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
               base64Decode(_bildList[index].image),
               height: 150),
-          trailing: Icon(Icons.arrow_forward),
-          onTap: () {
-            setState(() {
-              pictureView = true;
-              listedPictures = false;
-            });
+          onTap: () { setState(() {
+            showPopup(_bildList[index].id);
+            print(_bildList[index].id);
+          });
+          trailing: Icon(Icons.arrow_forward);
+
             /*Navigator.push(
               context,
               MaterialPageRoute(
@@ -355,186 +540,3 @@ class PostHeader extends StatelessWidget {
   }
 }
 
-class showGeneralDialog {
-  void showPopup() {
-    barrierDismissible:
-    true
-    ,
-    barrierLabel: "Map",
-    barrierColor: Colors.black.withOpacity(0.4),
-    transitionDuration: Duration(
-    milliseconds: 600
-    ),
-    context: context,pageBuilder: (
-    context, anim1, anim2) {
-    return Align(
-    alignment: Alignment.center,
-    child: Container(
-    ///  alignment: Alignment.center,
-    height: 710,
-
-    child: ListView.builder(
-    physics: BouncingScrollPhysics(),
-    scrollDirection: Axis.horizontal,
-
-    ///byt till vertical om ni vill
-    padding: EdgeInsets.all(4),
-    itemCount: _bildList.length,
-    itemBuilder: (BuildContext context, int index) {
-    return Container(
-    width: 400,
-    child: Card(
-    margin: EdgeInsets.only(
-    left: 10, right: 20, top: 12),
-    elevation: 15,
-    shape: RoundedRectangleBorder(
-    borderRadius:
-    BorderRadius.circular(20.0),
-    ),
-    semanticContainer: true,
-    clipBehavior:
-    Clip.antiAliasWithSaveLayer,
-    child: SingleChildScrollView(
-//DETTA ÄR NYTT
-    child: Container(
-    height: 700,
-    child: Stack(children: <Widget>[
-    Positioned(
-    top: 10,
-    left: 10,
-    right: 10,
-    child: Container(
-    color: Colors.white,
-    child: Column(
-    children: <
-    Widget>[
-    Wrap(
-    children: <
-    Widget>[
-    Image.memory(
-    base64Decode(_bildList[index]
-        .image),
-    height:
-    400,
-    width:
-    400,
-    colorBlendMode:
-    BlendMode
-        .darken,
-    fit: BoxFit
-        .fill),
-    IconButton(
-    icon: Icon(Icons.auto_awesome),
-    onPressed: () => addToLikes(_bildList[index].id),
-    iconSize: 35.0,
-    color: Colors.black87,
-    ),
-    ListTile(
-    leading: Padding(
-    padding: EdgeInsets.only(right: 0, left: 0, top: 0),
-    child: Text(
-    ("Id:" +
-    _bildList[index].documentID.toString()),
-    style:
-    TextStyle(
-    fontSize: 8.0,
-    color: Colors.black,
-    fontWeight: FontWeight.w500,
-    ),
-    )),
-    subtitle: Padding(
-    padding: EdgeInsets.only(right: 0, left: 120, top: 5, bottom:20),
-    child: Text(
-    ("År: " + _bildList[index].year.toString()),
-    style:
-    TextStyle(
-    fontSize: 17.0,
-    fontStyle: FontStyle.normal,
-    color: Colors.black,
-    fontWeight: FontWeight.w400,
-    ),
-    )),
-    ),
-    ListTile(
-    title: Padding(
-    padding: EdgeInsets.only(right: 10, left: 0, top: 0, bottom: 0),
-    child: Text(
-    (_bildList[index].description),
-    style:
-    TextStyle(
-    fontSize: 18.0,
-    fontStyle: FontStyle.normal,
-    color: Colors.black,
-    fontWeight: FontWeight.w400,
-    ),
-    )),
-    ),
-
-    ListTile(
-//child: Icon(Icons.camera_enhance_outlined)),
-
-    subtitle: Padding(
-    padding: EdgeInsets.only(
-    right: 0, left: 0, top: 0, bottom: 20),
-    child: Text(
-    ("BY: " + _bildList[index].photographer),
-    style: TextStyle(fontSize: 15.0, fontStyle: FontStyle.italic, color: Colors.black, fontWeight: FontWeight.w400))),
-    ),
-
-    ListTile(
-    title: Padding(
-    padding: EdgeInsets.only(right: 0, left: 0, top: 0, bottom: 0),
-    child: Text(
-    (_bildList[index].district),
-    style:
-    TextStyle(
-    letterSpacing: 2.0, //SKA VI HA DET?
-    fontSize: 15.0,
-    color: Colors.blueGrey,
-    fontWeight: FontWeight.w400,
-    ),
-    )),
-    subtitle: Padding(
-    padding: EdgeInsets.only(right: 0, left: 0, top: 0, bottom:50),
-    child: Text(
-    (_bildList[index].block),
-    style:
-    TextStyle(
-    fontSize: 15.0,
-    color: Colors.blueGrey,
-    fontWeight: FontWeight.w400,
-    ),
-    )),
-    ),
-    ],
-    )
-    ])))
-    ,
-    Padding(
-
-    padding: EdgeInsets.only(bottom: 20),
-    child: Align(
-    alignment: Alignment. bottomCenter,
-
-    child: DotsIndicator(
-    dotsCount: _bildList.length,
-    position: index,
-    decorator: DotsDecorator(
-    color: Colors.black87,
-    activeColor: Colors.blueGrey,),)
-    ),
-    )])
-    ))));
-    }),
-    ));
-    },
-    transitionBuilder: (
-    context, anim1, anim2, child) {
-    return SlideTransition(
-    position: Tween(begin: Offset(0, 1), end: Offset(0, 0))
-        .animate(anim1),
-    child: child,
-    );
-    },
-  }
-}
