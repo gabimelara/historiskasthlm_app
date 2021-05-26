@@ -3,6 +3,11 @@ class Tags {
   String tag;
   List<Null> bilder;
 
+  String getTagName(){
+    return tag;
+  }
+
+
   Tags({this.tag, this.bilder});
 
 

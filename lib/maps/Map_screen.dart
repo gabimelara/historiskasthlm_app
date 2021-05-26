@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:historiskasthlm_app/filtrering/filter_test.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:historiskasthlm_app/maps/tags.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import '../distance.dart';
@@ -29,6 +30,12 @@ class _Map_screenState extends State<Map_screen> {
   static const earliestYear = 1840;
   double pinPillPosition = -100;
   int dotsIndex = 0;
+  bool isFiltered = false;
+  //TODO nollställ åren
+  int prefStart = earliestYear;
+  int prefEnd = 2021;
+  List<String> filterTaglist;
+
 
 
   void _onMapCreated(GoogleMapController _cntlr) {
@@ -76,7 +83,7 @@ class _Map_screenState extends State<Map_screen> {
     return addressesList;
   }
 
-  List<String> test = [];
+
 
   List<Bild> _bildList = <Bild>[];
 
@@ -99,6 +106,10 @@ class _Map_screenState extends State<Map_screen> {
   void updateFilterState(int startYear, int endYear, List<String> tagList) {
     List<allAddresses> _filterList = [];
     markers.clear();
+    isFiltered = true;
+    prefStart = startYear;
+    prefEnd = endYear;
+    filterTaglist = tagList;
     String markerValue;
     fetchAddressesFiltered(startYear, endYear, tagList).then((value) {
       _filterList.addAll(value);
@@ -119,7 +130,23 @@ class _Map_screenState extends State<Map_screen> {
         ///FIXA ontap change color
         markerValue = address.address;
         fetchBilder(markerValue).then((value) {
-          _bildList = value;
+          _bildList = value; // TODO: Filtrera bilderna här?
+          if (isFiltered) {
+            List<Bild> _filteredBildList = <Bild>[];
+            for(Bild b in _bildList){
+              if(b.year>prefStart && b.year<prefEnd){
+                for (Tags t in b.tags){
+                  if (filterTaglist.contains(t.getTagName())){
+                    _filteredBildList.add(b);
+                    break;
+                  }
+
+                }
+              }
+            }
+            _bildList = _filteredBildList;
+            isFiltered = false;
+          }
           showGeneralDialog(
             barrierDismissible: true,
             barrierLabel: "Map",
