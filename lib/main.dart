@@ -23,7 +23,7 @@ void initializeApp() async{
             channelKey: 'basic_channel',
             channelName: 'Basic notifications',
             channelDescription: 'Notification channel for basic tests',
-            defaultColor: Colors.blueAccent,
+            defaultColor: Colors.black,
             ledColor: Colors.white
         )
       ]);

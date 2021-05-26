@@ -30,10 +30,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          FloatingActionButton(
-              backgroundColor: Colors.red,
-              onPressed: () => cancelAllNotifications(),
-           child: Text('    Cancel notification    ')),
 
           SwitchListTile(
             title: const Text('Stänga av notiser'),

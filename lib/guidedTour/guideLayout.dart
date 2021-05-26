@@ -44,7 +44,7 @@ class _GuidadeState extends State<Guidade> {
               },
               itemBuilder: (_, i) {
                 return Container(
-                  width: MediaQuery.of(context).size.width,
+                height: 100,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -59,18 +59,19 @@ class _GuidadeState extends State<Guidade> {
                           //RUBRIK
                           dataPage[i].title,  //hämtar titeln från data klassen
                           style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.w500, color: Colors.black),
+                              fontSize: 25, fontWeight: FontWeight.w500, color: Colors.black),
                         ),
                       ),
-                      SizedBox(height:20),
+                      SizedBox(
+                          height:10),
                       Padding(
                           padding: const EdgeInsets.only(  //ny
-                              left: 20, right: 20, bottom: 40, top: 0), //ny
+                              left: 20, right: 20, bottom: 70, top: 0), //ny
                           child: Text(
                             dataPage[i].description,  //hämtar beskrivningen från data klassen
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
                               color: Colors.black,
                             ),
                           )
@@ -80,7 +81,7 @@ class _GuidadeState extends State<Guidade> {
               }),
 
           Positioned(
-            bottom:30,
+            bottom:15,
             left: 146,
             height: 100,
             child: Row(  //skapar prickarna
@@ -92,8 +93,8 @@ class _GuidadeState extends State<Guidade> {
             ),
           ),
           Positioned(
-            left: 42,
-            bottom: 20,
+            left: 20,
+            bottom: 10,
             child: ElevatedButton(  //knapp
               style: ElevatedButton.styleFrom(
                   primary: Colors.black,

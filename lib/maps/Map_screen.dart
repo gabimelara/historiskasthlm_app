@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
@@ -89,10 +88,9 @@ class _Map_screenState extends State<Map_screen> {
     return bildList;
   }
 
- /* Future<bool> liked(bool isLiked) async{
+  /* Future<bool> liked(bool isLiked) async{
     /// send your request here
     final bool success = await (addToLikes(_bildList[index].id));
-
     /// if failed, you can do nothing
     return success? !isLiked:isLiked;
     //return !isLiked;
@@ -100,11 +98,9 @@ class _Map_screenState extends State<Map_screen> {
   Future<bool> liked(int index) async{
     /// send your request here
     final bool success = await (addToLikes(_bildList[index].id));
-
     /// if failed, you can do nothing
-    // return success? !isLiked:isLiked;
-
     return success;
+
   }
 
 
@@ -409,43 +405,28 @@ class _Map_screenState extends State<Map_screen> {
                                                                   fit: BoxFit
                                                                       .fill),
                                                               LikeButton(
-                                                                onTap:(isLiked) {liked(index);},
-                                                                size: 40,
+                                                                size: 30,
+                                                                circleColor: const CircleColor(
+                                                                    start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                                                                bubblesColor: const BubblesColor(
+                                                                  dotPrimaryColor: Color(
+                                                                      0xffe53339),
+                                                                  dotSecondaryColor: Color(0xff0099cc),
+                                                                ),
                                                                 likeBuilder: (bool isLiked) {
+                                                                  if(isLiked){
+                                                                    liked(index);}
                                                                   return Icon(
                                                                     Icons.favorite,
-                                                                    size: 40,
-                                                                    color : isLiked ? Colors.red : Colors.grey,
+                                                                    color: isLiked ? Colors.red : Colors.grey,
+                                                                    size: 30,
+
                                                                   );
-                                                                },
-                                                                /*   size: 35,
-                                                                        icon: Icon(Icons.favorite),
-                                                                       likeBuilder: (_bildList[index].id) {
-                                                                       return Icon(
-                                                                         Icons.home,
-                                                                         color: isLiked ? Colors.deepPurpleAccent : Colors.grey,
-                                                                         size: buttonSize,
-                                                                       );
-                                                                     },*/
 
-                                                                //onTap: () {(addToLikes(_bildList[index].id))},
-                                                                //color: _bildList.contains(_bildList[index].id) ? Colors.green: Colors.black,
-                                                                //icon: Icon( selected ? Icons.celebration : Icons.title),
+                                                                  }
+
                                                               ),
-
-                                                              /* LikeButton(
-                                                                  onTap: liked,
-                                                                  size: 40,
-                                                                  likeBuilder: (bool isLiked) {
-                                                                    return Icon(
-                                                                      Icons.favorite,
-                                                                      size: 40,
-                                                                      color: isLiked
-                                                                          ? Colors.red
-                                                                          : Colors.grey,
-                                                                    );
-
-                                                                  } ),*/
+                                                              
 
                                                               ListTile(
                                                                 leading: Padding(
@@ -585,30 +566,30 @@ class _Map_screenState extends State<Map_screen> {
                                                             ],
                                                           ),
 
-                                            Padding(
+                                                          Padding(
 
-                                              padding: EdgeInsets.only(
-                                                  bottom: 20),
-                                              child: Align(
-                                                  alignment: Alignment
-                                                      .bottomCenter,
+                                                            padding: EdgeInsets.only(
+                                                                bottom: 20),
+                                                            child: Align(
+                                                                alignment: Alignment
+                                                                    .bottomCenter,
 
-                                                  child: DotsIndicator(
-                                                    dotsCount: _bildList
-                                                        .length,
-                                                    position: index,
-                                                    decorator: DotsDecorator(
-                                                      color: Colors
-                                                          .black87,
-                                                      activeColor: Colors
-                                                          .blueGrey,
-                                                    ),
-                                                  )
+                                                                child: DotsIndicator(
+                                                                  dotsCount: _bildList
+                                                                      .length,
+                                                                  position: index,
+                                                                  decorator: DotsDecorator(
+                                                                    color: Colors
+                                                                        .black87,
+                                                                    activeColor: Colors
+                                                                        .blueGrey,
+                                                                  ),
+                                                                )
 
-                                              ),
-                                            )
-                                          ])
-                                      ))]))
+                                                            ),
+                                                          )
+                                                        ])
+                                                ))]))
                                   )));
                         }),
                   ));
@@ -755,5 +736,3 @@ Map<String, bool> fotografList = {
   'Love': false, 'Laura': false, 'Gustaf': false,
   'Ludwig': false, 'Oksana': false, 'Lena': false,
 };
-
-
