@@ -9,11 +9,13 @@ class NotificationScreen extends StatefulWidget {
 }
 class _NotificationScreenState extends State<NotificationScreen> {
   bool _toggled1 = false;
-  bool _toggled2 = false;
-  bool _toggled3 = false;
   bool _notificationsAllowed = true;
   int _counter = 0;
 
+  Future<void> cancelAllNotifications() async {
+    await AwesomeNotifications().cancelAll();
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +30,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          FloatingActionButton(
+              backgroundColor: Colors.red,
+              onPressed: () => cancelAllNotifications(),
+           child: Text('    Cancel notification    ')),
+
           SwitchListTile(
             title: const Text('Stänga av notiser'),
             //     secondary: const FlutterLogo(),
@@ -36,27 +43,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
             value: _toggled1,
             onChanged: (value) {
               setState(() => _toggled1 = value);
-            },
+              if ( _toggled1 != false) {
+                setState(() => cancelAllNotifications());
+              }
+              },
+
           ),
-          SwitchListTile(
-            title: const Text('Platser i närheten'),
-            // secondary: const Icon(Icons.settings), // Point to Check
-            activeColor:_toggled2
-                ? Colors.deepOrange[900]: Theme.of(context).accentColor,
-            value: _toggled2,
-            onChanged: (value) {
-              setState(() => _toggled2 = value);
-            },
-          ),
-          SwitchListTile(
-            title: const Text('Tidigare besökta platser'),
-            activeColor:_toggled3
-                ? Colors.deepOrange[900]: Theme.of(context).accentColor,
-            value: _toggled3,
-            onChanged: (value) {
-              setState(() => _toggled3 = value);
-            },
-          ),
+
 
           FloatingActionButton.extended(
               backgroundColor: Colors.black,
@@ -65,6 +58,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     ),
 
           ]
+
       ),
     );
   }
@@ -129,7 +123,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
               "secret": "Historiska"
             }
         )
+
     );
 
+  }
+  @override
+  void dispose() {
+    AwesomeNotifications().createdSink.close();
+    AwesomeNotifications().displayedSink.close();
+    AwesomeNotifications().actionSink.close();
+    super.dispose();
   }
 }

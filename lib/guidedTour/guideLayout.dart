@@ -31,29 +31,9 @@ class _GuidadeState extends State<Guidade> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(230,236,255,1),   //backgrundsfärgen
+      backgroundColor: Colors.orange[50],   //backgrundsfärgen
       body: SafeArea(
         child: Stack(children: [
-          // IconButton(
-          //icon: const Icon(Icons.arrow_back),
-          //TODO:
-          // onPressed: () {
-          //if (currentIndex == dataPage.length - 1) {
-          //  Navigator.pushReplacement(
-          //    context,(_) => Navigator.of(context).pop(),
-          //    ),
-          // );
-          // }
-          //  onPressed: (){
-          //   Navigator.pop(context);
-          // },
-          // onPressed:() => Navigator.of(context).pop(),
-
-          // if (currentIndex == dataPage.length - 1) {
-          //  Navigator.of(context).pop();
-          //Navigator.push(context);
-          // },
-
           PageView.builder(
               controller: _controller,
               itemCount: dataPage.length,
@@ -64,6 +44,7 @@ class _GuidadeState extends State<Guidade> {
               },
               itemBuilder: (_, i) {
                 return Container(
+                  width: MediaQuery.of(context).size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -78,7 +59,7 @@ class _GuidadeState extends State<Guidade> {
                           //RUBRIK
                           dataPage[i].title,  //hämtar titeln från data klassen
                           style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.w500, color: Color.fromRGBO(27,32,49,100)),
+                              fontSize: 30, fontWeight: FontWeight.w500, color: Colors.black),
                         ),
                       ),
                       SizedBox(height:20),
@@ -111,18 +92,19 @@ class _GuidadeState extends State<Guidade> {
             ),
           ),
           Positioned(
-            left: 9,
-            bottom: 10,
+            left: 42,
+            bottom: 20,
             child: ElevatedButton(  //knapp
               style: ElevatedButton.styleFrom(
-                  onPrimary: Colors.white,
-                  primary: Color.fromRGBO(104,112, 137, 1),
-                  padding: EdgeInsets.symmetric(horizontal: 160, vertical: 10),
+                  primary: Colors.black,
+                  padding: EdgeInsets.symmetric(horizontal: 140, vertical: 10),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
 
-              child: Text(  //gör att knappen nästa ändras till starta på sista sidan
-                  currentIndex == dataPage.length - 1 ? "Visa kartan" : "Nästa"),
+              //gör att knappen nästa ändras till starta på sista sidan
+              child: Text(
+                  currentIndex == dataPage.length - 1 ? "Starta" : "Nästa",
+              style: TextStyle(color: Colors.orange[50])),
               onPressed: () {
                 if (currentIndex == dataPage.length - 1) { //if satsen som gör att man kan navigera med  starta knappen till kartan/startsidan
                   Navigator.pushReplacement(
@@ -142,16 +124,15 @@ class _GuidadeState extends State<Guidade> {
           ),
 
           Positioned(
-              left: 205,
-              bottom: 760,
+              left: 240,
+              bottom: 740,
               child: TextButton( //knappen högst upp
                 style: ElevatedButton.styleFrom(
-                    onPrimary: Color.fromRGBO(104,112, 137, 1),
-                    primary: Color.fromRGBO(230,236,255,1),
+                    primary: Colors.orange[50],
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(9))),
-                child: new Text("Skippa rundtur"),
+                child: new Text("Skippa rundtur",style: TextStyle(color: Colors.black)),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -167,10 +148,34 @@ class _GuidadeState extends State<Guidade> {
                 },
 
               )
-          )]),
+          ),
+          Positioned(
+              left: 0,
+              bottom: 740,
+              child: TextButton( //knappen högst upp
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.orange[50],
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(9))),
+                child: Text(
+                    currentIndex == dataPage.length + 1 ? "Tillbaka" : "Tillbaka",style: TextStyle(color: Colors.black)),
+                onPressed: () {
+                  if (currentIndex == dataPage.length + 1) {
+                  }
+                  _controller.previousPage(
+                    duration: Duration(milliseconds: 100), //tid
+                    curve: Curves.bounceIn,
+                  );
+                },
+
+              )
+          )
+        ]),
       ),
     );
   }
+
 
   Container buildDot(int index, BuildContext context) {  //dekoration av prickarna.
     return Container(
@@ -179,10 +184,11 @@ class _GuidadeState extends State<Guidade> {
       margin: EdgeInsets.only(right: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Color.fromRGBO(104,112, 137, 1),
+        color: Colors.black,
       ),
     );
 
   }
 
 }
+

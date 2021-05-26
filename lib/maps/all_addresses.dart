@@ -1,3 +1,4 @@
+import 'package:historiskasthlm_app/databas_klasser/test.dart';
 
 class allAddresses {
   String address;
@@ -25,3 +26,5 @@ class allAddresses {
     return data;
   } //kopplade bilder
 }
+
+

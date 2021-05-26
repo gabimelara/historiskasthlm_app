@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/screen/startScreen.dart';
-import 'notification_home_page.dart';
 import 'details_page.dart';
 
 const String PAGE_HOME = '/';

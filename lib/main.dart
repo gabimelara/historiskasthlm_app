@@ -1,15 +1,9 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:historiskasthlm_app/distance.dart';
-import 'package:historiskasthlm_app/maps/Map_screen.dart';
-import 'package:historiskasthlm_app/maps/map.dart';
-import 'package:historiskasthlm_app/screen/startScreen.dart';
 import 'package:provider/provider.dart';
 import 'maps/geolocator.dart';
 import 'notification/routes.dart';
-
-
 
 void main() {
   runApp(MyApp());
@@ -19,10 +13,11 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   initializeApp();
 
+
 }
 void initializeApp() async{
   AwesomeNotifications().initialize(
-      null, // this makes you use your default icon, if you haven't one
+      null, /// ändra icon sen
       [
         NotificationChannel(
             channelKey: 'basic_channel',
@@ -31,7 +26,6 @@ void initializeApp() async{
             defaultColor: Colors.blueAccent,
             ledColor: Colors.white
         )
-
       ]);
 }
 class MyApp extends StatelessWidget {
@@ -48,7 +42,7 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           //home: Scaffold(body: StartScreen()),
-          initialRoute: PAGE_HOME, ///BUG HÄR
+          initialRoute: PAGE_HOME,
           routes: materialRoutes,
         )
     );

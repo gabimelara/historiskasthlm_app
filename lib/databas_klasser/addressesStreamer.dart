@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 class addressesStreamer extends StatefulWidget {
   @override
   _addressesStreamerState createState() => _addressesStreamerState();
-
-
 }
 
 class _addressesStreamerState extends State<addressesStreamer> {
