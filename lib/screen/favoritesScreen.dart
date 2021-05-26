@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/screen/picsById.dart';
 import 'package:historiskasthlm_app/sharedPrefs/addToLikesClass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-
 
 class FavoriteScreen extends StatefulWidget {
   @override
@@ -30,7 +28,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       barrierColor: Colors.black.withOpacity(0.4),
       transitionDuration: Duration(milliseconds: 600),
       context: context,
-
       pageBuilder: (context, anim1, anim2) {
         return Align(
             alignment: Alignment.center,
@@ -38,10 +35,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               ///  alignment: Alignment.center,
               height: 710,
 
-              child: ScrollablePositionedList.builder(
+              child: ListView.builder(
                   physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
-                  initialScrollIndex: id,
+
                   ///byt till vertical om ni vill
                   padding: EdgeInsets.all(4),
                   itemCount: _bildList.length,
@@ -78,23 +75,25 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                     Wrap(
                                                       children: <
                                                           Widget>[
-                                                        Image.memory(
-                                                            base64Decode(_bildList[index]
-                                                                .image),
-                                                            height:
-                                                            400,
-                                                            width:
-                                                            400,
-                                                            colorBlendMode:
-                                                            BlendMode
-                                                                .darken,
-                                                            fit: BoxFit
-                                                                .fill),
                                                         IconButton(
-                                                          icon: Icon(Icons.auto_awesome),
+                                                            icon: Icon(Icons.close),
+                                                            onPressed:() => Navigator.of(context).pop()),
+                                                        Image.memory(
+                                                          base64Decode(_bildList[index]
+                                                              .image),
+                                                          height:
+                                                          400,
+                                                          width:
+                                                          400,
+                                                          colorBlendMode:
+                                                          BlendMode
+                                                              .darken,
+                                                          fit: BoxFit
+                                                              .fill,),
+                                                        IconButton(
+                                                          icon: Icon(Icons.favorite, color: Colors.red),
                                                           onPressed: () => addToLikes(_bildList[index].id),
                                                           iconSize: 35.0,
-                                                          color: Colors.black87,
                                                         ),
                                                         ListTile(
                                                           leading: Padding(
@@ -216,8 +215,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   //TODO: avlikea inne i bild + listview
   //TODO: fixa att bilder inte hinner laddas
-  //TODO: formatera text osv i listview
-  //TODO: ändra så listview visas först
+  //TODO: flytta hjärtat till höger
+  //TODO: ändra så listview visas först?
 
 
   List<picsById> _bildList = [];
@@ -279,18 +278,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   }
 
   Column bodyCon() {
-    if (pictureView) {
-      return Column(
-          children: [
-            Container(
-                height: 50,
-                child: _showItemsPref()),
-            Container(
-                height: 600,
-                child: pictureViewScreen())
-          ]
-      );
-    }
     return Column(
         children: [
           Container(
@@ -335,9 +322,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     pictureView = false;
                   });
                 }
-            ),
-            IconButton(
-                icon: Icon(Icons.image, color: Colors.blueGrey, size: 26.0)
             )
           ]
       );
@@ -357,9 +341,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               icon: Icon(Icons.list_alt_outlined, color: Colors.blueGrey,
                   size: 26.0),
             ),
-            IconButton(
-                icon: Icon(Icons.image, color: Colors.black, size: 26.0)
-            )
           ]
       );
     }
@@ -378,13 +359,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 });
               }
           ),
-          IconButton(
-              icon: Icon(Icons.image, color: Colors.black, size: 26.0),
-              onPressed: () {
-                setState(() {
-                  listedPictures = true;
-                });
-              })
         ]
     );
   }
@@ -403,12 +377,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               icon: Image.memory(
                   base64Decode(_bildList[index].image),
                   width: 150,
-                  height: 150),
+                  height: 150,
+                  colorBlendMode: BlendMode.darken,
+                  fit: BoxFit.fill),
               onPressed: () {
                 setState(() {
-                  showPopup(index);
-                  // jumpTo(_bildList[index].id);
-                  print(index.toString());
+                  showPopup(_bildList[index].id);
+                  print(_bildList[index].id);
                 });
               }
           );
@@ -417,86 +392,96 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   }
 
   /*List<IconButton> getImageButtons(){
-    List<IconButton> list = [];
-    for(String s in temp){
-      fetchPicById(s).then((value) {
-        _bildList = value;
-        IconButton icon = new IconButton(
-            icon: Image.memory(
-                base64Decode(_bildList[].image),
-                width: 150,
-                height: 150)
-        )
-      },);
-    }
-  }*/
+   List<IconButton> list = [];
+   for(String s in temp){
+     fetchPicById(s).then((value) {
+       _bildList = value;
+       IconButton icon = new IconButton(
+           icon: Image.memory(
+               base64Decode(_bildList[].image),
+               width: 150,
+               height: 150)
+       )
+     },);
+   }
+
+ }*/
 
   ///Listview för Favoriter
   ListView _buildListView() {
     return ListView.builder(
-      itemCount: _bildList.length,
-      itemBuilder: (_, index) {
-        return ListTile(
-          minVerticalPadding: 40,
-          title: Text(_bildList[index].description),
-          leading: Image.memory(
-              base64Decode(_bildList[index].image),
-              height: 150),
-          onTap: () { setState(() {
-            showPopup(index);
-            // jumpTo(_bildList[index].id);
-            print(index.toString());
-          });
-          trailing: Icon(Icons.arrow_forward);
-
-            /*Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => DisplayPictureScreen()),);
-            // do something*/
-          },);
-      },
-    );
-  }
-
-  Column pictureViewScreen() {
-    return Column(children:
-    [
-      PostHeader(),
-      GestureDetector(
-          onDoubleTap: () => _doubleTapped(),
-          child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Image.network(
-                    'https://digitalastadsmuseet.stockholm.se/fotoweb/cache/5021/Skiss/SSMC002123S.t60a235d2.m600.xrhFT-K09Vg9dGT_Q.jpg'),
-                showHeartOverlay
-                    ? Icon(Icons.favorite, color: Colors.white, size: 80.0)
-                    : Container()
-              ]
-          )
-      ),
-      ListTile(
-          leading: IconButton(
-            padding: EdgeInsets.fromLTRB(330.0, 0.0, 0.0, 0.0),
-            iconSize: 40.0,
-            icon: Icon(liked ? Icons.favorite : Icons.favorite_border,
-              color: liked ? Colors.red : Colors.grey,),
-            onPressed: () => _pressed(),
-          )
-      ),
-      Container(
-          child: Text('Årtal: XXXX\nFotograf: \nStockholm',
-              style: TextStyle(
+        itemCount: _bildList.length,
+        itemBuilder: (_, index) {
+          return Container(
+              padding: new EdgeInsets.only(top: 5, bottom: 10),
+              child: ListTile(
+                minVerticalPadding: 20,
+                minLeadingWidth: 60,
+                title: Text(_bildList[index].description, style:
+                TextStyle(
+                  fontSize: 15.0,
                   color: Colors.black,
-                  fontFamily: 'Roboto',
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold
-              ))
-      )
-    ]
-    );
+                  fontWeight: FontWeight.w400,
+                ),),
+                leading: Image.memory(
+                    base64Decode(_bildList[index].image),
+                    width: 80,
+                    height: 300,
+                    colorBlendMode: BlendMode.darken,
+                    fit: BoxFit.fill),
+                onTap: () { setState(() {
+                  showPopup(_bildList[index].id);
+                  print(_bildList[index].id);
+                });
+                trailing: Icon(Icons.arrow_forward);
+
+                  /*Navigator.push(
+             context,
+             MaterialPageRoute(
+                 builder: (context) => DisplayPictureScreen()),);
+           // do something*/
+                },));
+        });
   }
+
+  /*Column pictureViewScreen() {
+   return Column(children:
+   [
+     PostHeader(),
+     GestureDetector(
+         onDoubleTap: () => _doubleTapped(),
+         child: Stack(
+             alignment: Alignment.center,
+             children: <Widget>[
+               Image.network(
+                   'https://digitalastadsmuseet.stockholm.se/fotoweb/cache/5021/Skiss/SSMC002123S.t60a235d2.m600.xrhFT-K09Vg9dGT_Q.jpg'),
+               showHeartOverlay
+                   ? Icon(Icons.favorite, color: Colors.white, size: 80.0)
+                   : Container()
+             ]
+         )
+     ),
+     ListTile(
+         leading: IconButton(
+           padding: EdgeInsets.fromLTRB(330.0, 0.0, 0.0, 0.0),
+           iconSize: 40.0,
+           icon: Icon(liked ? Icons.favorite : Icons.favorite_border,
+             color: liked ? Colors.red : Colors.grey,),
+           onPressed: () => _pressed(),
+         )
+     ),
+     Container(
+         child: Text('Årtal: XXXX\nFotograf: \nStockholm',
+             style: TextStyle(
+                 color: Colors.black,
+                 fontFamily: 'Roboto',
+                 fontSize: 25.0,
+                 fontWeight: FontWeight.bold
+             ))
+     )
+   ]
+   );
+ }*/
 
   _pressed() {
     setState(() {

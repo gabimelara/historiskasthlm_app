@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
@@ -9,6 +10,9 @@ import 'package:http/http.dart' as http;
 import 'all_addresses.dart';
 import 'bilder.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:historiskasthlm_app/sharedPrefs/addToLikesClass.dart';
+import 'package:like_button/like_button.dart';
+
 
 //KARTASCREEN LAYOUT HÄR
 
@@ -27,6 +31,7 @@ class _Map_screenState extends State<Map_screen> {
   Set<Marker> markers = Set();
   double pinPillPosition = -100;
   int dotsIndex = 0;
+  bool selected = true;
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
@@ -83,6 +88,25 @@ class _Map_screenState extends State<Map_screen> {
     }
     return bildList;
   }
+
+ /* Future<bool> liked(bool isLiked) async{
+    /// send your request here
+    final bool success = await (addToLikes(_bildList[index].id));
+
+    /// if failed, you can do nothing
+    return success? !isLiked:isLiked;
+    //return !isLiked;
+  }*/
+  Future<bool> liked(int index) async{
+    /// send your request here
+    final bool success = await (addToLikes(_bildList[index].id));
+
+    /// if failed, you can do nothing
+    // return success? !isLiked:isLiked;
+
+    return success;
+  }
+
 
   _showCustomDialog(BuildContext context) {
     showDialog(
@@ -378,16 +402,50 @@ class _Map_screenState extends State<Map_screen> {
                                                                   .memory(
                                                                   base64Decode(
                                                                       _bildList[index]
-                                                                          .image),
-                                                                  height:
-                                                                  400,
-                                                                  width:
-                                                                  400,
+                                                                          .image), height: 400, width: 400,
                                                                   colorBlendMode:
                                                                   BlendMode
                                                                       .darken,
                                                                   fit: BoxFit
                                                                       .fill),
+                                                              LikeButton(
+                                                                onTap:(isLiked) {liked(index);},
+                                                                size: 40,
+                                                                likeBuilder: (bool isLiked) {
+                                                                  return Icon(
+                                                                    Icons.favorite,
+                                                                    size: 40,
+                                                                    color : isLiked ? Colors.red : Colors.grey,
+                                                                  );
+                                                                },
+                                                                /*   size: 35,
+                                                                        icon: Icon(Icons.favorite),
+                                                                       likeBuilder: (_bildList[index].id) {
+                                                                       return Icon(
+                                                                         Icons.home,
+                                                                         color: isLiked ? Colors.deepPurpleAccent : Colors.grey,
+                                                                         size: buttonSize,
+                                                                       );
+                                                                     },*/
+
+                                                                //onTap: () {(addToLikes(_bildList[index].id))},
+                                                                //color: _bildList.contains(_bildList[index].id) ? Colors.green: Colors.black,
+                                                                //icon: Icon( selected ? Icons.celebration : Icons.title),
+                                                              ),
+
+                                                              /* LikeButton(
+                                                                  onTap: liked,
+                                                                  size: 40,
+                                                                  likeBuilder: (bool isLiked) {
+                                                                    return Icon(
+                                                                      Icons.favorite,
+                                                                      size: 40,
+                                                                      color: isLiked
+                                                                          ? Colors.red
+                                                                          : Colors.grey,
+                                                                    );
+
+                                                                  } ),*/
 
                                                               ListTile(
                                                                 leading: Padding(
@@ -525,9 +583,8 @@ class _Map_screenState extends State<Map_screen> {
                                                                     )),
                                                               ),
                                                             ],
-                                                          )
-                                                        ])))
-                                            ,
+                                                          ),
+
                                             Padding(
 
                                               padding: EdgeInsets.only(
@@ -551,7 +608,8 @@ class _Map_screenState extends State<Map_screen> {
                                               ),
                                             )
                                           ])
-                                      ))));
+                                      ))]))
+                                  )));
                         }),
                   ));
             },
@@ -697,4 +755,5 @@ Map<String, bool> fotografList = {
   'Love': false, 'Laura': false, 'Gustaf': false,
   'Ludwig': false, 'Oksana': false, 'Lena': false,
 };
+
 
