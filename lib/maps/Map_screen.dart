@@ -31,12 +31,11 @@ class _Map_screenState extends State<Map_screen> {
   double pinPillPosition = -100;
   int dotsIndex = 0;
   bool isFiltered = false;
+
   //TODO nollställ åren
   int prefStart = earliestYear;
   int prefEnd = 2021;
   List<String> filterTaglist;
-
-
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
@@ -63,12 +62,19 @@ class _Map_screenState extends State<Map_screen> {
       int start, int end, List<String> tag) async {
     var url;
     if (tag.isEmpty) {
-      url = Uri.parse('https://group10-15.pvt.dsv.su.se/demo/getByFiltering?' + 'start=' + start.toString() + '&end=' + end.toString());
-    }else {
-      url = Uri.parse(
-          'https://group10-15.pvt.dsv.su.se/demo/getByFiltering?' + 'start=' +
-              start.toString() + '&end=' + end.toString() + '&tag=' +
-              tag.join(','));
+      url = Uri.parse('https://group10-15.pvt.dsv.su.se/demo/getByFiltering?' +
+          'start=' +
+          start.toString() +
+          '&end=' +
+          end.toString());
+    } else {
+      url = Uri.parse('https://group10-15.pvt.dsv.su.se/demo/getByFiltering?' +
+          'start=' +
+          start.toString() +
+          '&end=' +
+          end.toString() +
+          '&tag=' +
+          tag.join(','));
     }
     print(url);
     var response = await http.get(url);
@@ -82,8 +88,6 @@ class _Map_screenState extends State<Map_screen> {
     }
     return addressesList;
   }
-
-
 
   List<Bild> _bildList = <Bild>[];
 
@@ -100,8 +104,6 @@ class _Map_screenState extends State<Map_screen> {
     }
     return bildList;
   }
-
-
 
   void updateFilterState(int startYear, int endYear, List<String> tagList) {
     List<allAddresses> _filterList = [];
@@ -133,14 +135,13 @@ class _Map_screenState extends State<Map_screen> {
           _bildList = value; // TODO: Filtrera bilderna här?
           if (isFiltered) {
             List<Bild> _filteredBildList = <Bild>[];
-            for(Bild b in _bildList){
-              if(b.year>prefStart && b.year<prefEnd){
-                for (Tags t in b.tags){
-                  if (filterTaglist.contains(t.getTagName())){
+            for (Bild b in _bildList) {
+              if (b.year > prefStart && b.year < prefEnd) {
+                for (Tags t in b.tags) {
+                  if (filterTaglist.contains(t.getTagName())) {
                     _filteredBildList.add(b);
                     break;
                   }
-
                 }
               }
             }
@@ -533,7 +534,6 @@ class _Map_screenState extends State<Map_screen> {
   }
 
   _showCustomDialog(BuildContext context) {
-
     DateTime _selectedStartDate = DateTime(earliestYear);
     DateTime _selectedEndDate = DateTime.now();
     List<String> _selectedTags = [];
@@ -636,8 +636,8 @@ class _Map_screenState extends State<Map_screen> {
                                       ],
                                       color: Colors.white,
                                       border: Border.all(color: Colors.black12),
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
                                   height: 200,
                                   width: 300,
                                   child: YearPicker(
@@ -649,8 +649,8 @@ class _Map_screenState extends State<Map_screen> {
                                         setState(() {
                                           _selectedEndDate = value;
                                         });
-                                      }));}
-                            ),
+                                      }));
+                            }),
                             Text('Tags',
                                 style: TextStyle(
                                     color: Colors.black,
@@ -670,57 +670,66 @@ class _Map_screenState extends State<Map_screen> {
                                     color: Colors.white,
                                     border: Border.all(color: Colors.black12),
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
+                                        BorderRadius.all(Radius.circular(20))),
                                 height: 300,
                                 width: 300,
                                 child: StatefulBuilder(
                                     builder: (context, setState) {
-                                      return ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: fotografList.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          String _key =
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: fotografList.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      String _key =
                                           fotografList.keys.elementAt(index);
 
-                                          return CheckboxListTile(
-                                            value: fotografList[_key],
-                                            title: Text(_key),
-                                            onChanged: (val) {
-                                              setState(() {
-                                                fotografList[_key] = val;
-                                              });
-                                            },
-                                            activeColor: Colors.blue,
-                                            checkColor: Colors.white,
-                                          );
+                                      return CheckboxListTile(
+                                        value: fotografList[_key],
+                                        title: Text(_key),
+                                        onChanged: (val) {
+                                          setState(() {
+                                            fotografList[_key] = val;
+                                          });
                                         },
+                                        activeColor: Colors.blue,
+                                        checkColor: Colors.white,
                                       );
-                                    })),
+                                    },
+                                  );
+                                })),
                             SizedBox(height: 12),
                             Padding(
-                              padding: EdgeInsets.only(
-                                  left: 15.0, right: 15.0, top: 0, bottom: 5),
-                              child: RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    side: BorderSide(
-                                        color: Color.fromRGBO(3, 3, 3, 1.0))),
-                                onPressed: () {
-                                  fotografList.forEach((key, value) {
-                                    if(value == true) {
-                                      _selectedTags.add(key);
-                                    }
-                                  });
-                                  updateFilterState(_selectedStartDate.year, _selectedEndDate.year, _selectedTags);
-                                  Navigator.of(context).pop();
-                                },
-                                color: Color.fromRGBO(3, 3, 3, 1.0),
-                                textColor: Colors.white,
-                                child: Text("   Applicera    ",
-                                    style: TextStyle(fontSize: 15)),
-                              ),
-                            )
+                                padding: EdgeInsets.only(
+                                    left: 15.0, right: 15.0, top: 0, bottom: 5),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget> [
+                                    ElevatedButton(
+
+                                      onPressed: () {
+                                        fotografList.forEach((key, value) {
+                                          if (value == true) {
+                                            _selectedTags.add(key);
+                                          }
+                                        });
+                                        updateFilterState(_selectedStartDate.year,
+                                            _selectedEndDate.year, _selectedTags);
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("Applicera",
+                                          style: TextStyle(fontSize: 15)),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: (){
+
+                                        },
+                                        child:  Text("Rensa",
+                                            style: TextStyle(fontSize: 15)),)
+                                  ],
+                                ))
                           ],
                         ),
                       ),
@@ -729,8 +738,6 @@ class _Map_screenState extends State<Map_screen> {
         });
   }
 }
-
-
 
 Map<String, bool> fotografList = {
   'Offentliga evenemang': false,
@@ -746,7 +753,7 @@ Map<String, bool> fotografList = {
   'Reklam': false,
   'Fasader': false,
   'Gatubelysning': false,
- 'Gatubeläggning': false,
+  'Gatubeläggning': false,
   'Gatumiljöer': false,
   'Skyltar': false,
   'Plank': false,
@@ -763,8 +770,6 @@ Map<String, bool> fotografList = {
   'Gator': false,
   'Stenhusbebyggelse': false,
   'Kläder': false,
-
-
 };
 
 // void _openFilterDialog() async {
