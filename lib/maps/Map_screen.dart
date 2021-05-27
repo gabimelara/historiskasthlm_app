@@ -189,7 +189,8 @@ isLiked(int index){
                                                                             .fill),
                                                                     FavoriteButton(
                                                                       isFavorite: true,
-                                                                      iconDisabledColor: Colors.black,
+                                                                      iconColor: Colors.grey,
+                                                                      iconDisabledColor: Colors.red,
                                                                       valueChanged: (_isFavorite) {
                                                                         addToLikes(_bildList[index].id);
                                                                       },

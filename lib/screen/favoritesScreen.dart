@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/screen/picsById.dart';
@@ -90,11 +91,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                                 .darken,
                                                             fit: BoxFit
                                                                 .fill),
-                                                        IconButton(
-                                                          icon: Icon(Icons.auto_awesome),
-                                                          onPressed: () => addToLikes(_bildList[index].id),
-                                                          iconSize: 35.0,
-                                                          color: Colors.black87,
+                                                        FavoriteButton(
+                                                          isFavorite: true,
+                                                          iconColor: Colors.red,
+                                                          iconDisabledColor: Colors.grey,
+                                                          valueChanged: (_isFavorite) {
+                                                            addToLikes(_bildList[index].id);
+                                                          },
                                                         ),
                                                         ListTile(
                                                           leading: Padding(
@@ -214,10 +217,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     return list;
   }
 
-  //TODO: avlikea inne i bild + listview
   //TODO: fixa att bilder inte hinner laddas
-  //TODO: formatera text osv i listview
-  //TODO: ändra så listview visas först
   //TODO: skräddarsy google maps-kartan
 
 
