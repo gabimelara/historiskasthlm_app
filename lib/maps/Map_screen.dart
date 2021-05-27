@@ -37,7 +37,6 @@ class _Map_screenState extends State<Map_screen> {
     _location.onLocationChanged.listen((l) {
     });
   }
-
   List<allAddresses> _addressesList = List<allAddresses>();
 
   ///ÄNDRA TILL List<allAddresses> _addressesList = [];
@@ -49,11 +48,9 @@ class _Map_screenState extends State<Map_screen> {
       var addressesJson = json.decode(utf8.decode(response.bodyBytes));
       for (var addressParsed in addressesJson) {
         addressesList.add(allAddresses.fromJson(addressParsed));
-      }
-    }
+      }}
     return addressesList;
   }
-
 
   Future<List<allAddresses>> fetchAddressesFiltered(int start, int end, List<String> tag) async {
     //var url = Uri.parse('http://group10-15.pvt.dsv.su.se/demo/getByFiltering?' + 'start=' + start + '&end=' + end + '&tag=' + tag);
@@ -64,14 +61,11 @@ class _Map_screenState extends State<Map_screen> {
       var addressesJson = json.decode(utf8.decode(response.bodyBytes));
       for (var addressParsed in addressesJson) {
         addressesList.add(allAddresses.fromJson(addressParsed));
-      }
-    }
+      }}
     return addressesList;
   }
 
   List<String> test = [];
-
-
   List<Bild> _bildList = <Bild>[];
 
   Future<List<Bild>> fetchBilder(String address) async {
@@ -83,27 +77,13 @@ class _Map_screenState extends State<Map_screen> {
       var bilderJson = json.decode(utf8.decode(response.bodyBytes));
       for (var bildParsed in bilderJson) {
         bildList.add(Bild.fromJson(bildParsed));
-      }
-    }
+      }}
     return bildList;
   }
-
-  /* Future<bool> liked(bool isLiked) async{
-    /// send your request here
-    final bool success = await (addToLikes(_bildList[index].id));
-    /// if failed, you can do nothing
-    return success? !isLiked:isLiked;
-    //return !isLiked;
-  }*/
   Future<bool> liked(int index) async{
-    /// send your request here
     final bool success = await (addToLikes(_bildList[index].id));
-    /// if failed, you can do nothing
     return success;
-
   }
-
-
   _showCustomDialog(BuildContext context) {
     showDialog(
         context: context,
@@ -119,10 +99,8 @@ class _Map_screenState extends State<Map_screen> {
                   thumbColor: Colors.grey,
                   radius: Radius.circular(40),
                   thickness: 5,
-                  child:
-                  Stack(
-                      children:
-                      <Widget>[
+                  child: Stack(
+                      children: <Widget>[
                         Container(
                             margin: const EdgeInsets.all(0.0),
                             padding: const EdgeInsets.only(top: 0),
@@ -130,9 +108,7 @@ class _Map_screenState extends State<Map_screen> {
                             width: 350,
                             decoration: BoxDecoration(
                                 color: Colors.orange[50],
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20))),
+                                borderRadius: BorderRadius.only( topLeft: Radius.circular(20), topRight: Radius.circular(20))),
                             child: Align(
                                 child: Text('Kategorier',
                                     style: TextStyle(color: Colors.black,
@@ -150,8 +126,7 @@ class _Map_screenState extends State<Map_screen> {
                                 Container(
                                     margin: const EdgeInsets.all(15.0),
                                     padding: const EdgeInsets.only(top: 0),
-                                    height: 50,
-                                    width: 300,
+                                    height: 50, width: 300,
                                     color: Colors.transparent),
 
                                 Text('År',
@@ -184,25 +159,20 @@ class _Map_screenState extends State<Map_screen> {
                                           padding: EdgeInsets.only(left: 5.0, right:5.0,top: 40),
                                           child: TextField(autofocus: false,
                                               style: TextStyle(fontSize: 18.0,
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 1)),
+                                                  color: Color.fromRGBO(0, 0, 0, 1)),
                                               decoration: new InputDecoration(
                                                   filled: false,
                                                   fillColor: Colors.white,
                                                   focusedBorder: OutlineInputBorder(
                                                       borderSide: BorderSide(
-                                                          color: Colors.black,
-                                                          width: 2.0),
+                                                          color: Colors.black, width: 2.0),
                                                       borderRadius:
                                                       const BorderRadius.all(
-                                                          const Radius.circular(
-                                                              10.0))),
+                                                          const Radius.circular(10.0))),
                                                   enabledBorder: OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: Colors.black12,
+                                                      borderSide: BorderSide(color: Colors.black12,
                                                           width: 2.0),
-                                                      borderRadius:
-                                                      const BorderRadius.all(
+                                                      borderRadius: const BorderRadius.all(
                                                           const Radius.circular(
                                                               10.0))),
                                                   hintText: 'Sök efter år...',
@@ -224,24 +194,16 @@ class _Map_screenState extends State<Map_screen> {
                                                 filled: false,
                                                 fillColor: Colors.white,
                                                 focusedBorder: OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 2.0),
+                                                    borderSide: BorderSide(color: Colors.black, width: 2.0),
                                                     borderRadius:
                                                     const BorderRadius.all(
-                                                        const Radius.circular(
-                                                            10.0))),
+                                                        const Radius.circular(10.0))),
                                                 enabledBorder: OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: Colors.black12,
-                                                        width: 2.0),
-                                                    borderRadius:
-                                                    const BorderRadius.all(
-                                                        const Radius.circular(
-                                                            10.0))),
+                                                    borderSide: BorderSide(color: Colors.black12, width: 2.0),
+                                                    borderRadius: const BorderRadius.all(
+                                                        const Radius.circular(10.0))),
                                                 hintText: 'Sök efter år...',
-                                                contentPadding: EdgeInsets.only(
-                                                    left: 15.0, top: 15.0),
+                                                contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
                                                 suffixIcon: IconButton(
                                                   icon: Icon(Icons.search),
                                                   onPressed: () async {
@@ -249,7 +211,6 @@ class _Map_screenState extends State<Map_screen> {
 
                                                 ))),
                                       )])),
-
 
                                 Text('Tags',
                                     style: TextStyle(color: Colors.black,
@@ -280,11 +241,8 @@ class _Map_screenState extends State<Map_screen> {
                                           return ListView.builder(
                                             shrinkWrap: true,
                                             itemCount: fotografList.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              String _key = fotografList.keys
-                                                  .elementAt(
-                                                  index);
+                                            itemBuilder: (BuildContext context, int index) {
+                                              String _key = fotografList.keys.elementAt(index);
 
                                               return CheckboxListTile(
                                                 value: fotografList[_key],
@@ -293,22 +251,16 @@ class _Map_screenState extends State<Map_screen> {
                                                 onChanged: (val) {
                                                   setState(() {
                                                     fotografList[_key] = val;
-                                                  }
-
-                                                  );
-                                                },
+                                                  });
+                                                  },
                                                 activeColor: Colors.blue,
                                                 checkColor: Colors.white,
-
-
                                               );
                                             },
                                           );
                                         })),
 
                                 SizedBox(height: 12),
-
-
                                 Padding(
                                   padding: EdgeInsets.only(left: 15.0, right:15.0,top: 0, bottom:5),
                                   child: RaisedButton(
@@ -322,23 +274,14 @@ class _Map_screenState extends State<Map_screen> {
                                     child: Text("   Applicera    ",
                                         style: TextStyle(fontSize: 15)),
 
-                                  ),
-                                )],
-                            ),
-
-                          ),
-
-                        )
-                      ])));
-        });
-  }
+                                  ),)],),
+                          ),)])));});}
   void updateMapState(var address, String markerValue) {
     markers.add(Marker(
       markerId: MarkerId(address.address),
       position: LatLng(address.latitude, address.longitude),
       icon: BitmapDescriptor.defaultMarkerWithHue(8),
       onTap: () {
-        ///FIXA ontap change color
         markerValue = address.address;
         fetchBilder(markerValue).then((value) {
           _bildList = value;
@@ -352,214 +295,105 @@ class _Map_screenState extends State<Map_screen> {
               return Align(
                   alignment: Alignment.center,
                   child: Container(
-
                     ///  alignment: Alignment.center,
                     height: 710,
 
                     child: ListView.builder(
                         physics: BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
-
-                        ///byt till vertical om ni vill
                         padding: EdgeInsets.all(4),
                         itemCount: _bildList.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
                               width: 400,
                               child: Card(
-                                  margin: EdgeInsets.only(
-                                      left: 10, right: 20, top: 12),
+                                  margin: EdgeInsets.only(left: 10, right: 20, top: 12),
                                   elevation: 15,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(20.0),
+                                    borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   semanticContainer: true,
                                   clipBehavior:
                                   Clip.antiAliasWithSaveLayer,
                                   child: SingleChildScrollView(
-                                    //DETTA ÄR NYTT
                                       child: Container(
                                           height: 700,
                                           child: Stack(children: <Widget>[
-                                            Positioned(
-                                                top: 10,
-                                                left: 10,
-                                                right: 10,
+                                            Positioned(top: 10, left: 10, right: 10,
                                                 child: Container(
                                                     color: Colors.white,
                                                     child: Column(
-                                                        children: <
-                                                            Widget>[
+                                                        children: <Widget>[
                                                           Wrap(
-                                                            children: <
-                                                                Widget>[
-                                                              Image
-                                                                  .memory(
-                                                                  base64Decode(
-                                                                      _bildList[index]
-                                                                          .image), height: 400, width: 400,
-                                                                  colorBlendMode:
-                                                                  BlendMode
-                                                                      .darken,
-                                                                  fit: BoxFit
-                                                                      .fill),
-                                                              LikeButton(
-                                                                size: 30,
-                                                                circleColor: const CircleColor(
-                                                                    start: Color(0xff00ddff), end: Color(0xff0099cc)),
-                                                                bubblesColor: const BubblesColor(
-                                                                  dotPrimaryColor: Color(
-                                                                      0xffe53339),
-                                                                  dotSecondaryColor: Color(0xff0099cc),
-                                                                ),
-                                                                likeBuilder: (bool isLiked) {
-                                                                  if(isLiked){
-                                                                    liked(index);}
-                                                                  return Icon(
-                                                                    Icons.favorite,
-                                                                    color: isLiked ? Colors.red : Colors.grey,
-                                                                    size: 30,
-
-                                                                  );
-
-                                                                  }
-
-                                                              ),
-                                                              
-
+                                                            children: <Widget>[
+                                                              Image.memory( base64Decode (_bildList[index].image),
+                                                                  height: 350, width: 400,
+                                                                  colorBlendMode: BlendMode.darken, fit: BoxFit.fill),
+                                                                LikeButton( size: 30,
+                                                                      circleColor: const CircleColor(
+                                                                          start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                                                                      bubblesColor: const BubblesColor(
+                                                                        dotPrimaryColor: Color(0xffe53339),
+                                                                        dotSecondaryColor: Color(0xff0099cc),
+                                                                      ),
+                                                                      likeBuilder: (bool isLiked) {
+                                                                        if(isLiked){
+                                                                          liked(index);}
+                                                                        return Icon(
+                                                                          Icons.favorite,
+                                                                          color: isLiked ? Colors.red : Colors.grey,
+                                                                          size: 30,
+                                                                        );
+                                                                      }),
                                                               ListTile(
                                                                 leading: Padding(
-                                                                    padding: EdgeInsets
-                                                                        .only(
-                                                                        right: 0,
-                                                                        left: 0,
-                                                                        top: 0),
+                                                                    padding: EdgeInsets.only(right: 0, left: 0, top: 0),
                                                                     child: Text(
-                                                                      ("Id:" +
-                                                                          _bildList[index]
-                                                                              .documentID
-                                                                              .toString()),
-                                                                      style:
-                                                                      TextStyle(
-                                                                        fontSize: 8.0,
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontWeight: FontWeight
-                                                                            .w500,
-                                                                      ),
+                                                                      ("Id:" + _bildList[index].documentID.toString()),
+                                                                      style: TextStyle( fontSize: 8.0, color: Colors.black,
+                                                                        fontWeight: FontWeight.w500,),
                                                                     )),
                                                                 subtitle: Padding(
-                                                                    padding: EdgeInsets
-                                                                        .only(
-                                                                        right: 0,
-                                                                        left: 120,
-                                                                        top: 5,
-                                                                        bottom: 20),
-                                                                    child: Text(
-                                                                      ("År: " +
-                                                                          _bildList[index]
-                                                                              .year
-                                                                              .toString()),
-                                                                      style:
-                                                                      TextStyle(
+                                                                    padding: EdgeInsets.only( right: 0, left: 120, top: 5, bottom: 20),
+                                                                    child: Text( ("År: " + _bildList[index].year.toString()),
+                                                                      style: TextStyle(
                                                                         fontSize: 17.0,
-                                                                        fontStyle: FontStyle
-                                                                            .normal,
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontWeight: FontWeight
-                                                                            .w400,
+                                                                        fontStyle: FontStyle.normal,
+                                                                        color: Colors.black,
+                                                                        fontWeight: FontWeight.w400,
                                                                       ),
                                                                     )),
                                                               ),
                                                               ListTile(
                                                                 title: Padding(
-                                                                    padding: EdgeInsets
-                                                                        .only(
-                                                                        right: 10,
-                                                                        left: 0,
-                                                                        top: 0,
-                                                                        bottom: 0),
-                                                                    child: Text(
-                                                                      (_bildList[index]
-                                                                          .description),
-                                                                      style:
-                                                                      TextStyle(
-                                                                        fontSize: 18.0,
-                                                                        fontStyle: FontStyle
-                                                                            .normal,
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontWeight: FontWeight
-                                                                            .w400,
+                                                                    padding: EdgeInsets.only(right: 10, left: 0, top: 0, bottom: 0),
+                                                                    child: Text((_bildList[index].description),
+                                                                      style: TextStyle(fontSize: 18.0,
+                                                                        fontStyle: FontStyle.normal,
+                                                                        color: Colors.black,
+                                                                        fontWeight: FontWeight.w400,
                                                                       ),
-                                                                    )),
-                                                              ),
+                                                                    )),),
 
                                                               ListTile(
-                                                                //child: Icon(Icons.camera_enhance_outlined)),
-
                                                                 subtitle: Padding(
-                                                                    padding: EdgeInsets
-                                                                        .only(
-                                                                        right: 0,
-                                                                        left: 0,
-                                                                        top: 0,
-                                                                        bottom: 20),
-                                                                    child: Text(
-                                                                        ("BY: " +
-                                                                            _bildList[index]
-                                                                                .photographer),
-                                                                        style: TextStyle(
-                                                                            fontSize: 15.0,
-                                                                            fontStyle: FontStyle
-                                                                                .italic,
-                                                                            color: Colors
-                                                                                .black,
-                                                                            fontWeight: FontWeight
-                                                                                .w400))),
-                                                              ),
-
+                                                                    padding: EdgeInsets.only(right: 0, left: 0, top: 0, bottom: 20),
+                                                                    child: Text(("BY: " + _bildList[index].photographer),
+                                                                        style: TextStyle( fontSize: 15.0,  fontStyle: FontStyle.italic,
+                                                                            color: Colors.black, fontWeight: FontWeight.w400))),),
                                                               ListTile(
                                                                 title: Padding(
-                                                                    padding: EdgeInsets
-                                                                        .only(
-                                                                        right: 0,
-                                                                        left: 0,
-                                                                        top: 0,
-                                                                        bottom: 0),
-                                                                    child: Text(
-                                                                      (_bildList[index]
-                                                                          .district),
-                                                                      style:
-                                                                      TextStyle(
-                                                                        letterSpacing: 2.0,
-                                                                        //SKA VI HA DET?
-                                                                        fontSize: 15.0,
-                                                                        color: Colors
-                                                                            .blueGrey,
-                                                                        fontWeight: FontWeight
-                                                                            .w400,
+                                                                    padding: EdgeInsets.only(right: 0, left: 0, top: 0, bottom: 0),
+                                                                    child: Text((_bildList[index].district),
+                                                                      style: TextStyle( letterSpacing: 2.0, fontSize: 15.0,
+                                                                        color: Colors.blueGrey, fontWeight: FontWeight.w400,
                                                                       ),
                                                                     )),
                                                                 subtitle: Padding(
-                                                                    padding: EdgeInsets
-                                                                        .only(
-                                                                        right: 0,
-                                                                        left: 0,
-                                                                        top: 0,
-                                                                        bottom: 50),
-                                                                    child: Text(
-                                                                      (_bildList[index]
-                                                                          .block),
-                                                                      style:
-                                                                      TextStyle(
-                                                                        fontSize: 15.0,
-                                                                        color: Colors
-                                                                            .blueGrey,
-                                                                        fontWeight: FontWeight
-                                                                            .w400,
+                                                                    padding: EdgeInsets.only(right: 0, left: 0, top: 0, bottom: 50),
+                                                                    child: Text((_bildList[index].block),
+                                                                      style: TextStyle(fontSize: 15.0, color: Colors.blueGrey,
+                                                                        fontWeight: FontWeight.w400,
                                                                       ),
                                                                     )),
                                                               ),
@@ -567,33 +401,14 @@ class _Map_screenState extends State<Map_screen> {
                                                           ),
 
                                                           Padding(
-
-                                                            padding: EdgeInsets.only(
-                                                                bottom: 20),
-                                                            child: Align(
-                                                                alignment: Alignment
-                                                                    .bottomCenter,
-
-                                                                child: DotsIndicator(
-                                                                  dotsCount: _bildList
-                                                                      .length,
+                                                            padding: EdgeInsets.only(bottom: 40),
+                                                            child: Align( alignment: Alignment.bottomCenter,
+                                                                child: DotsIndicator(dotsCount: _bildList.length,
                                                                   position: index,
-                                                                  decorator: DotsDecorator(
-                                                                    color: Colors
-                                                                        .black87,
-                                                                    activeColor: Colors
-                                                                        .blueGrey,
-                                                                  ),
-                                                                )
-
-                                                            ),
-                                                          )
-                                                        ])
+                                                                  decorator: DotsDecorator( color: Colors.black87, activeColor: Colors.blueGrey)),
+                                                            ),)])
                                                 ))]))
-                                  )));
-                        }),
-                  ));
-            },
+                                  )));}),));},
             transitionBuilder: (context, anim1, anim2, child) {
               return SlideTransition(
                 position: Tween(begin: Offset(0, 1), end: Offset(0, 0))
@@ -610,7 +425,6 @@ class _Map_screenState extends State<Map_screen> {
   @override
   void initState() {
     String markerValue;
-
     fetchAddresses().then((value) {
       _addressesList.addAll(value);
       for (var address in _addressesList) {
@@ -624,9 +438,7 @@ class _Map_screenState extends State<Map_screen> {
   searchandNavigate() {
     Geolocator().placemarkFromAddress(searchAddr).then((result) {
       _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-          target:
-          LatLng(result[0].position.latitude, result[0].position.longitude),
-          zoom: 18)));
+          target: LatLng(result[0].position.latitude, result[0].position.longitude), zoom: 18)));
     });
   }
 
@@ -650,7 +462,6 @@ class _Map_screenState extends State<Map_screen> {
           CameraPosition(target: _initialcameraposition, zoom: 16),
           onMapCreated: _onMapCreated,
           markers: Set.from(markers),
-          // mapType: MapType.hybrid,
           myLocationButtonEnabled: false,
           myLocationEnabled: true,
         ),
@@ -667,9 +478,7 @@ class _Map_screenState extends State<Map_screen> {
                   _controller.animateCamera(
                     CameraUpdate.newCameraPosition(
                       //BUG NÄR MAN ANVÄNDER DET SÅ GÅR INTE ATT SÖKA PÅ PLATSER
-                      CameraPosition(
-                          target: LatLng(l.latitude, l.longitude),
-                          zoom: 18),
+                      CameraPosition(target: LatLng(l.latitude, l.longitude), zoom: 18),
                     ),
                   );
                 }),
@@ -677,7 +486,6 @@ class _Map_screenState extends State<Map_screen> {
             // Respond to button press
             child: Icon(Icons.center_focus_strong, color: Colors.black),
           )
-        //Positions knappen
       ),
       Positioned(
         top: 150,
@@ -690,7 +498,6 @@ class _Map_screenState extends State<Map_screen> {
           child: Icon(Icons.filter_list_alt, color: Colors.black),
         ),
       ),
-
 
       Positioned(
         //HÄR BÖRJAR SÖKRUTAN
