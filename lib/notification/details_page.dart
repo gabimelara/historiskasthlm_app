@@ -148,11 +148,11 @@ class _NotificationDetailsPageState extends State<NotificationDetailsPage> {
                                     children: [
                                       TextSpan(
                                           text: widget.receivedNotification?.titleWithoutHtml ?? ((widget.receivedNotification?.body?.isEmpty ?? true) ? '' : widget.receivedNotification.bodyWithoutHtml),
-                                          style: TextStyle(fontSize: (widget.receivedNotification?.title?.isEmpty ?? true) ? 22 : 32, height: 1.2, color: Colors.deepOrange, fontWeight: FontWeight.bold)
+                                          style: TextStyle(fontSize: (widget.receivedNotification?.title?.isEmpty ?? true) ? 22 : 32, height: 1.2, color: Colors.black, fontWeight: FontWeight.bold)
                                       ),
                                       TextSpan(
                                           text: '\n' + displayedDate,
-                                          style: themeData.textTheme.subtitle2.copyWith( color: Colors.black26 )
+                                          style: themeData.textTheme.subtitle2.copyWith( color: Colors.black )
                                       )
                                     ]
                                 )
@@ -165,7 +165,7 @@ class _NotificationDetailsPageState extends State<NotificationDetailsPage> {
                       Container(
                           width: mediaQueryData.size.width,
                           padding: EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 25),
-                          child: Text(widget.receivedNotification.bodyWithoutHtml, style: themeData.textTheme.bodyText2.copyWith(color: Colors.blueGrey))
+                          child: Text(widget.receivedNotification.bodyWithoutHtml, style: themeData.textTheme.bodyText2.copyWith(color: Colors.black))
                       ),
                     ],
                   ),

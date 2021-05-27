@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:historiskasthlm_app/screen/navigation_bar.dart';
 
-
 import 'guideData.dart';
-/// Vi bör dock göra en if-sats om guidade tour ska bara visas engång inte varje gång man går in i appen.
+
 
 class Guidade extends StatefulWidget {
   @override
@@ -53,7 +52,7 @@ class _GuidadeState extends State<Guidade> {
 
                       Padding(
                         padding: const EdgeInsets.only(
-                            left: 20, right: 20, bottom: 0, top: 5), //RUBRIK
+                            left: 20, right: 20, bottom: 0, top: 10), //RUBRIK
                         child: Text(
                           //RUBRIK
                           dataPage[i].title,  //hämtar titeln från data klassen
@@ -65,7 +64,7 @@ class _GuidadeState extends State<Guidade> {
                           height:10),
                       Padding(
                           padding: const EdgeInsets.only(  //ny
-                              left: 20, right: 20, bottom: 70, top: 0), //ny
+                              left: 20, right: 20, bottom: 10, top: 20), //ny
                           child: Text(
                             dataPage[i].description,  //hämtar beskrivningen från data klassen
                             textAlign: TextAlign.center,
@@ -92,7 +91,7 @@ class _GuidadeState extends State<Guidade> {
             ),
           ),
           Positioned(
-            left: 20,
+            left: 50,
             bottom: 10,
             child: ElevatedButton(  //knapp
               style: ElevatedButton.styleFrom(
@@ -181,7 +180,7 @@ class _GuidadeState extends State<Guidade> {
     return Container(
       height: 10,
       width: currentIndex == index ? 25 : 10,
-      margin: EdgeInsets.only(right: 5),
+      margin: EdgeInsets.only(right: 5, bottom:20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.black,

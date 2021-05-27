@@ -278,13 +278,13 @@ class _Map_screenState extends State<Map_screen> {
                                                                     padding: EdgeInsets.only(right: 0, left: 0, top: 0, bottom: 0),
                                                                     child: Text((_bildList[index].district),
                                                                       style: TextStyle( letterSpacing: 2.0, fontSize: 15.0,
-                                                                        color: Colors.blueGrey, fontWeight: FontWeight.w400,
+                                                                        color: Colors.black, fontWeight: FontWeight.w400,
                                                                       ),
                                                                     )),
                                                                 subtitle: Padding(
                                                                     padding: EdgeInsets.only(right: 0, left: 0, top: 0, bottom: 50),
                                                                     child: Text((_bildList[index].block),
-                                                                      style: TextStyle(fontSize: 15.0, color: Colors.blueGrey,
+                                                                      style: TextStyle(fontSize: 15.0, color: Colors.black,
                                                                         fontWeight: FontWeight.w400,
                                                                       ),
                                                                     )),
@@ -297,7 +297,7 @@ class _Map_screenState extends State<Map_screen> {
                                                             child: Align( alignment: Alignment.bottomCenter,
                                                               child: DotsIndicator(dotsCount: _bildList.length,
                                                                   position: index,
-                                                                  decorator: DotsDecorator( color: Colors.black87, activeColor: Colors.blueGrey)),
+                                                                  decorator: DotsDecorator( color: Colors.black87, activeColor: Colors.red)),
                                                             ),)])
                                                 ))]))
                                   )));}),));},

@@ -108,15 +108,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
         content: NotificationContent(
             id: 100,
             channelKey: "basic_channel",
-            title: "En gammal gård i Stockholm",
-            body: "En gammal gård i Stockholm på 1800",
+            title: "Ny fontän i Kungsträdsgården, år:1969",
+            body: "Ny fontän i Kungsträdgården norra del. Pågående anläggninsarbeten (nya blomlådor, ny markbeläggning) by: Gram, Ingemar",
             notificationLayout: NotificationLayout.BigPicture,
-            largeIcon: "https://group10-15.pvt.dsv.su.se/demo/files/3183",
-            bigPicture: "https://group10-15.pvt.dsv.su.se/demo/files/3183",
+            largeIcon: "https://group10-15.pvt.dsv.su.se/demo/files/4542",
+            bigPicture: "https://group10-15.pvt.dsv.su.se/demo/files/4542",
             showWhen: true,
             autoCancel: true,
             payload: {
-              "secret": "Historiska"
+              "secret": "Norrmalm"
             }
         )
 

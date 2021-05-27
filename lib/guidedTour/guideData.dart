@@ -10,24 +10,27 @@ class Data {
 }
 
   List<Data> dataPage = [
-    Data('assets/välkommen.png', 'Välkommen',
+    Data('assets/1.png', 'Välkommen',
         'Låt oss ta en snabb rundtur i appen och alla funktioner du kan hitta i den.'),
 
-    Data('assets/pins.png', 'Platsmarkörer', ///TODO
-        'Den röda cirkeln visar din position så att du alltid vet vilken del av Stockholm du befinner dig i.'),
-
-    Data('assets/pins.png', 'Hitta bilder',
+    Data('assets/2.png', 'Hitta bilder',
         'Röda kartnålar på kartan visar alla platser där du kan utforska bilder'),
 
-    Data('assets/sökplatser.png', 'Sök efter specifika platser',
+    Data('assets/3.png', 'Position',
+        'Den blåa cirkeln visar din position så att du alltid vet vilken del av Stockholm du befinner dig i.'),
+
+    Data('assets/4.png', 'Sök efter specifika platser',
         'Specifika platser eller adresser som du vill utforska!'),
 
-    Data('assets/filtreraBilder.png', 'Filtrera sökning',
+    Data('assets/5.png', 'Filtrera sökning',
         'Filtrea dina sökningar efter år eller tags.'),
 
-    Data('assets/visabilder.jpg', 'Visa bilder', ///TODO
+    Data('assets/6.png', 'Visa bilder',
         'Se historiska bilder från en specifik adress genom att trycka på motsvarande kartnål på kartan.'),
 
-    Data('assets/zooma.jpg', 'Notifikationer.',///TODO
-        'Du kan få notiser när du är nära en bild.')
+    Data('assets/7.png', 'Favoriter',
+        'Du kan gilla dina favoritbilder.'),
+
+    Data('assets/8.png', 'Notifikationer',
+        'Du kan aktivera notifikationer.')
   ];
