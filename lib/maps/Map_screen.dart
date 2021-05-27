@@ -724,7 +724,8 @@ class _Map_screenState extends State<Map_screen> {
                                     ),
                                     ElevatedButton(
                                         onPressed: (){
-
+                                          initState();
+                                          Navigator.of(context).pop();
                                         },
                                         child:  Text("Rensa",
                                             style: TextStyle(fontSize: 15)),)
