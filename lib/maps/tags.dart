@@ -1,7 +1,11 @@
-
 class Tags {
   String tag;
   List<Null> bilder;
+
+  String getTagName(){
+    return tag;
+  }
+
 
   Tags({this.tag, this.bilder});
 
@@ -16,9 +20,9 @@ class Tags {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['tag'] = this.tag;
-     if (this.bilder != null) {
+    if (this.bilder != null) {
       data['bilder'] = this.bilder.map((v) => toJson()).toList();
-     }
+    }
     return data;
   }
 }

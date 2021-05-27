@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/screen/picsById.dart';
 import 'package:historiskasthlm_app/sharedPrefs/addToLikesClass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:like_button/like_button.dart';
 class FavoriteScreen extends StatefulWidget {
   @override
   _FavoriteScreenState createState() => _FavoriteScreenState();
@@ -62,23 +62,19 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                   children: <Widget>[
                                                     Wrap(
                                                       children: <Widget>[
-                                                        Image.memory( base64Decode (_bildList[index].image),
-                                                            height: 350, width: 400,
-                                                            colorBlendMode: BlendMode.darken, fit: BoxFit.fill),
-                                                        LikeButton( size: 30,
-                                                            circleColor: const CircleColor(
-                                                                start: Color(0xff00ddff), end: Color(0xff0099cc)),
-                                                            bubblesColor: const BubblesColor(
-                                                              dotPrimaryColor: Color(0xffe53339),
-                                                              dotSecondaryColor: Color(0xff0099cc),
-                                                            ),
-                                                            likeBuilder: (isLiked) {
-                                                              return Icon(
-                                                                Icons.favorite,
-                                                                color: isLiked ? Colors.grey: Colors.red,
-                                                                size: 30,
-                                                              );
-                                                            }),
+                                                        Stack(children: <Widget>[
+                                                          Image.memory( base64Decode (_bildList[index].image),
+                                                              height: 350, width: 400,
+                                                              colorBlendMode: BlendMode.darken, fit: BoxFit.fill),
+                                                          Positioned(top: 300, left: 280, right: 0,
+                                                              child: FavoriteButton(
+                                                                isFavorite: true,
+                                                                iconColor: Colors.red,
+                                                                iconDisabledColor: Colors.white,
+                                                                valueChanged: (_isFavorite) {
+                                                                  addToLikes(_bildList[index].id);
+                                                                },
+                                                              ))]),
                                                         ListTile(
                                                           leading: Padding(
                                                               padding: EdgeInsets.only(right: 0, left: 0, top: 0),
@@ -268,7 +264,7 @@ getFavorites() async {
                 onPressed: () {
                   setState(() {
                     listedPictures = false;
-                    pictureView = false;
+                    pictureView = true;
                   });
                 }),
           ]

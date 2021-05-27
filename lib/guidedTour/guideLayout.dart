@@ -4,7 +4,6 @@ import 'package:historiskasthlm_app/screen/navigation_bar.dart';
 
 
 import 'guideData.dart';
-
 /// Vi bör dock göra en if-sats om guidade tour ska bara visas engång inte varje gång man går in i appen.
 
 class Guidade extends StatefulWidget {
@@ -44,7 +43,7 @@ class _GuidadeState extends State<Guidade> {
               },
               itemBuilder: (_, i) {
                 return Container(
-                height: 100,
+                height: 80,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

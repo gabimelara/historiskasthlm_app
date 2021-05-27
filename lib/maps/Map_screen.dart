@@ -6,11 +6,12 @@ import 'package:historiskasthlm_app/filtrering/filter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'all_addresses.dart';
 import 'bilder.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:historiskasthlm_app/sharedPrefs/addToLikesClass.dart';
-import 'package:like_button/like_button.dart';
+import 'package:favorite_button/favorite_button.dart';
 
 
 //KARTASCREEN LAYOUT HÄR
@@ -32,6 +33,23 @@ class _Map_screenState extends State<Map_screen> {
   int dotsIndex = 0;
   bool selected = true;
 
+  addToLikes(int i) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> list = prefs.getStringList('favorites');
+
+    if (list == null){
+      List<String> temp = [];
+      list = temp;
+    }
+    String id = i.toString();
+    if (list.contains(id)){
+      list.remove(id);
+    } else {
+      list.add(id);
+    }
+    await prefs.setStringList('favorites', list);
+    print(prefs.getStringList('favorites'));
+  }
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
     _location.onLocationChanged.listen((l) {
@@ -80,9 +98,18 @@ class _Map_screenState extends State<Map_screen> {
       }}
     return bildList;
   }
-  Future<bool> liked(int index) async{
-    final bool success = await (addToLikes(_bildList[index].id));
-    return success;
+  Future<bool> onLikeButtonTapped(bool isLiked) async{
+    /// send your request here
+    // final bool success= await sendRequest();
+
+    /// if failed, you can do nothing
+    // return success? !isLiked:isLiked;
+
+    return !isLiked;
+  }
+  isLiked(int index){
+    onLikeButtonTapped;
+    addToLikes(_bildList[index].id);
   }
   _showCustomDialog(BuildContext context) {
     showDialog(
@@ -252,7 +279,7 @@ class _Map_screenState extends State<Map_screen> {
                                                   setState(() {
                                                     fotografList[_key] = val;
                                                   });
-                                                  },
+                                                },
                                                 activeColor: Colors.blue,
                                                 checkColor: Colors.white,
                                               );
@@ -326,25 +353,21 @@ class _Map_screenState extends State<Map_screen> {
                                                         children: <Widget>[
                                                           Wrap(
                                                             children: <Widget>[
-                                                              Image.memory( base64Decode (_bildList[index].image),
+                                                              Stack(children: <Widget>[
+                                                                Image.memory( base64Decode (_bildList[index].image),
                                                                   height: 350, width: 400,
                                                                   colorBlendMode: BlendMode.darken, fit: BoxFit.fill),
-                                                                LikeButton( size: 30,
-                                                                      circleColor: const CircleColor(
-                                                                          start: Color(0xff00ddff), end: Color(0xff0099cc)),
-                                                                      bubblesColor: const BubblesColor(
-                                                                        dotPrimaryColor: Color(0xffe53339),
-                                                                        dotSecondaryColor: Color(0xff0099cc),
-                                                                      ),
-                                                                      likeBuilder: (bool isLiked) {
-                                                                        if(isLiked){
-                                                                          liked(index);}
-                                                                        return Icon(
-                                                                          Icons.favorite,
-                                                                          color: isLiked ? Colors.red : Colors.grey,
-                                                                          size: 30,
-                                                                        );
-                                                                      }),
+                                                                Positioned(top: 300, left: 280, right: 0,
+                                                                    child: FavoriteButton(
+                                                                      isFavorite: true,
+                                                                iconColor: Colors.white,
+                                                                iconDisabledColor: Colors.red,
+                                                                valueChanged: (_isFavorite) {
+                                                                  addToLikes(
+                                                                      _bildList[index]
+                                                                          .id);
+                                                                },
+                                                              ))]),
                                                               ListTile(
                                                                 leading: Padding(
                                                                     padding: EdgeInsets.only(right: 0, left: 0, top: 0),
@@ -403,7 +426,7 @@ class _Map_screenState extends State<Map_screen> {
                                                           Padding(
                                                             padding: EdgeInsets.only(bottom: 40),
                                                             child: Align( alignment: Alignment.bottomCenter,
-                                                                child: DotsIndicator(dotsCount: _bildList.length,
+                                                              child: DotsIndicator(dotsCount: _bildList.length,
                                                                   position: index,
                                                                   decorator: DotsDecorator( color: Colors.black87, activeColor: Colors.blueGrey)),
                                                             ),)])
