@@ -226,6 +226,13 @@ class _Map_screenState extends State<Map_screen> {
                                                                 Image.memory( base64Decode (_bildList[index].image),
                                                                   height: 350, width: 400,
                                                                   colorBlendMode: BlendMode.darken, fit: BoxFit.fill),
+                                                                Positioned(top: 0, left: 0, right: 300,
+                                                                    child: IconButton(
+                                                                      icon: Icon(Icons.close_outlined, color: Colors.white, size: 30),
+                                                                        onPressed: (){
+                                                                          Navigator.pop(context);
+                                                                        }
+                                                                    )),
                                                                 Positioned(top: 300, left: 280, right: 0,
                                                                     child: FavoriteButton(
                                                                       isFavorite: true,
