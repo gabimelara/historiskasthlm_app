@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:historiskasthlm_app/filtrering/filter_test.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:historiskasthlm_app/maps/tags.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +33,12 @@ class _Map_screenState extends State<Map_screen> {
   double pinPillPosition = -100;
   int dotsIndex = 0;
   bool selected = true;
+  static const earliestYear = 1840;
+
+  bool isFiltered = false;
+  int prefStart = earliestYear;
+  int prefEnd = 2021;
+  List<String> filterTaglist;
 
   addToLikes(int i) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -70,20 +77,39 @@ class _Map_screenState extends State<Map_screen> {
     return addressesList;
   }
 
-  Future<List<allAddresses>> fetchAddressesFiltered(int start, int end, List<String> tag) async {
-    //var url = Uri.parse('http://group10-15.pvt.dsv.su.se/demo/getByFiltering?' + 'start=' + start + '&end=' + end + '&tag=' + tag);
-    var url = Uri(scheme: 'https',host: 'group10-15.pvt.dsv.su.se', path: '/demo/getByFiltering/',queryParameters: {'start': start, 'end' : end, 'tag' : tag});
+  Future<List<allAddresses>> fetchAddressesFiltered(
+      int start, int end, List<String> tag) async {
+    var url;
+    if (tag.isEmpty) {
+      url = Uri.parse('https://group10-15.pvt.dsv.su.se/demo/getByFiltering?' +
+          'start=' +
+          start.toString() +
+          '&end=' +
+          end.toString());
+    } else {
+      url = Uri.parse('https://group10-15.pvt.dsv.su.se/demo/getByFiltering?' +
+          'start=' +
+          start.toString() +
+          '&end=' +
+          end.toString() +
+          '&tag=' +
+          tag.join(','));
+    }
+    print(url);
     var response = await http.get(url);
-    List <allAddresses> addressesList = [];
+    List<allAddresses> addressesList = [];
     if (response.statusCode == 200) {
       var addressesJson = json.decode(utf8.decode(response.bodyBytes));
       for (var addressParsed in addressesJson) {
+        print(addressParsed);
         addressesList.add(allAddresses.fromJson(addressParsed));
-      }}
+      }
+    }
     return addressesList;
   }
 
   List<String> test = [];
+
   List<Bild> _bildList = <Bild>[];
 
   Future<List<Bild>> fetchBilder(String address) async {
@@ -95,8 +121,27 @@ class _Map_screenState extends State<Map_screen> {
       var bilderJson = json.decode(utf8.decode(response.bodyBytes));
       for (var bildParsed in bilderJson) {
         bildList.add(Bild.fromJson(bildParsed));
-      }}
+      }
+    }
     return bildList;
+  }
+
+  void updateFilterState(int startYear, int endYear, List<String> tagList) {
+    List<allAddresses> _filterList = [];
+    markers.clear();
+    isFiltered = true;
+    prefStart = startYear;
+    prefEnd = endYear;
+    filterTaglist = tagList;
+    String markerValue;
+    fetchAddressesFiltered(startYear, endYear, tagList).then((value) {
+      _filterList.addAll(value);
+      for (var address in _filterList) {
+        setState(() {
+          updateMapState(address, markerValue);
+        });
+      }
+    });
   }
   Future<bool> onLikeButtonTapped(bool isLiked) async{
     /// send your request here
@@ -111,198 +156,7 @@ class _Map_screenState extends State<Map_screen> {
     onLikeButtonTapped;
     addToLikes(_bildList[index].id);
   }
-  _showCustomDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return Dialog(
-              backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: RawScrollbar(
-                  isAlwaysShown: true,
-                  thumbColor: Colors.grey,
-                  radius: Radius.circular(40),
-                  thickness: 5,
-                  child: Stack(
-                      children: <Widget>[
-                        Container(
-                            margin: const EdgeInsets.all(0.0),
-                            padding: const EdgeInsets.only(top: 0),
-                            height: 50,
-                            width: 350,
-                            decoration: BoxDecoration(
-                                color: Colors.orange[50],
-                                borderRadius: BorderRadius.only( topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                            child: Align(
-                                child: Text('Kategorier',
-                                    style: TextStyle(color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20)))),
-                        Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
 
-                                Container(
-                                    margin: const EdgeInsets.all(15.0),
-                                    padding: const EdgeInsets.only(top: 0),
-                                    height: 50, width: 300,
-                                    color: Colors.transparent),
-
-                                Text('År',
-                                    style: TextStyle(color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18)),
-                                Container(
-                                    margin: const EdgeInsets.all(15.0),
-                                    padding: const EdgeInsets.all(3.0),
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey,
-                                            offset: Offset(0.0, 1.0), //(x,y)
-                                            blurRadius: 3.0,
-                                          )
-                                        ],
-                                        color: Colors.white,
-                                        border: Border.all(
-                                            color: Colors.black12),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20))
-                                    ),
-                                    height: 200,
-                                    width: 300,
-
-                                    child: Stack(children:
-                                    <Widget>[
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 5.0, right:5.0,top: 40),
-                                          child: TextField(autofocus: false,
-                                              style: TextStyle(fontSize: 18.0,
-                                                  color: Color.fromRGBO(0, 0, 0, 1)),
-                                              decoration: new InputDecoration(
-                                                  filled: false,
-                                                  fillColor: Colors.white,
-                                                  focusedBorder: OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: Colors.black, width: 2.0),
-                                                      borderRadius:
-                                                      const BorderRadius.all(
-                                                          const Radius.circular(10.0))),
-                                                  enabledBorder: OutlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.black12,
-                                                          width: 2.0),
-                                                      borderRadius: const BorderRadius.all(
-                                                          const Radius.circular(
-                                                              10.0))),
-                                                  hintText: 'Sök efter år...',
-                                                  contentPadding: EdgeInsets.only(
-                                                      left: 15.0, top: 15.0),
-                                                  suffixIcon: IconButton(
-                                                    icon: Icon(Icons.search),
-                                                    onPressed: () async {
-                                                    },
-
-                                                  )))),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 5.0, right:5.0,top: 100),
-                                        child: TextField(autofocus: false,
-                                            style: TextStyle(fontSize: 18.0,
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 1)),
-                                            decoration: new InputDecoration(
-                                                filled: false,
-                                                fillColor: Colors.white,
-                                                focusedBorder: OutlineInputBorder(
-                                                    borderSide: BorderSide(color: Colors.black, width: 2.0),
-                                                    borderRadius:
-                                                    const BorderRadius.all(
-                                                        const Radius.circular(10.0))),
-                                                enabledBorder: OutlineInputBorder(
-                                                    borderSide: BorderSide(color: Colors.black12, width: 2.0),
-                                                    borderRadius: const BorderRadius.all(
-                                                        const Radius.circular(10.0))),
-                                                hintText: 'Sök efter år...',
-                                                contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
-                                                suffixIcon: IconButton(
-                                                  icon: Icon(Icons.search),
-                                                  onPressed: () async {
-                                                  },
-
-                                                ))),
-                                      )])),
-
-                                Text('Tags',
-                                    style: TextStyle(color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18)),
-                                Container(
-                                    margin: const EdgeInsets.all(15.0),
-                                    padding: const EdgeInsets.all(3.0),
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey,
-                                            offset: Offset(0.0, 1.0), //(x,y)
-                                            blurRadius: 3.0,
-                                          )
-                                        ],
-                                        color: Colors.white,
-                                        border: Border.all(
-                                            color: Colors.black12),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20))
-                                    ),
-                                    height: 300,
-                                    width: 300,
-
-                                    child: StatefulBuilder(
-                                        builder: (context, setState) {
-                                          return ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: fotografList.length,
-                                            itemBuilder: (BuildContext context, int index) {
-                                              String _key = fotografList.keys.elementAt(index);
-
-                                              return CheckboxListTile(
-                                                value: fotografList[_key],
-                                                title: Text(_key),
-
-                                                onChanged: (val) {
-                                                  setState(() {
-                                                    fotografList[_key] = val;
-                                                  });
-                                                },
-                                                activeColor: Colors.blue,
-                                                checkColor: Colors.white,
-                                              );
-                                            },
-                                          );
-                                        })),
-
-                                SizedBox(height: 12),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 15.0, right:15.0,top: 0, bottom:5),
-                                  child: RaisedButton(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        side: BorderSide(
-                                            color: Color.fromRGBO(3, 3, 3, 1.0))),
-                                    onPressed: () => Navigator.of(context).pop(),
-                                    color: Color.fromRGBO(3, 3, 3, 1.0),
-                                    textColor: Colors.white,
-                                    child: Text("   Applicera    ",
-                                        style: TextStyle(fontSize: 15)),
-
-                                  ),)],),
-                          ),)])));});}
   void updateMapState(var address, String markerValue) {
     markers.add(Marker(
       markerId: MarkerId(address.address),
@@ -311,7 +165,22 @@ class _Map_screenState extends State<Map_screen> {
       onTap: () {
         markerValue = address.address;
         fetchBilder(markerValue).then((value) {
-          _bildList = value;
+          _bildList = value; // TODO: Filtrera bilderna här?
+          if (isFiltered) {
+            List<Bild> _filteredBildList = <Bild>[];
+            for (Bild b in _bildList) {
+              if (b.year > prefStart && b.year < prefEnd) {
+                for (Tags t in b.tags) {
+                  if (filterTaglist.contains(t.getTagName())) {
+                    _filteredBildList.add(b);
+                    break;
+                  }
+                }
+              }
+            }
+            _bildList = _filteredBildList;
+            isFiltered = false;
+          }
           showGeneralDialog(
             barrierDismissible: true,
             barrierLabel: "Map",
@@ -490,7 +359,7 @@ class _Map_screenState extends State<Map_screen> {
         ),
       ),
       Positioned(
-          top: 700,
+          top: 650,
           right: 320,
           left: 0,
           child: FloatingActionButton(
@@ -515,6 +384,7 @@ class _Map_screenState extends State<Map_screen> {
         right: 0,
         left: 320,
         child: FloatingActionButton(
+          heroTag: Text("filter"),
           backgroundColor: const Color(0xffffffff),
           foregroundColor: Colors.white,
           onPressed: () => _showCustomDialog(context),
@@ -559,10 +429,242 @@ class _Map_screenState extends State<Map_screen> {
     ]);
   }
 
+_showCustomDialog(BuildContext context) {
+  DateTime _selectedStartDate = DateTime(earliestYear);
+  DateTime _selectedEndDate = DateTime.now();
+  List<String> _selectedTags = [];
+  showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return Dialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: RawScrollbar(
+                isAlwaysShown: true,
+                thumbColor: Colors.grey,
+                radius: Radius.circular(40),
+                thickness: 5,
+                child: Stack(children: <Widget>[
+                  Container(
+                      margin: const EdgeInsets.all(0.0),
+                      padding: const EdgeInsets.only(top: 0),
+                      height: 50,
+                      width: 350,
+                      decoration: BoxDecoration(
+                          color: Colors.orange[50],
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20))),
+                      child: Align(
+                          child: Text('Filtrera',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20)))),
+                  Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              margin: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.only(top: 0),
+                              height: 50,
+                              width: 300,
+                              color: Colors.transparent),
+                          Text('Sök från år:',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18)),
+                          StatefulBuilder(builder: (context, setState) {
+                            return Container(
+                                margin: const EdgeInsets.all(15.0),
+                                padding: const EdgeInsets.all(3.0),
+                                decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: Offset(0.0, 1.0),
+                                        //(x,y)
+                                        blurRadius: 3.0,
+                                      )
+                                    ],
+                                    color: Colors.white,
+                                    border: Border.all(color: Colors.black12),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(20))),
+                                height: 200,
+                                width: 300,
+                                child: YearPicker(
+                                    firstDate: DateTime.utc(earliestYear),
+                                    lastDate: DateTime.now(),
+                                    initialDate: DateTime.utc(earliestYear),
+                                    selectedDate: _selectedStartDate,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedStartDate = value;
+                                      });
+                                    }));
+                          }),
+                          Text('Sök till år:',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18)),
+                          StatefulBuilder(builder: (context, setState) {
+                            return Container(
+                                margin: const EdgeInsets.all(15.0),
+                                padding: const EdgeInsets.all(3.0),
+                                decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: Offset(0.0, 1.0), //(x,y)
+                                        blurRadius: 3.0,
+                                      )
+                                    ],
+                                    color: Colors.white,
+                                    border: Border.all(color: Colors.black12),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(20))),
+                                height: 200,
+                                width: 300,
+                                child: YearPicker(
+                                    firstDate: DateTime.utc(1750),
+                                    lastDate: DateTime.now(),
+                                    initialDate: DateTime.now(),
+                                    selectedDate: _selectedEndDate,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedEndDate = value;
+                                      });
+                                    }));
+                          }),
+                          Text('Tags',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18)),
+                          Container(
+                              margin: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.all(3.0),
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      offset: Offset(0.0, 1.0), //(x,y)
+                                      blurRadius: 3.0,
+                                    )
+                                  ],
+                                  color: Colors.white,
+                                  border: Border.all(color: Colors.black12),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                              height: 300,
+                              width: 300,
+                              child: StatefulBuilder(
+                                  builder: (context, setState) {
+                                    return ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: fotografList.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        String _key =
+                                        fotografList.keys.elementAt(index);
+
+                                        return CheckboxListTile(
+                                          value: fotografList[_key],
+                                          title: Text(_key),
+                                          onChanged: (val) {
+                                            setState(() {
+                                              fotografList[_key] = val;
+                                            });
+                                          },
+                                          activeColor: Colors.blue,
+                                          checkColor: Colors.white,
+                                        );
+                                      },
+                                    );
+                                  })),
+                          SizedBox(height: 12),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  left: 15.0, right: 15.0, top: 0, bottom: 5),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget> [
+                                  ElevatedButton(
+
+                                    onPressed: () {
+                                      fotografList.forEach((key, value) {
+                                        if (value == true) {
+                                          _selectedTags.add(key);
+                                        }
+                                      });
+                                      updateFilterState(_selectedStartDate.year,
+                                          _selectedEndDate.year, _selectedTags);
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("Applicera",
+                                        style: TextStyle(fontSize: 15)),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: (){
+                                      initState();
+                                      Navigator.of(context).pop();
+                                    },
+                                    child:  Text("Rensa",
+                                        style: TextStyle(fontSize: 15)),)
+                                ],
+                              ))
+                        ],
+                      ),
+                    ),
+                  )
+                ])));
+      });
+}
 }
 
 Map<String, bool> fotografList = {
-  'Mathias': false, 'Laris': false, 'Emma': false, 'Gabi': false,
-  'Love': false, 'Laura': false, 'Gustaf': false,
-  'Ludwig': false, 'Oksana': false, 'Lena': false,
+  'Offentliga evenemang': false,
+  'Folkliv': false,
+  'Folksamlingar': false,
+  'Torg': false,
+  'Butiker': false,
+  'Hotell': false,
+  'Spårvagnar': false,
+  'Dragkärror': false,
+  'Skulpturer': false,
+  'Hästfordon': false,
+  'Reklam': false,
+  'Fasader': false,
+  'Gatubelysning': false,
+  'Gatubeläggning': false,
+  'Gatumiljöer': false,
+  'Skyltar': false,
+  'Plank': false,
+  'Varuhus': false,
+  'Cyklar': false,
+  'Bilar': false,
+  'Hållplatser': false,
+  'Huvudbonader': false,
+  'Flerbostadshus': false,
+  'Trähusbebyggelse': false,
+  'Barn': false,
+  'Byggnader': false,
+  'Parker': false,
+  'Gator': false,
+  'Stenhusbebyggelse': false,
+  'Kläder': false,
 };
