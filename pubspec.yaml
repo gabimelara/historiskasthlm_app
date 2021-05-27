@@ -43,6 +43,9 @@ dependencies:
   shared_preferences: ^2.0.5
   flutter_widgets: ^0.1.12
   scrollable_positioned_list: ^0.1.10
+  like_button: ^2.0.2
+  favorite_button: ^0.0.4
+  after_layout: ^1.0.7+2
 
 
 

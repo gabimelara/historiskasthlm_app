@@ -218,6 +218,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   //TODO: fixa att bilder inte hinner laddas
   //TODO: formatera text osv i listview
   //TODO: ändra så listview visas först
+  //TODO: skräddarsy google maps-kartan
 
 
   List<picsById> _bildList = [];

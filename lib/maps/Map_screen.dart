@@ -11,7 +11,8 @@ import 'package:http/http.dart' as http;
 import 'all_addresses.dart';
 import 'bilder.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:historiskasthlm_app/sharedPrefs/addToLikesClass.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:favorite_button/favorite_button.dart';
 
 //KARTASCREEN LAYOUT HÄR
 
@@ -30,6 +31,24 @@ class _Map_screenState extends State<Map_screen> {
   Set<Marker> markers = Set();
   double pinPillPosition = -100;
   int dotsIndex= 0;
+
+  addToLikes(int i) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> list = prefs.getStringList('favorites');
+
+    if (list == null){
+      List<String> temp = [];
+      list = temp;
+    }
+    String id = i.toString();
+    if (list.contains(id)){
+      list.remove(id);
+    } else {
+      list.add(id);
+    }
+    await prefs.setStringList('favorites', list);
+    print(prefs.getStringList('favorites'));
+  }
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
@@ -75,8 +94,19 @@ class _Map_screenState extends State<Map_screen> {
     return bildList;
   }
 
+  Future<bool> onLikeButtonTapped(bool isLiked) async{
+    /// send your request here
+    // final bool success= await sendRequest();
 
+    /// if failed, you can do nothing
+    // return success? !isLiked:isLiked;
 
+    return !isLiked;
+  }
+isLiked(int index){
+  onLikeButtonTapped;
+  addToLikes(_bildList[index].id);
+}
 
   @override
   void initState() {
@@ -157,11 +187,12 @@ class _Map_screenState extends State<Map_screen> {
                                                                             .darken,
                                                                         fit: BoxFit
                                                                             .fill),
-                                                                    IconButton(
-                                                                      icon: Icon(Icons.auto_awesome),
-                                                                      onPressed: () => addToLikes(_bildList[index].id),
-                                                                      iconSize: 35.0,
-                                                                      color: Colors.black87,
+                                                                    FavoriteButton(
+                                                                      isFavorite: true,
+                                                                      iconDisabledColor: Colors.black,
+                                                                      valueChanged: (_isFavorite) {
+                                                                        addToLikes(_bildList[index].id);
+                                                                      },
                                                                     ),
                                                                     ListTile(
                                                                       leading: Padding(
