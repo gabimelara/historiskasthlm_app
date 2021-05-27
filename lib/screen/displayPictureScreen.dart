@@ -19,7 +19,7 @@ class DisplayPictureScreen extends StatelessWidget {
                 color: Colors.black
             ),
             centerTitle: true,
-            title: Text('Address', style: new TextStyle(color:Colors.grey[900],)),
+            title: Text('Mina favoriter', style: new TextStyle(color:Colors.grey[900],)),
             backgroundColor: Colors.orange[50]
         ),
         body: Post()
@@ -90,7 +90,7 @@ class PostState extends State<Post> {
                       alignment: Alignment.center,
                       children: <Widget>[
                         Image.network(
-                            'https://digitalastadsmuseet.stockholm.se/fotoweb/cache/5021/Skiss/SSMC002123S.t60a235d2.m600.xrhFT-K09Vg9dGT_Q.jpg'),
+                            'https://digitalastadsmuseet.stockholm.se/fotoweb/cache/5021/Skiss_1/1043/SSMASW003492S.t60507314.m2048.xw7kxel8YWJe-7_AW.jpg'),
                         showHeartOverlay
                             ? Icon(Icons.favorite, color: Colors.white, size: 80.0)
                             : Container()]

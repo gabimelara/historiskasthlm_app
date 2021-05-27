@@ -4,7 +4,6 @@ import 'package:historiskasthlm_app/screen/navigation_bar.dart';
 
 
 import 'guideData.dart';
-
 /// Vi bör dock göra en if-sats om guidade tour ska bara visas engång inte varje gång man går in i appen.
 
 class Guidade extends StatefulWidget {
@@ -31,7 +30,7 @@ class _GuidadeState extends State<Guidade> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(230,236,255,1),   //backgrundsfärgen
+      backgroundColor: Colors.orange[50],   //backgrundsfärgen
       body: SafeArea(
         child: Stack(children: [
           PageView.builder(
@@ -44,6 +43,7 @@ class _GuidadeState extends State<Guidade> {
               },
               itemBuilder: (_, i) {
                 return Container(
+                height: 80,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -58,18 +58,19 @@ class _GuidadeState extends State<Guidade> {
                           //RUBRIK
                           dataPage[i].title,  //hämtar titeln från data klassen
                           style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.w500, color: Color.fromRGBO(27,32,49,100)),
+                              fontSize: 25, fontWeight: FontWeight.w500, color: Colors.black),
                         ),
                       ),
-                      SizedBox(height:20),
+                      SizedBox(
+                          height:10),
                       Padding(
                           padding: const EdgeInsets.only(  //ny
-                              left: 20, right: 20, bottom: 40, top: 0), //ny
+                              left: 20, right: 20, bottom: 70, top: 0), //ny
                           child: Text(
                             dataPage[i].description,  //hämtar beskrivningen från data klassen
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
                               color: Colors.black,
                             ),
                           )
@@ -79,7 +80,7 @@ class _GuidadeState extends State<Guidade> {
               }),
 
           Positioned(
-            bottom:30,
+            bottom:15,
             left: 146,
             height: 100,
             child: Row(  //skapar prickarna
@@ -91,18 +92,19 @@ class _GuidadeState extends State<Guidade> {
             ),
           ),
           Positioned(
-            left: 9,
+            left: 20,
             bottom: 10,
             child: ElevatedButton(  //knapp
               style: ElevatedButton.styleFrom(
-                  onPrimary: Colors.white,
-                  primary: Color.fromRGBO(104,112, 137, 1),
-                  padding: EdgeInsets.symmetric(horizontal: 160, vertical: 10),
+                  primary: Colors.black,
+                  padding: EdgeInsets.symmetric(horizontal: 140, vertical: 10),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
 
-              child: Text(  //gör att knappen nästa ändras till starta på sista sidan
-                  currentIndex == dataPage.length - 1 ? "Starta" : "Nästa"),
+              //gör att knappen nästa ändras till starta på sista sidan
+              child: Text(
+                  currentIndex == dataPage.length - 1 ? "Starta" : "Nästa",
+              style: TextStyle(color: Colors.orange[50])),
               onPressed: () {
                 if (currentIndex == dataPage.length - 1) { //if satsen som gör att man kan navigera med  starta knappen till kartan/startsidan
                   Navigator.pushReplacement(
@@ -122,16 +124,15 @@ class _GuidadeState extends State<Guidade> {
           ),
 
           Positioned(
-              left: 205,
-              bottom: 760,
+              left: 240,
+              bottom: 740,
               child: TextButton( //knappen högst upp
                 style: ElevatedButton.styleFrom(
-                    onPrimary: Color.fromRGBO(104,112, 137, 1),
-                    primary: Color.fromRGBO(230,236,255,1),
+                    primary: Colors.orange[50],
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(9))),
-                child: new Text("Skippa rundtur"),
+                child: new Text("Skippa rundtur",style: TextStyle(color: Colors.black)),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -149,17 +150,16 @@ class _GuidadeState extends State<Guidade> {
               )
           ),
           Positioned(
-              left: 20,
-              bottom: 760,
+              left: 0,
+              bottom: 740,
               child: TextButton( //knappen högst upp
                 style: ElevatedButton.styleFrom(
-                    onPrimary: Color.fromRGBO(104,112, 137, 1),
-                    primary: Color.fromRGBO(230,236,255,1),
+                    primary: Colors.orange[50],
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(9))),
                 child: Text(
-                    currentIndex == dataPage.length + 1 ? "Tillbaka" : "Tillbaka"),
+                    currentIndex == dataPage.length + 1 ? "Tillbaka" : "Tillbaka",style: TextStyle(color: Colors.black)),
                 onPressed: () {
                   if (currentIndex == dataPage.length + 1) {
                   }
@@ -184,10 +184,11 @@ class _GuidadeState extends State<Guidade> {
       margin: EdgeInsets.only(right: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Color.fromRGBO(104,112, 137, 1),
+        color: Colors.black,
       ),
     );
 
   }
 
 }
+

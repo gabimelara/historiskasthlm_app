@@ -1,3 +1,5 @@
+import 'package:historiskasthlm_app/databas_klasser/test.dart';
+
 class allAddresses {
   String address;
   double latitude;
@@ -24,3 +26,5 @@ class allAddresses {
     return data;
   } //kopplade bilder
 }
+
+

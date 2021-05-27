@@ -8,30 +8,27 @@ class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(169, 186, 157, 1),
+      backgroundColor: Colors.orange[50],
       body: Center(
         child: new Container(
           height: 450.0,
           alignment: Alignment.topCenter,
-          child: Column(
+          child: Stack(
               children: [
-                Container(
-                    child: Text('Välkommen Stockholmare,\nbörja utforska!',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white,
-                            fontSize: 30,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.bold))),
-                Container(
-                  height: 350.0,
-                  alignment: Alignment.center,
-                  child: ElevatedButton(
+                Positioned(right: 0,left: 0,top: 0, bottom: 150,
+                  child: Container(
+                  height:350,
+                    child: Image.asset('assets/logo_black.png'))),
+                  Positioned( top:300, right: 20, left: 20, bottom: 10,
+                  child: Container(
+                    height: 350.0,
+                    alignment: Alignment.center,
+                    child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        onPrimary: Colors.white,
-                        primary: Color.fromRGBO(56, 56, 56, 0.8),
-                        padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                        primary: Colors.black,
+                        padding: EdgeInsets.symmetric(horizontal: 115, vertical: 13),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(13))
+                            borderRadius: BorderRadius.circular(20))
                     ),
                     onPressed: () {
                       Navigator.push(
@@ -40,11 +37,11 @@ class StartScreen extends StatelessWidget {
                       );
                     },
 
-                    child: new Text('Öppna karta',
-                        style: TextStyle(color: Colors.white, fontSize: 20)),
+                    child: new Text('Start',
+                        style: TextStyle(color: Colors.orange[50], fontSize: 20)),
                   ),
                 ),
-              ]),
+                )]),
         ),
       ),
     );

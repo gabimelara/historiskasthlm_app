@@ -1,4 +1,3 @@
-
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' hide DateUtils;
@@ -17,6 +16,7 @@ class NotificationDetailsPage extends StatefulWidget {
   final String title = 'Notifikationer';
 
   NotificationDetailsPage(this.receivedNotification);
+
 
   @override
   _NotificationDetailsPageState createState() => _NotificationDetailsPageState();
@@ -170,7 +170,7 @@ class _NotificationDetailsPageState extends State<NotificationDetailsPage> {
                     ],
                   ),
                 ),
-                /*Container(
+                Container(
                   constraints: BoxConstraints(
                     minWidth: mediaQueryData.size.width,
                   ),
@@ -192,7 +192,7 @@ class _NotificationDetailsPageState extends State<NotificationDetailsPage> {
                       ),
                     ],
                   ),
-                )*/
+                )
               ],
             ),
             Theme.of(context).platform == TargetPlatform.android ?
