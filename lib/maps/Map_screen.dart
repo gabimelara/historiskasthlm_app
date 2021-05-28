@@ -13,6 +13,7 @@ import 'bilder.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:historiskasthlm_app/sharedPrefs/addToLikesClass.dart';
 import 'package:favorite_button/favorite_button.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 
 
 //KARTASCREEN LAYOUT HÄR
@@ -145,9 +146,7 @@ class _Map_screenState extends State<Map_screen> {
   }
   Future<bool> onLikeButtonTapped(bool isLiked) async{
     /// send your request here
-    // final bool success= await sendRequest();
-
-    /// if failed, you can do nothing
+    // final bool success= await send/ if failed, you can do nothing
     // return success? !isLiked:isLiked;
 
     return !isLiked;
@@ -327,11 +326,17 @@ class _Map_screenState extends State<Map_screen> {
     });
   }
 
+
   searchandNavigate() {
     Geolocator().placemarkFromAddress(searchAddr).then((result) {
       _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-          target: LatLng(result[0].position.latitude, result[0].position.longitude), zoom: 18)));
+          target: LatLng(result[0].position.latitude, result[0].position.longitude), zoom: 19)));
+
     });
+    //searchaddr == markers.lenght
+    //=> markers.lenght byta färg
+
+
   }
 
   @override
