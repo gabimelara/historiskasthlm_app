@@ -80,7 +80,7 @@ class _GuidadeState extends State<Guidade> {
 
           Positioned(
             bottom:15,
-            left: 146,
+            left: 146,///146
             height: 100,
             child: Row(  //skapar prickarna
               mainAxisAlignment: MainAxisAlignment.center,
@@ -91,7 +91,7 @@ class _GuidadeState extends State<Guidade> {
             ),
           ),
           Positioned(
-            left: 50,
+            left: 50, ///50
             bottom: 10,
             child: ElevatedButton(  //knapp
               style: ElevatedButton.styleFrom(
@@ -123,15 +123,15 @@ class _GuidadeState extends State<Guidade> {
           ),
 
           Positioned(
-              left: 240,
-              bottom: 740,
+              left: 280,///210
+              bottom: 738,///740
               child: TextButton( //knappen högst upp
                 style: ElevatedButton.styleFrom(
-                    primary: Colors.orange[50],
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    primary: Colors.black,
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(9))),
-                child: new Text("Skippa rundtur",style: TextStyle(color: Colors.black)),
+                child: new Text("Skippa rundtur",style: TextStyle(color:  Colors.orange[50],)),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -149,16 +149,16 @@ class _GuidadeState extends State<Guidade> {
               )
           ),
           Positioned(
-              left: 0,
-              bottom: 740,
+              left:8,///5
+              bottom: 740,///740
               child: TextButton( //knappen högst upp
                 style: ElevatedButton.styleFrom(
-                    primary: Colors.orange[50],
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    primary: Colors.black,
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(9))),
                 child: Text(
-                    currentIndex == dataPage.length + 1 ? "Tillbaka" : "Tillbaka",style: TextStyle(color: Colors.black)),
+                    currentIndex == dataPage.length + 1 ? "Tillbaka" : "Tillbaka",style: TextStyle(color: Colors.orange[50])),
                 onPressed: () {
                   if (currentIndex == dataPage.length + 1) {
                   }

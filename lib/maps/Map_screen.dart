@@ -11,7 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'all_addresses.dart';
 import 'bilder.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:historiskasthlm_app/sharedPrefs/addToLikesClass.dart';
 import 'package:favorite_button/favorite_button.dart';
 
 
@@ -226,6 +225,13 @@ class _Map_screenState extends State<Map_screen> {
                                                                 Image.memory( base64Decode (_bildList[index].image),
                                                                   height: 350, width: 400,
                                                                   colorBlendMode: BlendMode.darken, fit: BoxFit.fill),
+                                                                Positioned(top: 0, left: 0, right: 300,
+                                                                    child: IconButton(
+                                                                        icon: Icon(Icons.close_outlined, color: Colors.red, size: 30),
+                                                                        onPressed: (){
+                                                                          Navigator.pop(context);
+                                                                        }
+                                                                    )),
                                                                 Positioned(top: 300, left: 280, right: 0,
                                                                     child: FavoriteButton(
                                                                       isFavorite: true,
@@ -339,6 +345,7 @@ class _Map_screenState extends State<Map_screen> {
     return new Stack(children: <Widget>[
       Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           iconTheme: IconThemeData(
             color: Colors.black, //change your color here
           ),
@@ -359,8 +366,8 @@ class _Map_screenState extends State<Map_screen> {
         ),
       ),
       Positioned(
-          top: 650,
-          right: 320,
+          top: 600,
+          right: 310,
           left: 0,
           child: FloatingActionButton(
             backgroundColor: const Color(0xffffffff),
@@ -380,9 +387,9 @@ class _Map_screenState extends State<Map_screen> {
           )
       ),
       Positioned(
-        top: 150,
+        top: 500,
         right: 0,
-        left: 320,
+        left: 310,
         child: FloatingActionButton(
           heroTag: Text("filter"),
           backgroundColor: const Color(0xffffffff),
@@ -458,12 +465,14 @@ _showCustomDialog(BuildContext context) {
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20))),
+
                       child: Align(
                           child: Text('Filtrera',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20)))),
+
                   Padding(
                     padding: const EdgeInsets.all(0.0),
                     child: SingleChildScrollView(
@@ -478,7 +487,7 @@ _showCustomDialog(BuildContext context) {
                               height: 50,
                               width: 300,
                               color: Colors.transparent),
-                          Text('Sök från år:',
+                             Text('Sök från år:',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -511,6 +520,9 @@ _showCustomDialog(BuildContext context) {
                                       setState(() {
                                         _selectedStartDate = value;
                                       });
+                                     ThemeData(
+                                          primaryColor: Colors.red[400],
+                                          accentColor: Colors.green[800]);
                                     }));
                           }),
                           Text('Sök till år:',
@@ -544,6 +556,7 @@ _showCustomDialog(BuildContext context) {
                                     onChanged: (value) {
                                       setState(() {
                                         _selectedEndDate = value;
+
                                       });
                                     }));
                           }),
@@ -587,7 +600,7 @@ _showCustomDialog(BuildContext context) {
                                               fotografList[_key] = val;
                                             });
                                           },
-                                          activeColor: Colors.blue,
+                                          activeColor: Colors.deepOrange,
                                           checkColor: Colors.white,
                                         );
                                       },
@@ -600,31 +613,40 @@ _showCustomDialog(BuildContext context) {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget> [
-                                  ElevatedButton(
-
-                                    onPressed: () {
-                                      fotografList.forEach((key, value) {
-                                        if (value == true) {
-                                          _selectedTags.add(key);
-                                        }
-                                      });
-                                      updateFilterState(_selectedStartDate.year,
-                                          _selectedEndDate.year, _selectedTags);
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text("Applicera",
-                                        style: TextStyle(fontSize: 15)),
-                                  ),
                                   SizedBox(
                                     width: 5,
                                   ),
+                              Padding(
+                                padding: EdgeInsets.only(right: 16.0),
+                                child:
                                   ElevatedButton(
                                     onPressed: (){
                                       initState();
                                       Navigator.of(context).pop();
                                     },
+                                    style: ElevatedButton.styleFrom(shape: new RoundedRectangleBorder(
+                                      borderRadius: new BorderRadius.circular(20.0),
+                                    ),),
                                     child:  Text("Rensa",
-                                        style: TextStyle(fontSize: 15)),)
+                                        style: TextStyle(fontSize: 15)),)),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      fotografList.forEach((key, value) {
+                                        if (value == true) {
+                                          _selectedTags.add(key);
+                                        }
+                                      }
+                                      );
+                                      updateFilterState(_selectedStartDate.year,
+                                          _selectedEndDate.year, _selectedTags);
+                                      Navigator.of(context).pop();
+                                    },
+                                    style: ElevatedButton.styleFrom(shape: new RoundedRectangleBorder(
+                                      borderRadius: new BorderRadius.circular(20.0),
+                                    ),),
+                                    child: Text("Applicera",
+                                        style: TextStyle(fontSize: 15)),
+                                  ),
                                 ],
                               ))
                         ],

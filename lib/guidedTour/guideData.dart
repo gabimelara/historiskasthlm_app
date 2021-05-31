@@ -17,13 +17,13 @@ class Data {
         'Röda kartnålar på kartan visar alla platser där du kan utforska bilder'),
 
     Data('assets/3.png', 'Position',
-        'Den blåa cirkeln visar din position så att du alltid vet vilken del av Stockholm du befinner dig i.'),
+        'Den blåa cirkeln visar din position så att du alltid vet i vilken del av Stockholm du befinner dig.'),
 
     Data('assets/4.png', 'Sök efter specifika platser',
         'Specifika platser eller adresser som du vill utforska!'),
 
     Data('assets/5.png', 'Filtrera sökning',
-        'Filtrea dina sökningar efter år eller tags.'),
+        'Filtrera dina sökningar efter år eller tags.'),
 
     Data('assets/6.png', 'Visa bilder',
         'Se historiska bilder från en specifik adress genom att trycka på motsvarande kartnål på kartan.'),
@@ -31,6 +31,4 @@ class Data {
     Data('assets/7.png', 'Favoriter',
         'Du kan gilla dina favoritbilder.'),
 
-    Data('assets/8.png', 'Notifikationer',
-        'Du kan aktivera notifikationer.')
   ];

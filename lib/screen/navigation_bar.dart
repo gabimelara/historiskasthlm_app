@@ -15,7 +15,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   final List<Widget> _screens=[
     Map_screen(),
     FavoriteScreen(),
-    NotificationScreen(),
+    //NotificationScreen(),
 
 
   ];
@@ -41,10 +41,10 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
             icon: Icon(Icons.favorite_sharp), //Hjärta ikon
             label: ('Favoriter'), //text under ikon
           ),
-          new BottomNavigationBarItem(
+          /*new BottomNavigationBarItem(
             icon: Icon(Icons.notifications), //Notiser ikon
             label: ('Notiser'), // text under ikon
-          ),
+          ),*/
         ],
       ),
     );

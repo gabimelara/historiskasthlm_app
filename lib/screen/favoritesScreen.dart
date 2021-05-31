@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:historiskasthlm_app/screen/picsById.dart';
 import 'package:historiskasthlm_app/sharedPrefs/addToLikesClass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 class FavoriteScreen extends StatefulWidget {
   @override
   _FavoriteScreenState createState() => _FavoriteScreenState();
@@ -34,9 +35,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               ///  alignment: Alignment.center,
               height: 710,
 
-              child: ListView.builder(
+              child: ScrollablePositionedList.builder(
                   physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
+                  initialScrollIndex: id,
                   padding: EdgeInsets.all(4),
                   itemCount: _bildList.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -64,8 +66,16 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                       children: <Widget>[
                                                         Stack(children: <Widget>[
                                                           Image.memory( base64Decode (_bildList[index].image),
-                                                              height: 350, width: 400,
+                                                              height: 350, width: 350,
                                                               colorBlendMode: BlendMode.darken, fit: BoxFit.fill),
+                                                          Positioned(top: 0, left: 0, right: 300,
+                                                              child: IconButton(
+                                                                  icon: Icon(Icons.close_outlined, color: Colors.red, size: 30),
+                                                                  onPressed: (){
+                                                                    Navigator.pop(context);
+                                                                  }
+                                                              )),
+
                                                           Positioned(top: 300, left: 280, right: 0,
                                                               child: FavoriteButton(
                                                                 isFavorite: true,
@@ -150,7 +160,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   }
 
 
-getFavorites() async {
+  getFavorites() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> list = prefs.getStringList('favorites');
     return list;
@@ -191,7 +201,10 @@ getFavorites() async {
           });
         },);
       }
-      _buildListView();
+      Timer(const Duration(milliseconds: 1500), () {
+        setState(() {
+          _buildGridView();
+        });});
     }
     );
   }
@@ -204,6 +217,7 @@ getFavorites() async {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           centerTitle: true,
           title: Text(
               'Favoriter', style: new TextStyle(color: Colors.grey[900],)),
@@ -227,7 +241,7 @@ getFavorites() async {
               height: 50,
               child: _showItemsPref()),
           Container(
-              height: 600,
+              height: 550,
               child: _imageView())
         ]
     );
@@ -291,8 +305,8 @@ getFavorites() async {
     return Row(
         children: <Widget>[
           IconButton(
-            alignment: Alignment.center,
-            icon: Icon(Icons.grid_on_outlined, color: Colors.blueGrey),
+              alignment: Alignment.center,
+              icon: Icon(Icons.grid_on_outlined, color: Colors.blueGrey),
               onPressed: () {
                 setState(() {
                   pictureView = true;
@@ -335,16 +349,17 @@ getFavorites() async {
                     colorBlendMode: BlendMode.darken,
                     fit: BoxFit.fill),
                 onTap: () { setState(() {
-                  showPopup(_bildList[index].id);
-                  print(_bildList[index].id);
+                  showPopup(index);
+                  // jumpTo(_bildList[index].id);
+                  print(index.toString());
                 });
                 trailing: Icon(Icons.arrow_forward);
 
                   /*Navigator.push(
-             context,
-             MaterialPageRoute(
-                 builder: (context) => DisplayPictureScreen()),);
-           // do something*/
+            context,
+            MaterialPageRoute(
+                builder: (context) => DisplayPictureScreen()),);
+          // do something*/
                 },));
         });
   }
@@ -366,8 +381,9 @@ getFavorites() async {
                   fit: BoxFit.fill),
               onPressed: () {
                 setState(() {
-                  showPopup(_bildList[index].id);
-                  print(_bildList[index].id);
+                  showPopup(index);
+                  // jumpTo(_bildList[index].id);
+                  print(index.toString());
                 });
               }
           );
@@ -418,3 +434,4 @@ class PostHeader extends StatelessWidget {
     );
   }
 }
+
